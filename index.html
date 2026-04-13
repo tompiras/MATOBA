@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATOBA — Menuiserie Extérieure Sur Mesure</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blanc: #FFFFFF;
+  --craie: #F7F7F5;
+  --regle: #E5E4E1;
+  --pierre: #9B9B97;
+  --graphite: #4A4A47;
+  --encre: #1A1A18;
+  --ardoise: #3A5A8A;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  background: var(--blanc);
+  color: var(--graphite);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.hidden { opacity: 0; transform: translateY(24px); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── COVER ── */
+.cover {
+  background: var(--encre);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 40%; height: 100%;
+  background: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.015) 1px, rgba(255,255,255,0.015) 60px);
+  pointer-events: none;
+}
+.cover-main { display: flex; flex-direction: column; justify-content: center; }
+
+.cover-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-bottom: 64px;
+  animation: fadeUp 0.8s ease 0.1s both;
+}
+
+.logo-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: fadeUp 0.8s ease 0.25s both;
+}
+.logo-name {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(56px, 9vw, 108px);
+  letter-spacing: 0.18em;
+  color: var(--blanc);
+  line-height: 1;
+}
+.logo-rule {
+  width: 100%; height: 0.75px;
+  background: var(--blanc);
+  opacity: 0.22;
+  margin: 12px 0 11px;
+}
+.logo-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+}
+
+.cover-tagline {
+  margin-top: 56px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(255,255,255,0.5);
+  max-width: 480px;
+  line-height: 1.8;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.cover-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  animation: fadeUp 0.8s ease 0.55s both;
+}
+.cover-location {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.3);
+}
+.cover-url {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.2);
+}
+
+/* ── SECTIONS ── */
+.section {
+  padding: 100px 80px;
+  border-bottom: 0.75px solid var(--regle);
+}
+.section-alt { background: var(--craie); }
+.section-dark { background: var(--encre); border-bottom: none; }
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  color: var(--pierre);
+  text-transform: uppercase;
+  margin-bottom: 56px;
+}
+.section-label-light { color: rgba(255,255,255,0.3); }
+
+.section-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, 44px);
+  color: var(--encre);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  max-width: 640px;
+}
+.section-title-light { color: var(--blanc); }
+
+.section-body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--graphite);
+  line-height: 1.85;
+  max-width: 560px;
+  margin-top: 28px;
+}
+.section-body-light { color: rgba(255,255,255,0.55); }
+
+/* ── PROPOSITION ── */
+.proposition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-top: 64px;
+  border-top: 0.75px solid var(--regle);
+}
+.prop-item {
+  padding: 40px 48px 40px 0;
+  border-bottom: 0.75px solid var(--regle);
+}
+.prop-item:nth-child(even) {
+  padding-left: 48px;
+  padding-right: 0;
+  border-left: 0.75px solid var(--regle);
+}
+.prop-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ardoise);
+  margin-bottom: 16px;
+}
+.prop-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--encre);
+  margin-bottom: 10px;
+}
+.prop-body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--pierre);
+  line-height: 1.7;
+}
+
+/* ── PRODUITS ── */
+.produits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 64px;
+  border-top: 0.75px solid rgba(255,255,255,0.08);
+  border-left: 0.75px solid rgba(255,255,255,0.08);
+}
+.produit-item {
+  padding: 36px 32px;
+  border-right: 0.75px solid rgba(255,255,255,0.08);
+  border-bottom: 0.75px solid rgba(255,255,255,0.08);
+}
+.produit-icon {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ardoise);
+  margin-bottom: 14px;
+}
+.produit-name {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--blanc);
+  margin-bottom: 8px;
+}
+.produit-detail {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.65;
+}
+
+/* ── PROCESS ── */
+.process-list {
+  margin-top: 64px;
+  border-top: 0.75px solid var(--regle);
+}
+.process-step {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 32px;
+  align-items: start;
+  padding: 32px 0;
+  border-bottom: 0.75px solid var(--regle);
+}
+.step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ardoise);
+  padding-top: 3px;
+}
+.step-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--encre);
+  margin-bottom: 6px;
+}
+.step-body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--pierre);
+  line-height: 1.7;
+}
+.step-delay {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--regle);
+  text-align: right;
+  white-space: nowrap;
+  padding-top: 3px;
+}
+
+/* ── ENGAGEMENTS ── */
+.engagements-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 64px;
+  border-top: 0.75px solid var(--regle);
+  border-left: 0.75px solid var(--regle);
+}
+.engagement {
+  padding: 40px 32px;
+  border-right: 0.75px solid var(--regle);
+  border-bottom: 0.75px solid var(--regle);
+}
+.eng-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  color: var(--encre);
+  margin-bottom: 10px;
+}
+.eng-label {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--pierre);
+  line-height: 1.6;
+}
+
+/* ── CIBLES ── */
+.cibles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 64px;
+}
+.cible-card {
+  padding: 48px 40px;
+  border: 0.75px solid var(--regle);
+  background: var(--blanc);
+}
+.cible-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--ardoise);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.cible-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--encre);
+  margin-bottom: 16px;
+}
+.cible-list { list-style: none; }
+.cible-list li {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--graphite);
+  padding: 8px 0;
+  border-bottom: 0.75px solid var(--regle);
+  line-height: 1.5;
+}
+.cible-list li:last-child { border-bottom: none; }
+
+/* ── CONTACT ── */
+.contact-section {
+  background: var(--encre);
+  padding: 100px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.contact-right { display: flex; flex-direction: column; gap: 32px; }
+.contact-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.contact-value {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+}
+.contact-value a { color: var(--ardoise); text-decoration: none; }
+.contact-rule { height: 0.75px; background: rgba(255,255,255,0.08); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--encre);
+  padding: 32px 80px;
+  border-top: 0.75px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.3);
+}
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.15);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .cover, .section, .contact-section, .footer { padding: 60px 28px; }
+  .proposition-grid, .cibles-grid, .contact-section { grid-template-columns: 1fr; }
+  .produits-grid { grid-template-columns: 1fr 1fr; }
+  .engagements-row { grid-template-columns: 1fr 1fr; }
+  .prop-item:nth-child(even) { padding-left: 0; border-left: none; }
+  .process-step { grid-template-columns: 40px 1fr; }
+  .step-delay { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-main">
+    <div class="cover-eyebrow">Plaquette commerciale — 2026</div>
+    <div class="logo-wrap">
+      <div class="logo-name">MATOBA</div>
+      <div class="logo-rule"></div>
+      <div class="logo-sub">Menuiserie Extérieure Sur Mesure</div>
+    </div>
+    <div class="cover-tagline">
+      Fenêtres, baies vitrées, volets, stores.<br>
+      Un interlocuteur unique. Du devis à la pose.
+    </div>
+  </div>
+  <div class="cover-footer">
+    <div class="cover-location">Marseille & PACA</div>
+    <div class="cover-url">matoba-menuiserie.fr</div>
+  </div>
+</div>
+
+<!-- PROPOSITION -->
+<section class="section reveal">
+  <div class="section-label">Notre proposition</div>
+  <div class="section-title">Ce que vous achetez,<br>c'est la tranquillité.</div>
+  <div class="section-body">
+    Entre l'artisan qui disparaît après le devis et l'enseigne nationale qui vous traite comme un numéro de dossier, il existe une troisième voie. MATOBA coordonne l'ensemble de votre projet — fabrication sur mesure, pose, finitions — avec un seul interlocuteur du premier contact au SAV.
+  </div>
+  <div class="proposition-grid">
+    <div class="prop-item reveal">
+      <div class="prop-num">01</div>
+      <div class="prop-title">Devis rapide</div>
+      <div class="prop-body">Document détaillé, prix juste, délai garanti. Pas d'estimation approximative, pas de surprise en cours de chantier.</div>
+    </div>
+    <div class="prop-item reveal">
+      <div class="prop-num">02</div>
+      <div class="prop-title">Sur mesure systématique</div>
+      <div class="prop-body">Toutes dimensions, toutes teintes RAL.</div>
+    </div>
+    <div class="prop-item reveal">
+      <div class="prop-num">03</div>
+      <div class="prop-title">Pose dans les meilleurs délais</div>
+      <div class="prop-body">Délai réel, pas commercial. Nos équipes de pose sont sélectionnées avec exigence et adaptées à chaque projet.</div>
+    </div>
+    <div class="prop-item reveal">
+      <div class="prop-num">04</div>
+      <div class="prop-title">SAV structuré</div>
+      <div class="prop-body">Un ticket, une réponse sous 48h. Garantie décennale. Vous ne relancez pas, nous assurons un réel suivi.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUITS -->
+<section class="section section-dark reveal">
+  <div class="section-label section-label-light">Nos produits</div>
+  <div class="section-title section-title-light">Aluminium & PVC<br>Tout format, toute teinte.</div>
+  <div class="produits-grid">
+    <div class="produit-item reveal">
+      <div class="produit-icon">01</div>
+      <div class="produit-name">Fenêtres</div>
+      <div class="produit-detail">PVC et aluminium<br>Toutes dimensions</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">02</div>
+      <div class="produit-name">Baies vitrées</div>
+      <div class="produit-detail">Coulissantes ou galandage</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">03</div>
+      <div class="produit-name">Portes-fenêtres</div>
+      <div class="produit-detail">Avec ou sans imposte</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">04</div>
+      <div class="produit-name">Volets roulants</div>
+      <div class="produit-detail">Électriques motorisés (solaire possible)<br>Coffre intégré ou apparent<br>Domotique compatible</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">05</div>
+      <div class="produit-name">Stores bannes</div>
+      <div class="produit-detail">Motorisés, coffre ALU (solaire possible)</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">06</div>
+      <div class="produit-name">Portes de garage</div>
+      <div class="produit-detail">Sectionnelles motorisées<br>Basculantes<br>Télécommande et connecté</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">07</div>
+      <div class="produit-name">Devantures commerciales</div>
+      <div class="produit-detail">Vitrines ALU<br>Portes d'entrée sur mesure<br>CHR, commerces, bureaux</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">08</div>
+      <div class="produit-name">Film vitrage</div>
+      <div class="produit-detail">Contrôle solaire<br>Intimité et sécurité<br>Pose sur vitrage existant possible</div>
+    </div>
+    <div class="produit-item reveal">
+      <div class="produit-icon">09</div>
+      <div class="produit-name">Pergolas bioclimatiques</div>
+      <div class="produit-detail">Lames orientables motorisées<br>Aluminium laqué<br>Terrasses résidentielles</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section section-alt reveal">
+  <div class="section-label">Notre process</div>
+  <div class="section-title">De la demande<br>à la réception.</div>
+  <div class="process-list">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">Premier contact & qualification</div>
+        <div class="step-body">On qualifie votre besoin, on fixe un rendez-vous.</div>
+      </div>
+      <div class="step-delay">J+0</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">Visite et prise de mesures</div>
+        <div class="step-body">Déplacement sur site. Relevé précis, conseils.</div>
+      </div>
+      <div class="step-delay">J+3 à J+7</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">Devis détaillé</div>
+        <div class="step-body">Fourniture, dépose et pose, garanties incluses. Prix ferme, sans variation. Délais respectés. Validité 30 jours.</div>
+      </div>
+      <div class="step-delay">J+10 à J+14</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-title">Commande & fabrication</div>
+        <div class="step-body">Acompte 50% à la signature. Commande fabricant lancée immédiatement. Planning pose fixé.</div>
+      </div>
+      <div class="step-delay">Dès signature</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">05</div>
+      <div>
+        <div class="step-title">Pose et réception</div>
+        <div class="step-body">Équipe agréée. Dépose des anciens éléments incluse. Chantier propre à la livraison.</div>
+      </div>
+      <div class="step-delay">J+21 à J+45</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">06</div>
+      <div>
+        <div class="step-title">SAV</div>
+        <div class="step-body">Un numéro unique. Réponse sous 48h. Garantie décennale sur la pose.</div>
+      </div>
+      <div class="step-delay">Illimité</div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section class="section reveal">
+  <div class="section-label">Nos engagements</div>
+  <div class="section-title">Des chiffres,<br>pas des promesses.</div>
+  <div class="engagements-row">
+    <div class="engagement reveal">
+      <div class="eng-value">48h</div>
+      <div class="eng-label">Devis PDF détaillé envoyé après visite</div>
+    </div>
+    <div class="engagement reveal">
+      <div class="eng-value">10–15j</div>
+      <div class="eng-label">Délai de pose après commande confirmée</div>
+    </div>
+    <div class="engagement reveal">
+      <div class="eng-value">10 ans</div>
+      <div class="eng-label">Garantie décennale sur toutes les poses</div>
+    </div>
+    <div class="engagement reveal">
+      <div class="eng-value">1</div>
+      <div class="eng-label">Interlocuteur unique du devis au SAV</div>
+    </div>
+  </div>
+</section>
+
+<!-- CIBLES -->
+<section class="section section-alt reveal">
+  <div class="section-label">Nos clients</div>
+  <div class="section-title">Particuliers exigeants<br>et professionnels.</div>
+  <div class="cibles-grid">
+    <div class="cible-card reveal">
+      <div class="cible-tag">BtoC — Résidentiel</div>
+      <div class="cible-title">Particuliers</div>
+      <ul class="cible-list">
+        <li>Rénovation appartement ou maison</li>
+        <li>Remplacement fenêtres et baies</li>
+        <li>Projet d'extension ou de terrasse</li>
+        <li>Propriétaire</li>
+      </ul>
+    </div>
+    <div class="cible-card reveal">
+      <div class="cible-tag">BtoB — Professionnel</div>
+      <div class="cible-title">Entreprises & Investisseurs</div>
+      <ul class="cible-list">
+        <li>Restaurateurs et hôteliers (CHR)</li>
+        <li>Commerces et bureaux</li>
+        <li>Marchands de biens en rénovation</li>
+        <li>Promoteurs immobiliers PACA</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section">
+  <div class="contact-left reveal">
+    <div class="section-label section-label-light">Contact</div>
+    <div class="section-title section-title-light">Votre projet mérite<br>un devis sérieux.</div>
+    <div class="section-body section-body-light" style="margin-top:24px;">
+      Réponse sous 24h. Rendez-vous fixé avec réactivité.<br>
+      Devis détaillé sous 48h après mesures.
+    </div>
+  </div>
+  <div class="contact-right reveal">
+    <div>
+      <div class="contact-label">Téléphone</div>
+      <div class="contact-value">+33 6 64 77 37 00</div>
+    </div>
+    <div class="contact-rule"></div>
+    <div>
+      <div class="contact-label">Email</div>
+      <div class="contact-value"><a href="mailto:contact@matoba-menuiserie.fr">contact@matoba-menuiserie.fr</a></div>
+    </div>
+    <div class="contact-rule"></div>
+    <div>
+      <div class="contact-label">Site</div>
+      <div class="contact-value"><a href="https://matoba-menuiserie.fr">matoba-menuiserie.fr</a></div>
+    </div>
+    <div class="contact-rule"></div>
+    <div>
+      <div class="contact-label">Zone d'intervention</div>
+      <div class="contact-value">Marseille & PACA</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">MATOBA</div>
+  <div class="footer-copy">Menuiserie extérieure sur mesure — Marseille & PACA — 2026</div>
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el => el.classList.add('hidden'));
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.remove('hidden');
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

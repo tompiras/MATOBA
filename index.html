@@ -1,550 +1,1139 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MATOBA — Menuiserie Extérieure Sur Mesure</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;500&family=Space+Mono&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATOBA — Menuiserie Extérieure</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,200;0,300;0,400;1,500&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --fog: #f6f5f2;
+      --bone: #eceae5;
+      --rule: #d9d6d0;
+      --stone: #9f9b94;
+      --slate: #3a5a8a;
+      --white: #ffffff;
+      --gap: clamp(72px, 9vw, 136px);
+      --x: clamp(24px, 6vw, 96px);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-:root {
-  --blanc: #FFFFFF;
-  --craie: #F7F7F5;
-  --regle: #E5E4E1;
-  --pierre: #9B9B97;
-  --graphite: #4A4A47;
-  --encre: #1A1A18;
-  --ardoise: #3A5A8A;
-  --pad-x: clamp(24px, 6vw, 80px);
-  --pad-y: clamp(60px, 8vw, 100px);
-}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  background: var(--blanc);
-  color: var(--graphite);
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--white);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    section, footer { position: relative; }
 
-.reveal { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.hidden { opacity: 0; transform: translateY(24px); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+    .mono {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
 
-/* ── BOUTON APPEL MOBILE ── */
-.call-btn {
-  display: none;
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 999;
-  background: var(--ardoise);
-  color: var(--blanc);
-  text-decoration: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-.call-btn:active { transform: scale(0.93); }
-.call-btn svg { width: 18px; height: 18px; }
-@media (max-width: 768px) { .call-btn { display: flex; } }
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    }
+    [data-reveal].on { opacity: 1; transform: none; }
+    [data-reveal="1"] { transition-delay: 0.05s; }
+    [data-reveal="2"] { transition-delay: 0.12s; }
+    [data-reveal="3"] { transition-delay: 0.19s; }
+    [data-reveal="4"] { transition-delay: 0.26s; }
+    [data-reveal="5"] { transition-delay: 0.33s; }
+    [data-reveal="6"] { transition-delay: 0.40s; }
 
-/* ── COVER ── */
-.cover {
-  background: var(--encre);
-  min-height: 100svh;
-  display: grid;
-  grid-template-rows: 1fr auto;
-  padding: var(--pad-x);
-  position: relative;
-  overflow: hidden;
-}
-.cover::before {
-  content: '';
-  position: absolute; top: 0; right: 0;
-  width: 40%; height: 100%;
-  background: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.015) 1px, rgba(255,255,255,0.015) 60px);
-  pointer-events: none;
-}
-.cover-main { display: flex; flex-direction: column; justify-content: center; padding: clamp(32px, 6vw, 64px) 0; }
-.logo-wrap { display: inline-flex; flex-direction: column; align-items: flex-start; animation: fadeUp 0.8s ease 0.25s both; }
-.logo-name { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: clamp(42px, 10vw, 108px); letter-spacing: 0.18em; color: var(--blanc); line-height: 1; }
-.logo-rule { width: 100%; height: 0.75px; background: var(--blanc); opacity: 0.22; margin: 12px 0 11px; }
-.logo-sub { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: clamp(7px, 1.2vw, 10px); letter-spacing: 0.38em; color: rgba(255,255,255,0.6); text-transform: uppercase; }
-.cover-tagline { margin-top: clamp(32px, 5vw, 56px); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: clamp(14px, 2vw, 18px); color: rgba(255,255,255,0.5); max-width: 480px; line-height: 1.8; animation: fadeUp 0.8s ease 0.4s both; }
-.cover-cta { margin-top: clamp(32px, 4vw, 48px); animation: fadeUp 0.8s ease 0.5s both; }
-.cover-cta a { display: inline-block; font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 13px; letter-spacing: 0.12em; color: rgba(255,255,255,0.55); border-bottom: 0.75px solid rgba(255,255,255,0.2); padding-bottom: 4px; text-decoration: none; transition: color 0.2s ease, border-color 0.2s ease; }
-.cover-cta a:hover { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.5); }
-.cover-footer { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px; animation: fadeUp 0.8s ease 0.55s both; }
-.cover-location { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: rgba(255,255,255,0.3); }
-.cover-url { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: rgba(255,255,255,0.2); }
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px var(--x);
+      border-bottom: 0.75px solid transparent;
+      transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+    }
+    nav.stuck {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-color: rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      font-size: 15px;
+      letter-spacing: 0.32em;
+      text-decoration: none;
+      color: var(--white);
+      transition: color 0.3s ease;
+    }
+    nav.stuck .nav-logo { color: var(--ink); }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.56);
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: rgba(255,255,255,0.92); }
+    nav.stuck .nav-links a { color: var(--stone); }
+    nav.stuck .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      color: rgba(255,255,255,0.4) !important;
+      border-bottom: 0.75px solid rgba(255,255,255,0.18);
+      padding-bottom: 2px;
+    }
+    nav.stuck .nav-cta { color: var(--slate) !important; border-color: var(--slate); }
 
-/* ── SECTIONS ── */
-.section { padding: var(--pad-y) var(--pad-x); border-bottom: 0.75px solid var(--regle); }
-.section-alt { background: var(--craie); }
-.section-dark { background: var(--encre); border-bottom: none; }
-.section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.38em; color: var(--pierre); text-transform: uppercase; margin-bottom: clamp(32px, 5vw, 56px); }
-.section-label-light { color: rgba(255,255,255,0.3); }
-.section-title { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: clamp(26px, 4vw, 44px); color: var(--encre); letter-spacing: -0.01em; line-height: 1.15; max-width: 640px; }
-.section-title-light { color: var(--blanc); }
-.section-body { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: clamp(14px, 2vw, 16px); color: var(--graphite); line-height: 1.85; max-width: 560px; margin-top: 24px; }
-.section-body-light { color: rgba(255,255,255,0.55); }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      background: var(--ink);
+      color: var(--white);
+      display: flex;
+      align-items: flex-end;
+      padding: var(--x);
+      padding-top: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.024) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 42%;
+      background: linear-gradient(transparent, rgba(13,13,13,0.58));
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 64px;
+      align-items: end;
+    }
+    .hero-copy { max-width: 900px; }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 34px;
+      animation: up 1s var(--ease) 0.15s both;
+    }
+    .hero-title {
+      font-weight: 200;
+      font-size: clamp(42px, 7.4vw, 112px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin-bottom: 32px;
+      animation: up 1s var(--ease) 0.3s both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: rgba(255,255,255,0.34);
+      font-weight: 200;
+    }
+    .hero-rule {
+      width: 48px;
+      height: 0.75px;
+      background: var(--slate);
+      margin-bottom: 24px;
+      animation: up 1s var(--ease) 0.42s both;
+    }
+    .hero-sub {
+      max-width: 420px;
+      font-size: clamp(14px, 1.7vw, 17px);
+      line-height: 1.8;
+      color: rgba(255,255,255,0.42);
+      margin-bottom: 44px;
+      animation: up 1s var(--ease) 0.52s both;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 34px;
+      animation: up 1s var(--ease) 0.64s both;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 28px;
+      background: var(--white);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-primary:hover { background: var(--fog); transform: translateY(-1px); }
+    .btn-ghost {
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.38);
+      border-bottom: 0.75px solid rgba(255,255,255,0.14);
+      padding-bottom: 2px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .btn-ghost:hover { color: rgba(255,255,255,0.72); border-color: rgba(255,255,255,0.34); }
+    .hero-side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-end;
+      animation: up 1s var(--ease) 0.75s both;
+    }
+    .hero-side-line { width: 100%; height: 0.75px; background: rgba(255,255,255,0.08); }
+    .hero-side .mono { color: rgba(255,255,255,0.22); text-align: right; }
 
-/* ── PROPOSITION ── */
-.proposition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: clamp(40px, 6vw, 64px); border-top: 0.75px solid var(--regle); }
-.prop-item { padding: clamp(28px, 4vw, 40px) clamp(20px, 4vw, 48px) clamp(28px, 4vw, 40px) 0; border-bottom: 0.75px solid var(--regle); }
-.prop-item:nth-child(even) { padding-left: clamp(20px, 4vw, 48px); padding-right: 0; border-left: 0.75px solid var(--regle); }
-.prop-num { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--ardoise); margin-bottom: 14px; }
-.prop-title { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 15px; color: var(--encre); margin-bottom: 10px; }
-.prop-body { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; color: var(--pierre); line-height: 1.7; }
+    @keyframes up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: none; }
+    }
 
-/* ── PRODUITS ── */
-.produits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: clamp(40px, 6vw, 64px); border-top: 0.75px solid rgba(255,255,255,0.08); border-left: 0.75px solid rgba(255,255,255,0.08); }
-.produit-item { padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 32px); border-right: 0.75px solid rgba(255,255,255,0.08); border-bottom: 0.75px solid rgba(255,255,255,0.08); }
-.produit-icon { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--ardoise); margin-bottom: 12px; }
-.produit-name { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 14px; color: var(--blanc); margin-bottom: 8px; }
-.produit-detail { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.65; }
+    /* ── SECTIONS ── */
+    section { padding: var(--gap) var(--x); }
+    .s-fog { background: var(--fog); }
+    .s-dark { background: var(--ink); }
 
-/* ── PROCESS ── */
-.process-list { margin-top: clamp(40px, 6vw, 64px); border-top: 0.75px solid var(--regle); }
-.process-step { display: grid; grid-template-columns: 40px 1fr auto; gap: clamp(16px, 3vw, 32px); align-items: start; padding: clamp(20px, 3vw, 32px) 0; border-bottom: 0.75px solid var(--regle); }
-.step-num { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--ardoise); padding-top: 3px; }
-.step-title { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 14px; color: var(--encre); margin-bottom: 6px; }
-.step-body { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 13px; color: var(--pierre); line-height: 1.7; }
-.step-delay { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--regle); text-align: right; white-space: nowrap; padding-top: 3px; }
+    .s-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 48px;
+    }
+    .s-label-light { color: rgba(255,255,255,0.22); }
 
-/* ── ENGAGEMENTS ── */
-.engagements-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: clamp(40px, 6vw, 64px); border-top: 0.75px solid var(--regle); border-left: 0.75px solid var(--regle); }
-.engagement { padding: clamp(24px, 3vw, 40px) clamp(16px, 2.5vw, 32px); border-right: 0.75px solid var(--regle); border-bottom: 0.75px solid var(--regle); }
-.eng-value { font-family: 'Space Mono', monospace; font-size: clamp(16px, 2.5vw, 22px); letter-spacing: 0.06em; color: var(--encre); margin-bottom: 10px; }
-.eng-label { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 12px; color: var(--pierre); line-height: 1.6; }
+    .s-title {
+      max-width: 760px;
+      font-size: clamp(30px, 4.4vw, 58px);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      font-weight: 200;
+      color: var(--ink);
+    }
+    .s-title-light { color: var(--white); }
 
-/* ── CIBLES ── */
-.cibles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 3vw, 40px); margin-top: clamp(40px, 6vw, 64px); }
-.cible-card { padding: clamp(32px, 4vw, 48px) clamp(24px, 3.5vw, 40px); border: 0.75px solid var(--regle); background: var(--blanc); }
-.cible-tag { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ardoise); text-transform: uppercase; margin-bottom: 18px; }
-.cible-title { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: clamp(15px, 2vw, 18px); color: var(--encre); margin-bottom: 16px; }
-.cible-list { list-style: none; }
-.cible-list li { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 13px; color: var(--graphite); padding: 8px 0; border-bottom: 0.75px solid var(--regle); line-height: 1.5; }
-.cible-list li:last-child { border-bottom: none; }
+    .s-body {
+      max-width: 560px;
+      margin-top: 24px;
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--stone);
+    }
 
-/* ── FORMULAIRE ── */
-.form-section { background: var(--blanc); }
-.form-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px, 8vw, 100px); margin-top: clamp(40px, 6vw, 64px); align-items: start; }
-.form-left-body { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 15px; color: var(--pierre); line-height: 1.8; margin-top: 20px; }
-.form { display: flex; flex-direction: column; gap: 20px; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--pierre); text-transform: uppercase; }
-.form-input, .form-select, .form-textarea { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; color: var(--encre); background: var(--blanc); border: 0.75px solid var(--regle); padding: 14px 16px; outline: none; transition: border-color 0.2s ease; -webkit-appearance: none; appearance: none; border-radius: 0; width: 100%; }
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--ardoise); }
-.form-input::placeholder, .form-textarea::placeholder { color: var(--regle); }
-.form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239B9B97' stroke-width='1' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; cursor: pointer; }
-.form-select option { color: var(--encre); }
-.form-textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
-.form-submit { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 13px; letter-spacing: 0.06em; color: var(--blanc); background: var(--encre); border: none; padding: 16px 32px; cursor: pointer; transition: background 0.2s ease; align-self: flex-start; border-radius: 0; }
-.form-submit:hover { background: var(--ardoise); }
-.form-submit:active { transform: scale(0.98); }
-.form-note { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 12px; color: var(--pierre); margin-top: 10px; }
-.form-success { display: none; padding: 24px; border: 0.75px solid var(--regle); background: var(--craie); }
-.form-success p { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; color: var(--graphite); }
+    .split {
+      display: grid;
+      grid-template-columns: 1.05fr 1.4fr;
+      gap: clamp(48px, 7vw, 120px);
+      align-items: start;
+    }
 
-/* ── CONTACT ── */
-.contact-section { background: var(--encre); padding: var(--pad-y) var(--pad-x); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px, 6vw, 80px); align-items: start; }
-.contact-right { display: flex; flex-direction: column; gap: 28px; }
-.contact-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: rgba(255,255,255,0.25); text-transform: uppercase; margin-bottom: 8px; }
-.contact-value { font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 15px; color: rgba(255,255,255,0.7); }
-.contact-value a { color: var(--ardoise); text-decoration: none; word-break: break-all; }
-.contact-rule { height: 0.75px; background: rgba(255,255,255,0.08); }
+    /* ── STATEMENT ── */
+    .statement {
+      border-top: 0.75px solid var(--rule);
+      border-bottom: 0.75px solid var(--rule);
+    }
+    .statement-quote {
+      font-size: clamp(22px, 2.8vw, 36px);
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      font-style: italic;
+      font-weight: 200;
+      color: var(--ink);
+    }
+    .statement-body {
+      max-width: 700px;
+      font-size: 15px;
+      line-height: 1.95;
+      color: var(--stone);
+    }
+    .statement-sig {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .statement-sig-line { width: 26px; height: 0.75px; background: var(--slate); }
+    .statement-sig-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      color: var(--slate);
+      text-transform: uppercase;
+    }
 
-/* ── FOOTER ── */
-.footer { background: var(--encre); padding: 28px var(--pad-x); border-top: 0.75px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-.footer-logo { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 13px; letter-spacing: 0.18em; color: rgba(255,255,255,0.3); }
-.footer-copy { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: rgba(255,255,255,0.15); }
+    /* ── GRIDS ── */
+    .activities-grid, .pillars-grid, .expertise-grid, .metrics-grid {
+      margin-top: 60px;
+      display: grid;
+      border-top: 0.75px solid var(--rule);
+      border-left: 0.75px solid var(--rule);
+    }
+    .activities-grid { grid-template-columns: repeat(3, 1fr); }
+    .pillars-grid { grid-template-columns: repeat(4, 1fr); }
+    .expertise-grid {
+      grid-template-columns: repeat(3, 1fr);
+      border-top-color: rgba(255,255,255,0.08);
+      border-left-color: rgba(255,255,255,0.08);
+    }
+    .metrics-grid { grid-template-columns: repeat(4, 1fr); }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .produits-grid { grid-template-columns: repeat(2, 1fr); }
-  .engagements-row { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-  .proposition-grid { grid-template-columns: 1fr; }
-  .prop-item { padding: 28px 0; }
-  .prop-item:nth-child(even) { padding-left: 0; border-left: none; }
-  .produits-grid { grid-template-columns: 1fr 1fr; }
-  .process-step { grid-template-columns: 32px 1fr; }
-  .step-delay { display: none; }
-  .engagements-row { grid-template-columns: 1fr 1fr; }
-  .cibles-grid { grid-template-columns: 1fr; }
-  .contact-section { grid-template-columns: 1fr; gap: 48px; }
-  .footer-copy { display: none; }
-  .form-wrap { grid-template-columns: 1fr; gap: 40px; }
-  .form-row { grid-template-columns: 1fr; }
-}
-@media (max-width: 380px) {
-  .produits-grid { grid-template-columns: 1fr; }
-  .logo-sub { letter-spacing: 0.2em; font-size: 7px; }
-}
-</style>
+    .card, .expertise-card, .metric-card {
+      border-right: 0.75px solid var(--rule);
+      border-bottom: 0.75px solid var(--rule);
+      padding: clamp(26px, 3.5vw, 42px);
+      transition: background 0.25s ease;
+    }
+    .card:hover, .metric-card:hover { background: rgba(0,0,0,0.015); }
+    .expertise-card {
+      border-right-color: rgba(255,255,255,0.08);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+    .expertise-card:hover { background: rgba(255,255,255,0.02); }
+
+    .card-num, .expertise-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--slate);
+      margin-bottom: 22px;
+    }
+    .card-title, .expertise-title {
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .card-title { color: var(--ink); }
+    .expertise-title { color: var(--white); }
+    .card-body, .expertise-body { font-size: 13px; line-height: 1.8; font-weight: 300; }
+    .card-body { color: var(--stone); }
+    .expertise-body { color: rgba(255,255,255,0.3); }
+
+    /* ── REALISATIONS ── */
+    .real-head { display: flex; flex-direction: column; gap: 16px; }
+    .real-grid {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      border: 0.75px solid var(--rule);
+    }
+    .real-main { border-right: 0.75px solid var(--rule); }
+    .real-visual {
+      position: relative;
+      display: flex;
+      height: 360px;
+      overflow: hidden;
+    }
+    .real-half {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .real-half-before { background: #cbc9c4; }
+    .real-half-after { background: #e9e6df; }
+    .real-main:hover .real-half-before { background: #c3c1bc; }
+    .real-main:hover .real-half-after { background: #e3e8f1; }
+    .real-divider {
+      position: absolute;
+      inset: 0 auto 0 50%;
+      width: 0.75px;
+      transform: translateX(-50%);
+      background: rgba(58,90,138,0.35);
+    }
+    .real-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      padding: 6px 10px;
+      color: var(--white);
+      background: var(--slate);
+    }
+    .real-info { padding: 24px 28px; border-top: 0.75px solid var(--rule); }
+    .real-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      color: var(--slate);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .real-name { font-size: 14px; font-weight: 400; color: var(--ink); }
+    .real-sub { margin-top: 4px; font-size: 12px; color: var(--stone); }
+    .real-side { display: flex; flex-direction: column; }
+    .real-small { flex: 1; display: flex; flex-direction: column; }
+    .real-small + .real-small { border-top: 0.75px solid var(--rule); }
+    .real-small-visual {
+      flex: 1;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      padding: 32px;
+    }
+
+    /* ── PROCESS ── */
+    .process-grid { margin-top: 60px; border-top: 0.75px solid var(--rule); }
+    .process-row {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: clamp(18px, 3vw, 40px);
+      padding: 26px 0;
+      border-bottom: 0.75px solid var(--rule);
+      align-items: start;
+      transition: background 0.2s ease;
+    }
+    .process-row:hover {
+      background: rgba(0,0,0,0.015);
+      margin: 0 calc(-1 * var(--x));
+      padding-left: var(--x);
+      padding-right: var(--x);
+    }
+    .p-num { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--slate); padding-top: 2px; }
+    .p-title { font-size: 14px; font-weight: 400; color: var(--ink); margin-bottom: 4px; }
+    .p-body { font-size: 13px; line-height: 1.8; color: var(--stone); }
+    .p-time { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--rule); white-space: nowrap; padding-top: 2px; }
+
+    /* ── METRICS ── */
+    .metric-value {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(18px, 2.4vw, 26px);
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .metric-label { font-size: 12px; line-height: 1.65; color: var(--stone); }
+
+    /* ── FAQ ── */
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.4fr;
+      gap: clamp(44px, 7vw, 100px);
+      margin-top: 60px;
+    }
+    .faq-list { border-top: 0.75px solid var(--rule); }
+    .faq-item { border-bottom: 0.75px solid var(--rule); }
+    .faq-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 22px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink);
+      transition: color 0.2s ease;
+    }
+    .faq-btn:hover { color: var(--slate); }
+    .faq-icon {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      color: var(--slate);
+      flex-shrink: 0;
+      transition: transform 0.3s var(--ease);
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s var(--ease), padding 0.3s ease;
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--stone);
+    }
+    .faq-item.open .faq-body { max-height: 260px; padding-bottom: 22px; }
+
+    /* ── FORMULAIRE ── */
+    .form-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.2fr;
+      gap: clamp(44px, 7vw, 100px);
+      margin-top: 60px;
+      align-items: start;
+    }
+    .form-left-sub { margin-top: 22px; font-size: 14px; line-height: 1.85; color: var(--stone); }
+    .form { display: flex; flex-direction: column; gap: 18px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      border: 0.75px solid var(--rule);
+      background: var(--white);
+      color: var(--ink);
+      padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      outline: none;
+      appearance: none;
+      border-radius: 0;
+      transition: border-color 0.2s ease;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--slate); }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--rule); }
+    .form-select {
+      padding-right: 40px;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239f9b94' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+    .form-textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+    .form-submit {
+      align-self: flex-start;
+      border: none;
+      background: var(--ink);
+      color: var(--white);
+      min-height: 46px;
+      padding: 0 32px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .form-submit:hover { background: var(--slate); transform: translateY(-1px); }
+    .form-note { margin-top: 12px; font-size: 11px; color: var(--stone); }
+    .form-success {
+      display: none;
+      padding: 26px 22px;
+      border: 0.75px solid var(--rule);
+      background: var(--fog);
+    }
+    .form-success p { font-size: 14px; line-height: 1.8; color: var(--ink); }
+
+    /* ── CONTACT ── */
+    .contact-dark { background: var(--ink); color: var(--white); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(44px, 7vw, 88px);
+      align-items: start;
+    }
+    .contact-copy .s-body { color: rgba(255,255,255,0.38); max-width: 420px; }
+    .contact-list { display: flex; flex-direction: column; gap: 24px; }
+    .contact-row { padding-bottom: 22px; border-bottom: 0.75px solid rgba(255,255,255,0.07); }
+    .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .c-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      margin-bottom: 6px;
+    }
+    .c-value { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.62); }
+    .c-value a { color: var(--slate); text-decoration: none; }
+
+    /* ── CALL BTN ── */
+    .call-btn {
+      display: none;
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 200;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--slate);
+      color: var(--white);
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .call-btn svg { width: 18px; height: 18px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      border-top: 0.75px solid rgba(255,255,255,0.05);
+      padding: 28px var(--x);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .footer-logo { font-size: 12px; letter-spacing: 0.28em; color: rgba(255,255,255,0.22); }
+    .footer-copy { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: rgba(255,255,255,0.12); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .hero-inner, .split, .faq-layout, .form-layout, .contact-layout { grid-template-columns: 1fr; }
+      .hero-side { align-items: flex-start; }
+      .hero-side .mono { text-align: left; }
+      .pillars-grid { grid-template-columns: 1fr 1fr; }
+      .activities-grid, .expertise-grid, .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .real-grid { grid-template-columns: 1fr; }
+      .real-main { border-right: none; border-bottom: 0.75px solid var(--rule); }
+      .real-side { flex-direction: row; }
+      .real-small + .real-small { border-top: none; border-left: 0.75px solid var(--rule); }
+    }
+
+    @media (max-width: 780px) {
+      .nav-links { display: none; }
+      .call-btn { display: inline-flex; }
+      .activities-grid, .pillars-grid, .expertise-grid, .metrics-grid { grid-template-columns: 1fr; }
+      .process-row { grid-template-columns: 40px 1fr; }
+      .p-time { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .real-side { flex-direction: column; }
+      .real-small + .real-small { border-left: none; border-top: 0.75px solid var(--rule); }
+      .real-visual { height: 300px; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-copy { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- BOUTON APPEL MOBILE -->
-<a href="tel:+33664773700" class="call-btn">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-  </svg>
-</a>
+  <a href="tel:+33664773700" class="call-btn" aria-label="Appeler MATOBA">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 9.81 19.79 19.79 0 0 1 0 1.14 2 2 0 0 1 2 0h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  </a>
 
-<!-- COVER -->
-<div class="cover">
-  <div class="cover-main">
-    <div class="logo-wrap">
-      <div class="logo-name">MATOBA</div>
-      <div class="logo-rule"></div>
-      <div class="logo-sub">Menuiserie Extérieure Sur Mesure</div>
-    </div>
-    <div class="cover-tagline">
-      Fenêtres, baies vitrées, volets, stores.<br>
-      Un interlocuteur unique. Du devis à la pose.
-    </div>
-    <div class="cover-cta">
-      <a href="#devis">Demander un devis</a>
-    </div>
-  </div>
-  <div class="cover-footer">
-    <div class="cover-location">Marseille & PACA</div>
-    <div class="cover-url">matoba-menuiserie.fr</div>
-  </div>
-</div>
+  <nav id="nav">
+    <a href="#" class="nav-logo">MATOBA</a>
+    <ul class="nav-links">
+      <li><a href="#approche">Approche</a></li>
+      <li><a href="#activites">Activités</a></li>
+      <li><a href="#expertises">Expertises</a></li>
+      <li><a href="#realisations">Réalisations</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#devis" class="nav-cta">Devis</a></li>
+    </ul>
+  </nav>
 
-<!-- PROPOSITION -->
-<section class="section reveal">
-  <div class="section-label">Notre proposition</div>
-  <div class="section-title">La tranquillité.</div>
-  <div class="section-body">
-    MATOBA coordonne votre projet dans son ensemble.<br>
-    Fabrication sur mesure, livraison sur chantier, pose certifiée, SAV.
-  </div>
-  <div class="proposition-grid">
-    <div class="prop-item reveal">
-      <div class="prop-num">01</div>
-      <div class="prop-title">Devis rapide</div>
-      <div class="prop-body">Offre précise. Prix juste. Délais définis. Sans approximation, sans surprise.</div>
-    </div>
-    <div class="prop-item reveal">
-      <div class="prop-num">02</div>
-      <div class="prop-title">Sur mesure systématique</div>
-      <div class="prop-body">Toutes dimensions, toutes teintes RAL.</div>
-    </div>
-    <div class="prop-item reveal">
-      <div class="prop-num">03</div>
-      <div class="prop-title">Pose dans les meilleurs délais</div>
-      <div class="prop-body">Délai réel, pas commercial. Nos équipes de pose sont sélectionnées avec exigence et adaptées à chaque projet.</div>
-    </div>
-    <div class="prop-item reveal">
-      <div class="prop-num">04</div>
-      <div class="prop-title">SAV structuré</div>
-      <div class="prop-body">Un ticket, une réponse sous 48h. Garantie décennale. Vous ne relancez pas, nous assurons un réel suivi.</div>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUITS -->
-<section class="section section-dark reveal">
-  <div class="section-label section-label-light">Nos produits</div>
-  <div class="section-title section-title-light">Aluminium & PVC<br>Tout format, toute teinte.</div>
-  <div class="produits-grid">
-    <div class="produit-item reveal">
-      <div class="produit-icon">01</div>
-      <div class="produit-name">Fenêtres</div>
-      <div class="produit-detail">PVC et aluminium<br>Toutes dimensions</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">02</div>
-      <div class="produit-name">Baies vitrées</div>
-      <div class="produit-detail">Coulissantes ou galandage</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">03</div>
-      <div class="produit-name">Portes-fenêtres</div>
-      <div class="produit-detail">Avec ou sans imposte</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">04</div>
-      <div class="produit-name">Volets roulants</div>
-      <div class="produit-detail">Électriques motorisés (solaire possible)<br>Coffre intégré ou apparent<br>Domotique compatible</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">05</div>
-      <div class="produit-name">Stores bannes</div>
-      <div class="produit-detail">Motorisés, coffre ALU (solaire possible)</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">06</div>
-      <div class="produit-name">Portes de garage</div>
-      <div class="produit-detail">Sectionnelles motorisées<br>Basculantes<br>Télécommande et connecté</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">07</div>
-      <div class="produit-name">Devantures commerciales</div>
-      <div class="produit-detail">Vitrines ALU<br>Portes d'entrée sur mesure<br>CHR, commerces, bureaux</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">08</div>
-      <div class="produit-name">Film vitrage</div>
-      <div class="produit-detail">Contrôle solaire<br>Intimité et sécurité<br>Pose sur vitrage existant possible</div>
-    </div>
-    <div class="produit-item reveal">
-      <div class="produit-icon">09</div>
-      <div class="produit-name">Pergolas bioclimatiques</div>
-      <div class="produit-detail">Lames orientables motorisées<br>Aluminium laqué<br>Terrasses résidentielles</div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section class="section section-alt reveal">
-  <div class="section-label">Notre process</div>
-  <div class="section-title">De la demande<br>à la réception.</div>
-  <div class="process-list">
-    <div class="process-step reveal">
-      <div class="step-num">01</div>
-      <div>
-        <div class="step-title">Premier contact & qualification</div>
-        <div class="step-body">On qualifie votre besoin, on fixe un rendez-vous.</div>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">Menuiserie extérieure — Marseille & PACA</div>
+        <h1 class="hero-title">
+          Fabrication,<br />
+          pose, suivi.<br />
+          <em>Sur mesure.</em>
+        </h1>
+        <div class="hero-rule"></div>
+        <p class="hero-sub">
+          Fenêtres, baies vitrées, volets, pergolas.<br />
+          Un interlocuteur unique. Du devis à la réception.
+        </p>
+        <div class="hero-actions">
+          <a href="#devis" class="btn-primary">Demander un devis</a>
+          <a href="#approche" class="btn-ghost">Découvrir MATOBA</a>
+        </div>
       </div>
-      <div class="step-delay">J+0</div>
-    </div>
-    <div class="process-step reveal">
-      <div class="step-num">02</div>
-      <div>
-        <div class="step-title">Visite et prise de mesures</div>
-        <div class="step-body">Déplacement sur site. Relevé précis, conseils.</div>
-      </div>
-      <div class="step-delay">J+3 à J+7</div>
-    </div>
-    <div class="process-step reveal">
-      <div class="step-num">03</div>
-      <div>
-        <div class="step-title">Devis détaillé</div>
-        <div class="step-body">Fourniture, dépose et pose, garanties incluses. Prix ferme, sans variation. Délais respectés. Validité 30 jours.</div>
-      </div>
-      <div class="step-delay">J+10 à J+14</div>
-    </div>
-    <div class="process-step reveal">
-      <div class="step-num">04</div>
-      <div>
-        <div class="step-title">Commande & fabrication</div>
-        <div class="step-body">Acompte 50% à la signature. Commande fabricant lancée immédiatement. Planning pose fixé.</div>
-      </div>
-      <div class="step-delay">Dès signature</div>
-    </div>
-    <div class="process-step reveal">
-      <div class="step-num">05</div>
-      <div>
-        <div class="step-title">Pose et réception</div>
-        <div class="step-body">Équipe agréée. Dépose des anciens éléments incluse. Chantier propre à la livraison.</div>
-      </div>
-      <div class="step-delay">J+21 à J+45</div>
-    </div>
-    <div class="process-step reveal">
-      <div class="step-num">06</div>
-      <div>
-        <div class="step-title">SAV</div>
-        <div class="step-body">Un numéro unique. Réponse sous 48h. Garantie décennale sur la pose.</div>
-      </div>
-      <div class="step-delay">Illimité</div>
-    </div>
-  </div>
-</section>
-
-<!-- ENGAGEMENTS -->
-<section class="section reveal">
-  <div class="section-label">Nos engagements</div>
-  <div class="section-title">Des chiffres,<br>pas des promesses.</div>
-  <div class="engagements-row">
-    <div class="engagement reveal">
-      <div class="eng-value">48h</div>
-      <div class="eng-label">Devis détaillé envoyé après visite</div>
-    </div>
-    <div class="engagement reveal">
-      <div class="eng-value">10–15j</div>
-      <div class="eng-label">Délai de pose après commande confirmée</div>
-    </div>
-    <div class="engagement reveal">
-      <div class="eng-value">10 ans</div>
-      <div class="eng-label">Garantie décennale sur toutes les poses</div>
-    </div>
-    <div class="engagement reveal">
-      <div class="eng-value">1</div>
-      <div class="eng-label">Interlocuteur unique du devis au SAV</div>
-    </div>
-  </div>
-</section>
-
-<!-- CIBLES -->
-<section class="section section-alt reveal">
-  <div class="section-label">Nos clients</div>
-  <div class="section-title">Particuliers<br>et professionnels.</div>
-  <div class="cibles-grid">
-    <div class="cible-card reveal">
-      <div class="cible-tag">BtoC — Résidentiel</div>
-      <div class="cible-title">Particuliers</div>
-      <ul class="cible-list">
-        <li>Rénovation appartement ou maison</li>
-        <li>Remplacement fenêtres, baies vitrées et volets</li>
-        <li>Projet d'extension ou de terrasse</li>
-      </ul>
-    </div>
-    <div class="cible-card reveal">
-      <div class="cible-tag">BtoB — Professionnel</div>
-      <div class="cible-title">Entreprises & Investisseurs</div>
-      <ul class="cible-list">
-        <li>Restaurateurs et hôteliers (CHR)</li>
-        <li>Commerces et bureaux</li>
-        <li>Marchands de biens en rénovation</li>
-        <li>Promoteurs immobiliers</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- FORMULAIRE -->
-<section class="section form-section reveal" id="devis">
-  <div class="section-label">Demander un devis</div>
-  <div class="form-wrap">
-    <div class="form-left">
-      <div class="section-title">Le projet.</div>
-      <div class="form-left-body">
-        Nous prendrons contact dans les meilleurs délais.
+      <div class="hero-side">
+        <div class="hero-side-line"></div>
+        <div class="mono">Marseille & PACA</div>
+        <div class="mono">matoba-menuiserie.fr</div>
       </div>
     </div>
-    <div class="form-right">
-      <form class="form" id="contactForm">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Nom</label>
-            <input type="text" class="form-input" placeholder="Votre nom" required>
+  </header>
+
+  <!-- STATEMENT -->
+  <section class="statement" id="approche">
+    <div class="split">
+      <div class="statement-quote" data-reveal="1">
+        « Une exécution précise commence bien avant la pose. »
+      </div>
+      <div data-reveal="2">
+        <p class="statement-body">
+          MATOBA coordonne chaque projet dans sa globalité : définition des bonnes solutions, sélection des fabricants, organisation de la pose et contrôle final.
+          <br /><br />
+          Une structure pensée pour garantir un résultat cohérent, durable et maîtrisé.
+        </p>
+        <div class="statement-sig">
+          <div class="statement-sig-line"></div>
+          <div class="statement-sig-text">MATOBA — Marseille & PACA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITES -->
+  <section id="activites">
+    <div class="s-label" data-reveal>Activités</div>
+    <div class="s-title" data-reveal="1">Une marque conçue pour évoluer.</div>
+    <p class="s-body" data-reveal="2">MATOBA se développe par expertises distinctes, réunies sous une même exigence d'exécution.</p>
+    <div class="activities-grid">
+      <div class="card" data-reveal="1">
+        <div class="card-num">01</div>
+        <div class="card-title">MATOBA Menuiserie</div>
+        <div class="card-body">Fenêtres, baies vitrées, volets, pergolas, fermetures et solutions sur mesure.</div>
+      </div>
+      <div class="card" data-reveal="2">
+        <div class="card-num">02</div>
+        <div class="card-title">Protections solaires</div>
+        <div class="card-body">Stores, films techniques, solutions d'intimité et de contrôle solaire.</div>
+      </div>
+      <div class="card" data-reveal="3">
+        <div class="card-num">03</div>
+        <div class="card-title">Extensions futures</div>
+        <div class="card-body">Une base pensée pour accueillir d'autres activités sans casser l'ensemble.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POURQUOI MATOBA -->
+  <section class="s-fog">
+    <div class="s-label" data-reveal>Pourquoi MATOBA</div>
+    <div class="s-title" data-reveal="1">La tranquillité.<br />De A à Z.</div>
+    <div class="pillars-grid">
+      <div class="card" data-reveal="1">
+        <div class="card-num">01</div>
+        <div class="card-title">Devis rapide</div>
+        <div class="card-body">Offre précise. Prix juste. Délais définis. Sans approximation, sans surprise.</div>
+      </div>
+      <div class="card" data-reveal="2">
+        <div class="card-num">02</div>
+        <div class="card-title">Sur mesure systématique</div>
+        <div class="card-body">Toutes dimensions, toutes teintes RAL. Les configurations que les enseignes nationales ne peuvent pas réaliser.</div>
+      </div>
+      <div class="card" data-reveal="3">
+        <div class="card-num">03</div>
+        <div class="card-title">Pose sélectionnée</div>
+        <div class="card-body">Délai réel, pas commercial. Équipes choisies avec exigence, adaptées à chaque projet.</div>
+      </div>
+      <div class="card" data-reveal="4">
+        <div class="card-num">04</div>
+        <div class="card-title">SAV structuré</div>
+        <div class="card-body">Un ticket, une réponse sous 48h. Garantie décennale. Vous ne relancez pas — nous assurons le suivi.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISES -->
+  <section class="s-dark" id="expertises">
+    <div class="s-label s-label-light" data-reveal>Expertises</div>
+    <div class="s-title s-title-light" data-reveal="1">Menuiseries extérieures<br />et solutions associées.</div>
+    <div class="expertise-grid">
+      <div class="expertise-card" data-reveal="1">
+        <div class="expertise-num">01</div>
+        <div class="expertise-title">Fenêtres</div>
+        <div class="expertise-body">PVC · Aluminium · Toutes dimensions</div>
+      </div>
+      <div class="expertise-card" data-reveal="2">
+        <div class="expertise-num">02</div>
+        <div class="expertise-title">Baies vitrées</div>
+        <div class="expertise-body">Coulissantes · Galandage · Grandes largeurs</div>
+      </div>
+      <div class="expertise-card" data-reveal="3">
+        <div class="expertise-num">03</div>
+        <div class="expertise-title">Portes-fenêtres</div>
+        <div class="expertise-body">Simple ou sur mesure · Avec ou sans imposte</div>
+      </div>
+      <div class="expertise-card" data-reveal="1">
+        <div class="expertise-num">04</div>
+        <div class="expertise-title">Volets roulants</div>
+        <div class="expertise-body">Motorisés · Solaires · Domotique compatible</div>
+      </div>
+      <div class="expertise-card" data-reveal="2">
+        <div class="expertise-num">05</div>
+        <div class="expertise-title">Pergolas bioclimatiques</div>
+        <div class="expertise-body">Lames motorisées · Aluminium laqué · Terrasses</div>
+      </div>
+      <div class="expertise-card" data-reveal="3">
+        <div class="expertise-num">06</div>
+        <div class="expertise-title">Devantures & vitrages</div>
+        <div class="expertise-body">CHR · Commerces · Contrôle solaire · Sécurité</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REALISATIONS -->
+  <section id="realisations">
+    <div class="real-head">
+      <div class="s-label" data-reveal>Réalisations</div>
+      <div class="s-title" data-reveal="1">Quelques projets récents.</div>
+      <p class="s-body" data-reveal="2">Le même niveau d'exigence, quel que soit le projet.</p>
+    </div>
+    <div class="real-grid" data-reveal>
+      <div class="real-main">
+        <div class="real-visual">
+          <div class="real-half real-half-before">
+            <svg width="76" height="92" viewBox="0 0 76 92" fill="none">
+              <rect x="6" y="6" width="64" height="80" stroke="#9B9B97" stroke-width="2" fill="none" />
+              <line x1="6" y1="46" x2="70" y2="46" stroke="#9B9B97" stroke-width="1.2" />
+              <line x1="38" y1="6" x2="38" y2="86" stroke="#9B9B97" stroke-width="1.2" />
+              <rect x="10" y="10" width="24" height="32" fill="#9B9B97" opacity="0.1" />
+              <rect x="42" y="10" width="24" height="32" fill="#9B9B97" opacity="0.1" />
+            </svg>
           </div>
-          <div class="form-group">
-            <label class="form-label">Téléphone</label>
-            <input type="tel" class="form-input" placeholder="06 00 00 00 00" required>
+          <div class="real-half real-half-after">
+            <svg width="76" height="92" viewBox="0 0 76 92" fill="none">
+              <rect x="6" y="6" width="64" height="80" stroke="#3A5A8A" stroke-width="3.5" fill="none" />
+              <line x1="6" y1="46" x2="70" y2="46" stroke="#3A5A8A" stroke-width="2" />
+              <line x1="38" y1="6" x2="38" y2="86" stroke="#3A5A8A" stroke-width="2" />
+              <rect x="10" y="10" width="24" height="32" fill="#3A5A8A" opacity="0.22" />
+              <rect x="42" y="10" width="24" height="32" fill="#3A5A8A" opacity="0.14" />
+              <line x1="14" y1="17" x2="30" y2="17" stroke="white" stroke-width="1.2" opacity="0.45" />
+            </svg>
+          </div>
+          <div class="real-divider"></div>
+          <div class="real-badge">AVANT · APRÈS</div>
+        </div>
+        <div class="real-info">
+          <div class="real-tag">Rénovation · Aluminium · RAL 7016</div>
+          <div class="real-name">Appartement T4 — 13008 Marseille</div>
+          <div class="real-sub">8 fenêtres · Double vitrage · Remplacement complet</div>
+        </div>
+      </div>
+      <div class="real-side">
+        <div class="real-small">
+          <div class="real-small-visual" style="background:#E8EEE8;">
+            <svg width="44" height="56" viewBox="0 0 44 56" fill="none">
+              <rect x="4" y="4" width="36" height="48" stroke="#4A7A4A" stroke-width="2.5" fill="none" />
+              <line x1="4" y1="26" x2="40" y2="26" stroke="#4A7A4A" stroke-width="1.5" />
+              <rect x="7" y="7" width="30" height="15" fill="#4A7A4A" opacity="0.14" />
+              <rect x="7" y="30" width="30" height="18" fill="#4A7A4A" opacity="0.1" />
+            </svg>
+            <div style="font-family:'Space Mono', monospace; font-size:7px; letter-spacing:0.18em; color:#4A7A4A; opacity:0.5;">SUR MESURE</div>
+          </div>
+          <div class="real-info">
+            <div class="real-tag">Neuf · Aluminium</div>
+            <div class="real-name">Maison — Cassis</div>
+            <div class="real-sub">Sur mesure intégral</div>
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="votre@email.fr">
+        <div class="real-small">
+          <div class="real-small-visual" style="background:#EAE8E4;">
+            <svg width="40" height="60" viewBox="0 0 40 60" fill="none">
+              <rect x="4" y="4" width="32" height="52" stroke="#8A7A3A" stroke-width="2.5" fill="none" />
+              <line x1="20" y1="4" x2="20" y2="56" stroke="#8A7A3A" stroke-width="1.5" />
+              <rect x="7" y="7" width="9" height="44" fill="#8A7A3A" opacity="0.14" />
+              <rect x="24" y="7" width="9" height="44" fill="#8A7A3A" opacity="0.18" />
+            </svg>
+            <div style="font-family:'Space Mono', monospace; font-size:7px; letter-spacing:0.18em; color:#8A7A3A; opacity:0.5;">PVC</div>
+          </div>
+          <div class="real-info">
+            <div class="real-tag">Remplacement · PVC</div>
+            <div class="real-name">Immeuble — Aubagne</div>
+            <div class="real-sub">12 ouvertures · Blanc cassé</div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Profil</label>
-          <select class="form-select" required>
-            <option value="" disabled selected>Particulier / Professionnel</option>
-            <option value="particulier">Particulier</option>
-            <option value="professionnel">Professionnel</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Type de projet</label>
-          <select class="form-select" required>
-            <option value="" disabled selected>Sélectionner</option>
-            <option>Fenêtres / Portes-fenêtres</option>
-            <option>Baie vitrée</option>
-            <option>Volets roulants</option>
-            <option>Store banne</option>
-            <option>Porte de garage</option>
-            <option>Devanture commerciale</option>
-            <option>Pergola bioclimatique</option>
-            <option>Plusieurs produits</option>
-            <option>Autre</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Message</label>
-          <textarea class="form-textarea" placeholder="Décrivez votre projet, les dimensions approximatives, vos contraintes…"></textarea>
-        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="s-fog">
+    <div class="s-label" data-reveal>Process</div>
+    <div class="s-title" data-reveal="1">De la demande à la réception.</div>
+    <div class="process-grid">
+      <div class="process-row" data-reveal>
+        <div class="p-num">01</div>
         <div>
-          <button type="submit" class="form-submit">Envoyer la demande</button>
-          <div class="form-note">Réponse garantie sous 24h — aucun démarchage.</div>
+          <div class="p-title">Premier contact & qualification</div>
+          <div class="p-body">On qualifie votre besoin, on fixe un rendez-vous.</div>
         </div>
-      </form>
-      <div class="form-success" id="formSuccess">
-        <p>Votre demande a bien été reçue. Nous vous recontactons dans les meilleurs délais.</p>
+        <div class="p-time">J+0</div>
+      </div>
+      <div class="process-row" data-reveal>
+        <div class="p-num">02</div>
+        <div>
+          <div class="p-title">Visite et prise de mesures</div>
+          <div class="p-body">Déplacement sur site. Relevé précis, conseils techniques.</div>
+        </div>
+        <div class="p-time">J+3 à J+7</div>
+      </div>
+      <div class="process-row" data-reveal>
+        <div class="p-num">03</div>
+        <div>
+          <div class="p-title">Devis détaillé</div>
+          <div class="p-body">Fourniture, dépose et pose, garanties incluses. Prix ferme, sans variation. Validité 30 jours.</div>
+        </div>
+        <div class="p-time">J+10 à J+14</div>
+      </div>
+      <div class="process-row" data-reveal>
+        <div class="p-num">04</div>
+        <div>
+          <div class="p-title">Commande & fabrication</div>
+          <div class="p-body">Acompte 50% à la signature. Commande fabricant lancée immédiatement. Planning pose fixé.</div>
+        </div>
+        <div class="p-time">Dès signature</div>
+      </div>
+      <div class="process-row" data-reveal>
+        <div class="p-num">05</div>
+        <div>
+          <div class="p-title">Pose et réception</div>
+          <div class="p-body">Équipe agréée. Dépose des anciens éléments incluse. Chantier propre à la livraison.</div>
+        </div>
+        <div class="p-time">J+21 à J+45</div>
+      </div>
+      <div class="process-row" data-reveal>
+        <div class="p-num">06</div>
+        <div>
+          <div class="p-title">SAV</div>
+          <div class="p-body">Un numéro unique. Réponse sous 48h. Garantie décennale sur la pose.</div>
+        </div>
+        <div class="p-time">Illimité</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<div class="contact-section">
-  <div class="contact-left reveal">
-    <div class="section-label section-label-light">Contact</div>
-    <div class="section-title section-title-light">Votre projet mérite<br>de l'attention.</div>
-    <div class="section-body section-body-light" style="margin-top:24px;">
-      Réponse sous 24h. Rendez-vous fixé avec réactivité.<br>
-      Devis détaillé sous 48h après mesures.
+  <!-- REPERES -->
+  <section>
+    <div class="s-label" data-reveal>Repères</div>
+    <div class="metrics-grid">
+      <div class="metric-card" data-reveal="1">
+        <div class="metric-value">48h</div>
+        <div class="metric-label">Devis détaillé envoyé après visite</div>
+      </div>
+      <div class="metric-card" data-reveal="2">
+        <div class="metric-value">10–15j</div>
+        <div class="metric-label">Délai de pose après commande confirmée</div>
+      </div>
+      <div class="metric-card" data-reveal="3">
+        <div class="metric-value">10 ans</div>
+        <div class="metric-label">Garantie décennale sur toutes les poses</div>
+      </div>
+      <div class="metric-card" data-reveal="4">
+        <div class="metric-value">1</div>
+        <div class="metric-label">Interlocuteur unique du devis au SAV</div>
+      </div>
     </div>
-  </div>
-  <div class="contact-right reveal">
-    <div>
-      <div class="contact-label">Téléphone</div>
-      <div class="contact-value">+33 6 64 77 37 00</div>
-    </div>
-    <div class="contact-rule"></div>
-    <div>
-      <div class="contact-label">Email</div>
-      <div class="contact-value"><a href="mailto:contact@matoba-menuiserie.fr">contact@matoba-menuiserie.fr</a></div>
-    </div>
-    <div class="contact-rule"></div>
-    <div>
-      <div class="contact-label">Site</div>
-      <div class="contact-value"><a href="https://matoba-menuiserie.fr">matoba-menuiserie.fr</a></div>
-    </div>
-    <div class="contact-rule"></div>
-    <div>
-      <div class="contact-label">Zone d'intervention</div>
-      <div class="contact-value">Marseille & PACA</div>
-    </div>
-  </div>
-</div>
+  </section>
 
-<!-- FOOTER -->
-<div class="footer">
-  <div class="footer-logo">MATOBA</div>
-  <div class="footer-copy">Menuiserie extérieure sur mesure — Marseille & PACA — 2026</div>
-</div>
+  <!-- FAQ -->
+  <section class="s-fog" id="faq">
+    <div class="s-label" data-reveal>FAQ</div>
+    <div class="faq-layout">
+      <div>
+        <div class="s-title" data-reveal="1">Questions fréquentes.</div>
+        <p class="s-body" data-reveal="2">Une question non listée ? Contactez-nous directement.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-btn" type="button" onclick="faq(this)">
+            Quelle est la différence entre MATOBA et un poseur classique ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">MATOBA ne se limite pas à la pose. Nous coordonnons le chiffrage, la sélection des solutions, la fabrication, la pose et le suivi après réception.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" type="button" onclick="faq(this)">
+            Quels délais pour un remplacement de fenêtres ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Comptez en moyenne 3 à 6 semaines entre la validation du devis et la pose, selon les dimensions, finitions et niveau de sur-mesure.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" type="button" onclick="faq(this)">
+            Intervenez-vous en dehors de Marseille ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Oui. Marseille, Aix-en-Provence, Cassis, Aubagne, La Ciotat, Toulon et plus largement la région PACA selon le projet.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" type="button" onclick="faq(this)">
+            Le devis est-il gratuit et sans engagement ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">Oui. Visite, prise de mesures, conseil et offre détaillée sont réalisés sans engagement.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" type="button" onclick="faq(this)">
+            Quelle garantie sur les travaux ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">La pose est couverte par la garantie décennale. Les menuiseries bénéficient de la garantie fabricant selon les références retenues.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-document.querySelectorAll('.reveal').forEach(el => el.classList.add('hidden'));
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.remove('hidden');
-      entry.target.classList.add('visible');
+  <!-- FORMULAIRE -->
+  <section id="devis">
+    <div class="s-label" data-reveal>Demander un devis</div>
+    <div class="form-layout">
+      <div data-reveal="1">
+        <div class="s-title">Le projet.</div>
+        <p class="form-left-sub">
+          Nous prendrons contact dans les meilleurs délais.<br />
+          Déplacement et devis gratuits.<br />
+          Aucun démarchage.
+        </p>
+      </div>
+      <div data-reveal="2">
+        <form class="form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="nom">Nom</label>
+              <input id="nom" type="text" class="form-input" placeholder="Votre nom" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="telephone">Téléphone</label>
+              <input id="telephone" type="tel" class="form-input" placeholder="06 00 00 00 00" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input id="email" type="email" class="form-input" placeholder="votre@email.fr" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="profil">Profil</label>
+            <select id="profil" class="form-select" required>
+              <option value="" disabled selected>Particulier / Professionnel</option>
+              <option>Particulier</option>
+              <option>Professionnel</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="projet">Type de projet</label>
+            <select id="projet" class="form-select" required>
+              <option value="" disabled selected>Sélectionner</option>
+              <option>Fenêtres / Portes-fenêtres</option>
+              <option>Baie vitrée</option>
+              <option>Volets roulants</option>
+              <option>Pergola bioclimatique</option>
+              <option>Store banne</option>
+              <option>Porte de garage</option>
+              <option>Devanture commerciale</option>
+              <option>Plusieurs produits</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea id="message" class="form-textarea" placeholder="Décrivez votre projet, dimensions approximatives, contraintes particulières…"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="form-submit">Envoyer la demande</button>
+            <p class="form-note">Réponse sous 24h — aucun démarchage</p>
+          </div>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <p>Votre demande a bien été reçue.<br />Nous vous recontactons dans les meilleurs délais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-dark">
+    <div class="contact-layout">
+      <div class="contact-copy" data-reveal="1">
+        <div class="s-label s-label-light">Contact</div>
+        <div class="s-title s-title-light">Fabrication,<br />pose, suivi.</div>
+        <p class="s-body">Réponse sous 24h.<br />Offre détaillée sous 48h après mesures.</p>
+      </div>
+      <div class="contact-list" data-reveal="2">
+        <div class="contact-row">
+          <div class="c-label">Téléphone</div>
+          <div class="c-value">+33 6 64 77 37 00</div>
+        </div>
+        <div class="contact-row">
+          <div class="c-label">Email</div>
+          <div class="c-value"><a href="mailto:contact@matoba-menuiserie.fr">contact@matoba-menuiserie.fr</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="c-label">Site</div>
+          <div class="c-value"><a href="https://matoba-menuiserie.fr">matoba-menuiserie.fr</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="c-label">Zone d'intervention</div>
+          <div class="c-value">Marseille & PACA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">MATOBA</div>
+    <div class="footer-copy">Menuiserie extérieure sur mesure — Marseille & PACA — 2026</div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('stuck', window.scrollY > 60);
+    }, { passive: true });
+
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('on');
+          ro.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach((el) => ro.observe(el));
+
+    function faq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach((i) => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
     }
-  });
-}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  this.style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
-});
-</script>
-
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    });
+  </script>
 </body>
 </html>

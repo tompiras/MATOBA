@@ -103,6 +103,68 @@
     }
     nav.stuck .nav-cta { color: var(--slate) !important; border-color: var(--slate); }
 
+    /* ── INTRO GATE : overlay fixe par-dessus le site ── */
+    .intro-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: var(--ink);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px var(--x);
+      cursor: pointer;
+      transition: opacity 0.65s var(--ease), visibility 0.65s;
+    }
+    .intro-gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .intro-gate-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 34px;
+      width: 100%;
+      max-width: 760px;
+      pointer-events: none;
+    }
+    .intro-gate-brand {
+      font-size: clamp(30px, 6vw, 72px);
+      font-weight: 400;
+      letter-spacing: 0.34em;
+      color: var(--white);
+      padding-left: 0.34em;
+    }
+    .intro-gate-link {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      padding-top: 18px;
+      border-top: 0.75px solid rgba(255,255,255,0.18);
+      min-width: min(100%, 420px);
+      transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+    .intro-gate-link-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+    }
+    .intro-gate-link-sub {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.34);
+    }
+
     .hero {
       min-height: 100svh;
       background: var(--ink);
@@ -627,84 +689,24 @@
       .real-visual { height: 300px; }
       footer { flex-direction: column; align-items: flex-start; }
       .footer-copy { display: none; }
-    }
-  
-    .intro-gate {
-      min-height: 100svh;
-      background: var(--ink);
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px var(--x);
-      position: relative;
-    }
-    .intro-gate-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 34px;
-      width: 100%;
-      max-width: 760px;
-    }
-    .intro-gate-brand {
-      font-size: clamp(30px, 6vw, 72px);
-      font-weight: 400;
-      letter-spacing: 0.34em;
-      color: var(--white);
-      padding-left: 0.34em;
-    }
-    .intro-gate-link {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      padding-top: 18px;
-      border-top: 0.75px solid rgba(255,255,255,0.18);
-      min-width: min(100%, 420px);
-      transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-    }
-    .intro-gate-link:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.34);
-    }
-    .intro-gate-link-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.72);
-    }
-    .intro-gate-link-sub {
-      font-size: 14px;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.34);
-    }
-
-    @media (max-width: 780px) {
-      .intro-gate-inner { gap: 26px; }
       .intro-gate-link-sub { font-size: 13px; }
     }
   </style>
 </head>
 <body>
-  <section class="intro-gate" id="introGate">
+
+  <!-- GATE : overlay fixe, disparaît au clic -->
+  <div class="intro-gate" id="introGate" role="button" tabindex="0" aria-label="Entrer sur le site">
     <div class="intro-gate-inner">
       <div class="intro-gate-brand">MATOBA</div>
-      <a href="#mainSite" class="intro-gate-link">
+      <div class="intro-gate-link">
         <span class="intro-gate-link-label">Nos expertises</span>
         <span class="intro-gate-link-sub">Menuiseries extérieures & solutions associées</span>
-      </a>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <div id="mainSite">
-
+  <!-- SITE PRINCIPAL : toujours dans le flux normal -->
   <a href="tel:+33664773700" class="call-btn" aria-label="Appeler MATOBA">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 9.81 19.79 19.79 0 0 1 0 1.14 2 2 0 0 1 2 0h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -712,7 +714,7 @@
   </a>
 
   <nav id="nav">
-    <a href="#introGate" class="nav-logo">MATOBA</a>
+    <a href="#hero" class="nav-logo">MATOBA</a>
     <ul class="nav-links">
       <li><a href="#approche">Approche</a></li>
       <li><a href="#activites">Activités</a></li>
@@ -723,12 +725,12 @@
     </ul>
   </nav>
 
-  <header class="hero">
+  <header class="hero" id="hero">
     <div class="hero-inner">
       <div class="hero-copy">
         <div class="hero-eyebrow">Menuiserie extérieure — Marseille & PACA</div>
         <h1 class="hero-title">
-          Juste ce qu’il faut.<br />
+          Juste ce qu'il faut.<br />
           Bien exécuté.<br />
           <em>Sur mesure.</em>
         </h1>
@@ -772,7 +774,7 @@
   <section id="activites">
     <div class="s-label" data-reveal>Activités</div>
     <div class="s-title" data-reveal="1">Une seule exigence.<br />Plusieurs usages.</div>
-    <p class="s-body" data-reveal="2">Un interlocuteur unique pour des besoins différents, avec le même niveau d’exécution.</p>
+    <p class="s-body" data-reveal="2">Un interlocuteur unique pour des besoins différents, avec le même niveau d'exécution.</p>
     <div class="activities-grid">
       <div class="card" data-reveal="1">
         <div class="card-num">01</div>
@@ -798,8 +800,7 @@
       </div>
       <div class="card" data-reveal="2">
         <div class="card-num">02</div>
-        <div class="card-title">Des choix adaptés
-        </div>
+        <div class="card-title">Des choix adaptés</div>
         <div class="card-body">Chaque projet est orienté vers les bons fabricants et les bons artisans. Pas de solution figée.</div>
       </div>
       <div class="card" data-reveal="3">
@@ -877,22 +878,10 @@
   <section>
     <div class="s-label" data-reveal>Repères</div>
     <div class="metrics-grid">
-      <div class="metric-card" data-reveal="1">
-        <div class="metric-value">Clair</div>
-        <div class="metric-label">Lecture simple du projet</div>
-      </div>
-      <div class="metric-card" data-reveal="2">
-        <div class="metric-value">Adapté</div>
-        <div class="metric-label">Solution selon besoin réel</div>
-      </div>
-      <div class="metric-card" data-reveal="3">
-        <div class="metric-value">Suivi</div>
-        <div class="metric-label">Du devis à la réception</div>
-      </div>
-      <div class="metric-card" data-reveal="4">
-        <div class="metric-value">Exécution</div>
-        <div class="metric-label">Pose et finitions contrôlées</div>
-      </div>
+      <div class="metric-card" data-reveal="1"><div class="metric-value">Clair</div><div class="metric-label">Lecture simple du projet</div></div>
+      <div class="metric-card" data-reveal="2"><div class="metric-value">Adapté</div><div class="metric-label">Solution selon besoin réel</div></div>
+      <div class="metric-card" data-reveal="3"><div class="metric-value">Suivi</div><div class="metric-label">Du devis à la réception</div></div>
+      <div class="metric-card" data-reveal="4"><div class="metric-value">Exécution</div><div class="metric-label">Pose et finitions contrôlées</div></div>
     </div>
   </section>
 
@@ -922,26 +911,10 @@
     <div class="s-label" data-reveal>Engagement</div>
     <div class="s-title" data-reveal="1">Un cadre sérieux.<br />Sans sur-promesse.</div>
     <div class="pillars-grid">
-      <div class="card" data-reveal="1">
-        <div class="card-num">01</div>
-        <div class="card-title">Devis tenu</div>
-        <div class="card-body">Ce qui est annoncé est respecté. Pas d’ajustement en cours de chantier.</div>
-      </div>
-      <div class="card" data-reveal="2">
-        <div class="card-num">02</div>
-        <div class="card-title">Intervenants sélectionnés</div>
-        <div class="card-body">Artisans et fabricants choisis selon le projet. Pas par défaut.</div>
-      </div>
-      <div class="card" data-reveal="3">
-        <div class="card-num">03</div>
-        <div class="card-title">Exécution suivie</div>
-        <div class="card-body">Présence et contrôle jusqu’à la réception.</div>
-      </div>
-      <div class="card" data-reveal="4">
-        <div class="card-num">04</div>
-        <div class="card-title">Responsabilité</div>
-        <div class="card-body">Un seul point d’entrée. Un seul responsable.</div>
-      </div>
+      <div class="card" data-reveal="1"><div class="card-num">01</div><div class="card-title">Devis tenu</div><div class="card-body">Ce qui est annoncé est respecté. Pas d'ajustement en cours de chantier.</div></div>
+      <div class="card" data-reveal="2"><div class="card-num">02</div><div class="card-title">Intervenants sélectionnés</div><div class="card-body">Artisans et fabricants choisis selon le projet. Pas par défaut.</div></div>
+      <div class="card" data-reveal="3"><div class="card-num">03</div><div class="card-title">Exécution suivie</div><div class="card-body">Présence et contrôle jusqu'à la réception.</div></div>
+      <div class="card" data-reveal="4"><div class="card-num">04</div><div class="card-title">Responsabilité</div><div class="card-body">Un seul point d'entrée. Un seul responsable.</div></div>
     </div>
   </section>
 
@@ -1008,11 +981,31 @@
   </footer>
 
   <script>
+    // ── GATE : disparaît au clic, ou immédiatement si URL avec hash ──
+    const gate = document.getElementById('introGate');
+
+    function closeGate() {
+      gate.classList.add('hidden');
+    }
+
+    // Si l'URL contient un hash (#devis, #faq, etc.), on bypass la gate
+    if (window.location.hash) {
+      gate.style.transition = 'none';
+      closeGate();
+    }
+
+    gate.addEventListener('click', closeGate);
+    gate.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') closeGate();
+    });
+
+    // ── NAV sticky ──
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('stuck', window.scrollY > 60);
     }, { passive: true });
 
+    // ── Reveal au scroll ──
     const revealEls = document.querySelectorAll('[data-reveal]');
     const ro = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -1024,6 +1017,7 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     revealEls.forEach((el) => ro.observe(el));
 
+    // ── FAQ ──
     function faq(btn) {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
@@ -1031,12 +1025,13 @@
       if (!isOpen) item.classList.add('open');
     }
 
+    // ── Formulaire ──
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       this.style.display = 'none';
       document.getElementById('formSuccess').style.display = 'block';
     });
   </script>
-  </div>
+
 </body>
 </html>

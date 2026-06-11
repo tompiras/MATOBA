@@ -26,7 +26,6 @@
     body { font-family: 'Inter', sans-serif; font-weight: 300; background: var(--fog); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100vh; }
     a { color: inherit; text-decoration: none; }
 
-    /* ── NAV ── */
     .topbar {
       background: var(--white);
       border-bottom: 1px solid var(--rule);
@@ -40,7 +39,6 @@
     .btn-logout { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 6px 14px; background: none; cursor: pointer; transition: color .2s, border-color .2s; font-family: 'Inter', sans-serif; }
     .btn-logout:hover { color: var(--ink); border-color: var(--ink); }
 
-    /* ── LOGIN ── */
     #loginScreen {
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
@@ -53,106 +51,63 @@
     .login-form { display: flex; flex-direction: column; gap: 14px; }
     .login-group { display: flex; flex-direction: column; gap: 5px; }
     .login-label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
-    .login-input {
-      border: 1px solid var(--rule); background: var(--white); color: var(--ink);
-      padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300;
-      outline: none; border-radius: 0; transition: border-color .2s;
-    }
+    .login-input { border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300; outline: none; border-radius: 0; transition: border-color .2s; }
     .login-input:focus { border-color: var(--ink); }
     .login-input::placeholder { color: var(--rule); }
-    .login-btn {
-      margin-top: 8px; height: 44px; background: var(--ink); color: var(--white);
-      border: none; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em;
-      text-transform: uppercase; cursor: pointer; transition: background .2s;
-    }
+    .login-btn { margin-top: 8px; height: 44px; background: var(--ink); color: var(--white); border: none; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
     .login-btn:hover { background: #2a2a2a; }
-    .login-error { font-size: 12px; color: #c0392b; padding: 10px 14px; background: #fdf0ef; border: 1px solid #f5c6c6; display: none; }
+    .login-error { font-size: 12px; color: #c0392b; padding: 10px 14px; background: #fdf0ef; border: 1px solid #f5c6c6; display: none; margin-top: 4px; }
+    .login-loading { font-size: 12px; color: var(--stone); padding: 10px 0; display: none; }
 
-    /* ── APP ── */
     #app { display: none; }
     .page { max-width: 900px; margin: 0 auto; padding: 40px var(--x) 80px; }
 
-    /* ── HEADER CHANTIER ── */
-    .chantier-header {
-      background: var(--white);
-      border: 1px solid var(--rule);
-      padding: 28px 32px;
-      margin-bottom: 32px;
-    }
+    .chantier-header { background: var(--white); border: 1px solid var(--rule); padding: 28px 32px; margin-bottom: 32px; }
     .chantier-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 8px; }
     .chantier-name { font-size: clamp(20px, 3vw, 28px); font-weight: 200; letter-spacing: -.01em; margin-bottom: 16px; }
     .chantier-meta { display: flex; gap: 28px; flex-wrap: wrap; }
     .chantier-meta-item { font-size: 12px; color: var(--stone); }
     .chantier-meta-item strong { font-weight: 500; color: var(--ink); }
 
-    /* ── PROGRESS BAR ── */
     .progress-wrap { margin-bottom: 32px; }
     .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--stone); margin-bottom: 8px; letter-spacing: .04em; }
     .progress-track { height: 3px; background: var(--rule); }
     .progress-fill { height: 100%; background: var(--ink); transition: width .8s var(--ease); }
 
-    /* ── ÉTAPES ── */
     .etapes-list { display: flex; flex-direction: column; gap: 1px; }
-    .etape-item {
-      background: var(--white);
-      border: 1px solid var(--rule);
-      padding: 20px 24px;
-      display: grid;
-      grid-template-columns: 36px 1fr auto;
-      gap: 16px;
-      align-items: start;
-      transition: background .2s;
-    }
-    .etape-item.done { background: var(--white); }
-    .etape-item.active { border-color: var(--ink); background: var(--white); }
-    .etape-num {
-      font-size: 10px; letter-spacing: .1em; color: var(--stone);
-      font-weight: 500; padding-top: 3px;
-    }
+    .etape-item { background: var(--white); border: 1px solid var(--rule); padding: 20px 24px; display: grid; grid-template-columns: 36px 1fr auto; gap: 16px; align-items: start; }
+    .etape-item.active { border-color: var(--ink); }
+    .etape-num { font-size: 10px; letter-spacing: .1em; color: var(--stone); font-weight: 500; padding-top: 3px; }
     .etape-content { min-width: 0; }
     .etape-title { font-size: 14px; font-weight: 400; margin-bottom: 4px; }
     .etape-desc { font-size: 12px; line-height: 1.7; color: var(--stone); }
     .etape-date { font-size: 11px; color: var(--stone); margin-top: 6px; }
-    .badge {
-      font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
-      padding: 4px 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0;
-    }
-    .badge-done { background: var(--green-light); color: var(--green); }
+    .badge { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+    .badge-done   { background: var(--green-light); color: var(--green); }
     .badge-active { background: var(--orange-light); color: var(--orange); }
-    .badge-todo { background: var(--grey-light); color: var(--stone); }
+    .badge-todo   { background: var(--grey-light); color: var(--stone); }
 
-    /* ── ADMIN ── */
-    #adminPanel {
-      margin-top: 48px;
-      border-top: 1px solid var(--rule);
-      padding-top: 40px;
-    }
+    #adminPanel { margin-top: 48px; border-top: 1px solid var(--rule); padding-top: 40px; }
     .admin-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 24px; }
     .admin-form { display: flex; flex-direction: column; gap: 14px; background: var(--white); border: 1px solid var(--rule); padding: 24px; }
     .admin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .fg { display: flex; flex-direction: column; gap: 5px; }
     .flabel { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
-    .finput, .fselect, .ftextarea {
-      border: 1px solid var(--rule); background: var(--white); color: var(--ink);
-      padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 300;
-      outline: none; border-radius: 0; appearance: none; transition: border-color .2s;
-    }
+    .finput, .fselect, .ftextarea { border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 300; outline: none; border-radius: 0; appearance: none; transition: border-color .2s; width: 100%; }
     .finput:focus, .fselect:focus, .ftextarea:focus { border-color: var(--ink); }
     .finput::placeholder, .ftextarea::placeholder { color: var(--rule); }
     .fselect { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999490' stroke-width='1' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-color: var(--white); }
     .ftextarea { min-height: 80px; resize: vertical; line-height: 1.6; }
     .fsubmit { align-self: flex-start; height: 40px; padding: 0 22px; background: var(--ink); color: var(--white); border: none; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
     .fsubmit:hover { background: #2a2a2a; }
+    .fsubmit:disabled { background: var(--stone); cursor: wait; }
+
+    .chantier-selector { margin-bottom: 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .chantier-selector label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
 
     .etapes-manage { margin-top: 32px; }
     .etapes-manage-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 16px; }
-    .etape-manage-row {
-      display: grid; grid-template-columns: 1fr auto auto;
-      gap: 10px; align-items: center;
-      padding: 12px 16px;
-      background: var(--white); border: 1px solid var(--rule);
-      margin-bottom: 2px;
-    }
+    .etape-manage-row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 12px 16px; background: var(--white); border: 1px solid var(--rule); margin-bottom: 2px; }
     .etape-manage-info { font-size: 13px; }
     .etape-manage-status { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); }
     .btn-delete { background: none; border: none; cursor: pointer; color: var(--stone); font-size: 16px; padding: 2px 6px; transition: color .2s; }
@@ -160,13 +115,8 @@
     .btn-status { background: none; border: 1px solid var(--rule); cursor: pointer; font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; color: var(--stone); transition: all .2s; }
     .btn-status:hover { border-color: var(--ink); color: var(--ink); }
 
-    /* ── EMPTY STATE ── */
     .empty { padding: 48px 24px; text-align: center; border: 1px solid var(--rule); background: var(--white); }
     .empty-text { font-size: 13px; color: var(--stone); }
-
-    /* ── CHANTIER SELECTOR (admin) ── */
-    .chantier-selector { margin-bottom: 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .chantier-selector label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
 
     footer { padding: 20px var(--x); border-top: 1px solid var(--rule); background: var(--white); text-align: center; }
     .footer-txt { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--rule); }
@@ -182,7 +132,6 @@
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-brand">MΛTOBΛ</div>
@@ -197,12 +146,12 @@
         <input id="loginPwd" type="password" class="login-input" placeholder="••••••••" autocomplete="current-password" />
       </div>
       <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
-      <button class="login-btn" onclick="doLogin()">Accéder à mon chantier</button>
+      <div class="login-loading" id="loginLoading">Connexion en cours…</div>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon chantier</button>
     </div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div class="topbar">
     <div class="topbar-name">MΛTOBΛ</div>
@@ -214,15 +163,13 @@
 
   <div class="page">
 
-    <!-- HEADER CHANTIER -->
-    <div class="chantier-header" id="chantierHeader">
+    <div class="chantier-header" id="chantierHeader" style="display:none">
       <div class="chantier-tag" id="chantierTag"></div>
       <div class="chantier-name" id="chantierName"></div>
       <div class="chantier-meta" id="chantierMeta"></div>
     </div>
 
-    <!-- PROGRESS -->
-    <div class="progress-wrap">
+    <div class="progress-wrap" id="progressWrap" style="display:none">
       <div class="progress-label">
         <span>Avancement</span>
         <span id="progressPct">0%</span>
@@ -230,21 +177,17 @@
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     </div>
 
-    <!-- ÉTAPES -->
     <div class="etapes-list" id="etapesList"></div>
 
-    <!-- ADMIN PANEL -->
     <div id="adminPanel" style="display:none">
-      <div class="admin-title">Gestion du chantier</div>
+      <div class="admin-title">Gestion des chantiers</div>
 
-      <!-- Sélecteur chantier -->
       <div class="chantier-selector">
         <label>Chantier actif :</label>
         <select class="fselect" id="chantierSelect" onchange="switchChantier()" style="min-width:220px"></select>
         <button class="fsubmit" style="height:36px;font-size:10px" onclick="showNewChantierForm()">+ Nouveau chantier</button>
       </div>
 
-      <!-- Nouveau chantier -->
       <div id="newChantierForm" style="display:none;margin-bottom:24px;">
         <div class="admin-form">
           <div class="admin-row">
@@ -260,13 +203,12 @@
             <div class="fg"><label class="flabel">Début prévu</label><input type="text" class="finput" id="nc_debut" placeholder="Ex: Janvier 2025" /></div>
           </div>
           <div style="display:flex;gap:10px">
-            <button class="fsubmit" onclick="createChantier()">Créer le chantier</button>
+            <button class="fsubmit" id="btnCreateChantier" onclick="createChantier()">Créer le chantier</button>
             <button class="fsubmit" style="background:var(--stone)" onclick="document.getElementById('newChantierForm').style.display='none'">Annuler</button>
           </div>
         </div>
       </div>
 
-      <!-- Ajouter une étape -->
       <div class="admin-form">
         <div class="fg"><label class="flabel">Titre de l'étape</label><input type="text" class="finput" id="new_title" placeholder="Ex: Démolition et dépose" /></div>
         <div class="fg"><label class="flabel">Description</label><textarea class="ftextarea" id="new_desc" placeholder="Ex: Dépose des anciens revêtements, démolition des cloisons non porteuses."></textarea></div>
@@ -281,10 +223,9 @@
           </div>
           <div class="fg"><label class="flabel">Date (optionnel)</label><input type="text" class="finput" id="new_date" placeholder="Ex: 15 janvier 2025" /></div>
         </div>
-        <button class="fsubmit" onclick="addEtape()">Ajouter l'étape</button>
+        <button class="fsubmit" id="btnAddEtape" onclick="addEtape()">Ajouter l'étape</button>
       </div>
 
-      <!-- Liste des étapes à gérer -->
       <div class="etapes-manage" id="etapesManage"></div>
     </div>
 
@@ -294,103 +235,121 @@
 </div>
 
 <script>
-  const API = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
+  const API_URL     = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
   const ADMIN_LOGIN = 'admin';
   const ADMIN_PWD   = 'MATO889293';
 
   let currentUser     = null;
-  let currentChantier = null; // objet chantier complet
+  let currentChantier = null;
   let allChantiers    = [];
   let allEtapes       = [];
 
   // ── API ──
   async function api(action, data = {}) {
-    const res = await fetch(API, {
+    const res = await fetch(API_URL, {
       method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action, ...data })
     });
-    return res.json();
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch(e) { console.error('API parse error:', text); return { error: text }; }
   }
 
-  // ── LOADING ──
-  function setLoading(msg) {
+  // ── UI HELPERS ──
+  function showLoading(msg) {
     document.getElementById('etapesList').innerHTML = `<div class="empty"><div class="empty-text">${msg}</div></div>`;
+    document.getElementById('chantierHeader').style.display = 'none';
+    document.getElementById('progressWrap').style.display   = 'none';
+  }
+
+  function setBtn(id, disabled, text) {
+    const b = document.getElementById(id);
+    if (!b) return;
+    b.disabled    = disabled;
+    b.textContent = text;
   }
 
   // ── LOGIN ──
   async function doLogin() {
     const id  = document.getElementById('loginId').value.trim();
     const pwd = document.getElementById('loginPwd').value.trim();
-    const err = document.getElementById('loginError');
-    err.style.display = 'none';
-    setLoading('Connexion en cours…');
+    if (!id || !pwd) return;
 
-    if (id === ADMIN_LOGIN && pwd === ADMIN_PWD) {
-      currentUser = 'admin';
-      await loadChantiers();
-      showApp();
-      return;
+    document.getElementById('loginError').style.display   = 'none';
+    document.getElementById('loginLoading').style.display = 'block';
+    setBtn('loginBtn', true, 'Connexion…');
+
+    try {
+      // Admin
+      if (id === ADMIN_LOGIN && pwd === ADMIN_PWD) {
+        currentUser = 'admin';
+        allChantiers = await api('getChantiers');
+        if (!Array.isArray(allChantiers)) allChantiers = [];
+        currentChantier = allChantiers[0] || null;
+        showApp();
+        return;
+      }
+
+      // Client
+      const chantiers = await api('getChantiers');
+      if (!Array.isArray(chantiers)) throw new Error('Réponse invalide');
+      const found = chantiers.find(c => String(c.LOGIN).trim() === id && String(c.PWD).trim() === pwd);
+      if (found) {
+        currentUser     = 'client';
+        currentChantier = found;
+        allChantiers    = chantiers;
+        showApp();
+        return;
+      }
+
+      document.getElementById('loginError').style.display = 'block';
+    } catch(e) {
+      document.getElementById('loginError').textContent    = 'Erreur de connexion. Réessayez.';
+      document.getElementById('loginError').style.display  = 'block';
+    } finally {
+      document.getElementById('loginLoading').style.display = 'none';
+      setBtn('loginBtn', false, 'Accéder à mon chantier');
     }
-
-    // Chercher dans les chantiers
-    const chantiers = await api('getChantiers');
-    const found = chantiers.find(c => c.LOGIN === id && c.PWD === pwd);
-    if (found) {
-      currentUser     = 'client';
-      currentChantier = found;
-      allChantiers    = chantiers;
-      showApp();
-      return;
-    }
-
-    err.style.display = 'block';
-    document.getElementById('etapesList').innerHTML = '';
   }
 
   document.getElementById('loginPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-  document.getElementById('loginId').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('loginId').addEventListener('keydown',  e => { if (e.key === 'Enter') doLogin(); });
 
   function doLogout() {
     currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
-    document.getElementById('app').style.display = 'none';
+    document.getElementById('app').style.display         = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('loginId').value = '';
+    document.getElementById('loginId').value  = '';
     document.getElementById('loginPwd').value = '';
-  }
-
-  // ── LOAD DATA ──
-  async function loadChantiers() {
-    allChantiers = await api('getChantiers');
-    if (allChantiers.length > 0 && !currentChantier) {
-      currentChantier = allChantiers[0];
-    }
-  }
-
-  async function loadEtapes() {
-    if (!currentChantier) return;
-    allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+    document.getElementById('loginError').style.display = 'none';
   }
 
   // ── SHOW APP ──
   async function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+    document.getElementById('app').style.display         = 'block';
 
     if (currentUser === 'admin') {
-      document.getElementById('topbarLabel').textContent = 'Administration';
+      document.getElementById('topbarLabel').textContent  = 'Administration';
       document.getElementById('adminPanel').style.display = 'block';
       buildChantierSelect();
       if (currentChantier) {
-        await loadEtapes();
+        showLoading('Chargement…');
+        allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+        if (!Array.isArray(allEtapes)) allEtapes = [];
         renderChantier();
       } else {
-        setLoading('Aucun chantier. Créez votre premier chantier ci-dessous.');
-        document.getElementById('chantierHeader').style.display = 'none';
+        document.getElementById('etapesList').innerHTML =
+          '<div class="empty"><div class="empty-text">Aucun chantier. Créez votre premier chantier ci-dessous.</div></div>';
       }
     } else {
-      document.getElementById('topbarLabel').textContent = currentChantier?.NAME || '';
+      document.getElementById('topbarLabel').textContent  = currentChantier?.NAME || '';
       document.getElementById('adminPanel').style.display = 'none';
-      await loadEtapes();
+      showLoading('Chargement de votre chantier…');
+      allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+      if (!Array.isArray(allEtapes)) allEtapes = [];
       renderChantier();
     }
   }
@@ -401,8 +360,10 @@
     if (!c) return;
 
     document.getElementById('chantierHeader').style.display = '';
-    document.getElementById('chantierTag').textContent  = c.TYPE || 'Chantier';
-    document.getElementById('chantierName').textContent = c.NAME || '';
+    document.getElementById('progressWrap').style.display   = '';
+    document.getElementById('chantierTag').textContent      = c.TYPE  || 'Chantier';
+    document.getElementById('chantierName').textContent     = c.NAME  || '';
+
     let metaHtml = '';
     if (c.ADRESSE) metaHtml += `<div class="chantier-meta-item"><strong>Adresse</strong> — ${c.ADRESSE}</div>`;
     if (c.DEBUT)   metaHtml += `<div class="chantier-meta-item"><strong>Début</strong> — ${c.DEBUT}</div>`;
@@ -410,26 +371,24 @@
 
     const done = allEtapes.filter(e => e.STATUS === 'done').length;
     const pct  = allEtapes.length ? Math.round((done / allEtapes.length) * 100) : 0;
-    document.getElementById('progressPct').textContent  = pct + '%';
-    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent      = pct + '%';
+    document.getElementById('progressFill').style.width     = pct + '%';
 
     const list = document.getElementById('etapesList');
     if (allEtapes.length === 0) {
       list.innerHTML = '<div class="empty"><div class="empty-text">Aucune étape pour ce chantier.</div></div>';
     } else {
       list.innerHTML = allEtapes.map((e, i) => `
-        <div class="etape-item ${e.STATUS === 'done' ? 'done' : e.STATUS === 'active' ? 'active' : ''}">
+        <div class="etape-item ${e.STATUS === 'active' ? 'active' : ''}">
           <div class="etape-num">${String(i+1).padStart(2,'0')}</div>
           <div class="etape-content">
-            <div class="etape-title">${e.TITLE}</div>
+            <div class="etape-title">${e.TITLE || ''}</div>
             ${e.DESC ? `<div class="etape-desc">${e.DESC}</div>` : ''}
             ${e.DATE ? `<div class="etape-date">${e.DATE}</div>` : ''}
           </div>
-          <div>
-            <span class="badge badge-${e.STATUS === 'done' ? 'done' : e.STATUS === 'active' ? 'active' : 'todo'}">
-              ${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}
-            </span>
-          </div>
+          <span class="badge badge-${e.STATUS === 'done' ? 'done' : e.STATUS === 'active' ? 'active' : 'todo'}">
+            ${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}
+          </span>
         </div>
       `).join('');
     }
@@ -444,7 +403,7 @@
       <div class="etapes-manage-title">Étapes existantes</div>
       ${allEtapes.map((e, i) => `
         <div class="etape-manage-row">
-          <div class="etape-manage-info">${String(i+1).padStart(2,'0')} — ${e.TITLE}</div>
+          <div class="etape-manage-info">${String(i+1).padStart(2,'0')} — ${e.TITLE || ''}</div>
           <div class="etape-manage-status">${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}</div>
           <div style="display:flex;gap:6px">
             <button class="btn-status" onclick="cycleStatus('${e.ID}','${e.STATUS}')">Changer statut</button>
@@ -458,15 +417,17 @@
   // ── ADMIN ──
   function buildChantierSelect() {
     const sel = document.getElementById('chantierSelect');
+    if (allChantiers.length === 0) { sel.innerHTML = '<option>Aucun chantier</option>'; return; }
     sel.innerHTML = allChantiers.map(c => `<option value="${c.ID}">${c.NAME}</option>`).join('');
     if (currentChantier) sel.value = currentChantier.ID;
   }
 
   async function switchChantier() {
     const id = document.getElementById('chantierSelect').value;
-    currentChantier = allChantiers.find(c => c.ID === id);
-    setLoading('Chargement…');
-    await loadEtapes();
+    currentChantier = allChantiers.find(c => c.ID === id) || null;
+    showLoading('Chargement…');
+    allEtapes = await api('getEtapes', { chantier_id: id });
+    if (!Array.isArray(allEtapes)) allEtapes = [];
     renderChantier();
   }
 
@@ -481,18 +442,23 @@
     const type    = document.getElementById('nc_type').value.trim();
     const adresse = document.getElementById('nc_adresse').value.trim();
     const debut   = document.getElementById('nc_debut').value.trim();
-    if (!name || !login || !pwd) { alert('Nom, identifiant et mot de passe obligatoires.'); return; }
+    if (!name || !login || !pwd) { alert('Nom, identifiant et mot de passe sont obligatoires.'); return; }
 
+    setBtn('btnCreateChantier', true, 'Création…');
     const r = await api('createChantier', { NAME: name, LOGIN: login, PWD: pwd, TYPE: type, ADRESSE: adresse, DEBUT: debut });
+    setBtn('btnCreateChantier', false, 'Créer le chantier');
+
     if (r.success) {
-      await loadChantiers();
+      allChantiers = await api('getChantiers');
+      if (!Array.isArray(allChantiers)) allChantiers = [];
       currentChantier = allChantiers.find(c => c.ID === r.id) || allChantiers[allChantiers.length - 1];
       allEtapes = [];
       document.getElementById('newChantierForm').style.display = 'none';
-      document.getElementById('chantierHeader').style.display = '';
       buildChantierSelect();
       renderChantier();
       ['nc_name','nc_login','nc_pwd','nc_type','nc_adresse','nc_debut'].forEach(id => document.getElementById(id).value = '');
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
     }
   }
 
@@ -504,27 +470,35 @@
     if (!title) { alert('Le titre est obligatoire.'); return; }
     if (!currentChantier) { alert('Sélectionnez un chantier.'); return; }
 
-    setLoading('Enregistrement…');
-    await api('addEtape', { chantier_id: currentChantier.ID, title, desc, status, date });
-    await loadEtapes();
-    renderChantier();
-    document.getElementById('new_title').value = '';
-    document.getElementById('new_desc').value  = '';
-    document.getElementById('new_date').value  = '';
-    document.getElementById('new_status').value = 'todo';
+    setBtn('btnAddEtape', true, 'Enregistrement…');
+    const r = await api('addEtape', { chantier_id: currentChantier.ID, title, desc, status, date });
+    if (r.success) {
+      allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+      if (!Array.isArray(allEtapes)) allEtapes = [];
+      renderChantier();
+      document.getElementById('new_title').value  = '';
+      document.getElementById('new_desc').value   = '';
+      document.getElementById('new_date').value   = '';
+      document.getElementById('new_status').value = 'todo';
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+    setBtn('btnAddEtape', false, 'Ajouter l\'étape');
   }
 
   async function cycleStatus(id, current) {
     const cycle = { todo: 'active', active: 'done', done: 'todo' };
-    await api('updateEtape', { id, status: cycle[current] });
-    await loadEtapes();
+    await api('updateEtape', { id, status: cycle[current] || 'todo' });
+    allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+    if (!Array.isArray(allEtapes)) allEtapes = [];
     renderChantier();
   }
 
   async function deleteEtape(id) {
     if (!confirm('Supprimer cette étape ?')) return;
     await api('deleteEtape', { id });
-    await loadEtapes();
+    allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+    if (!Array.isArray(allEtapes)) allEtapes = [];
     renderChantier();
   }
 </script>

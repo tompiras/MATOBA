@@ -79,10 +79,17 @@
     }
     nav.stuck { background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-color: var(--rule); }
     .nav-name { font-size: 13px; font-weight: 200; letter-spacing: .55em; padding-left: .55em; color: var(--ink); }
-    .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: nowrap; }
+    .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: nowrap; align-items: center; }
     .nav-links a { font-size: 11px; letter-spacing: .04em; color: var(--stone); transition: color .2s; white-space: nowrap; }
     .nav-links a:hover { color: var(--ink); }
     .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
+    /* Bouton espace client mobile — toujours visible */
+    .nav-client-mobile {
+      display: none;
+      font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px;
+      white-space: nowrap;
+    }
 
     /* ── HERO ── */
     .hero {
@@ -349,6 +356,7 @@
 
       /* nav */
       .nav-links { display: none; }
+      .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
 
       /* hero */
@@ -408,7 +416,7 @@
 </div>
 
 <nav id="nav">
-  <a href="#" class="nav-name"><span class="brand">MΛTOBΛ</span></a>
+  <a href="/" class="nav-name"><span class="brand">MΛTOBΛ</span></a>
   <ul class="nav-links">
     <li><a href="#modele">Notre modèle</a></li>
     <li><a href="#savoir-faire">Savoir-faire</a></li>
@@ -416,6 +424,7 @@
     <li><a href="#contact" class="nav-cta">Contact</a></li>
     <li><a href="/suivi-chantier.html" class="nav-cta" style="border-color:var(--stone);color:var(--stone)!important;">Espace client</a></li>
   </ul>
+  <a href="/suivi-chantier.html" class="nav-client-mobile">Espace client</a>
 </nav>
 
 <header class="hero">

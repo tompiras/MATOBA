@@ -244,13 +244,15 @@
   let allChantiers    = [];
   let allEtapes       = [];
 
-  // ── API ──
+  // ── API via GET (contourne CORS Google Apps Script) ──
   async function api(action, data = {}) {
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action, ...data })
+    const params = new URLSearchParams({
+      action: action,
+      data: JSON.stringify(data)
+    });
+    const res = await fetch(API_URL + '?' + params.toString(), {
+      method: 'GET',
+      redirect: 'follow'
     });
     const text = await res.text();
     try { return JSON.parse(text); }

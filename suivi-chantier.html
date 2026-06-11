@@ -244,19 +244,31 @@
   let allChantiers    = [];
   let allEtapes       = [];
 
-  // ── API via GET (contourne CORS Google Apps Script) ──
-  async function api(action, data = {}) {
-    const params = new URLSearchParams({
-      action: action,
-      data: JSON.stringify(data)
+  // ── API via JSONP — contourne le CORS Google Apps Script ──
+  function api(action, data = {}) {
+    return new Promise((resolve, reject) => {
+      const callbackName = 'cb_' + Date.now() + '_' + Math.round(Math.random() * 1000);
+      const params = new URLSearchParams({
+        action: action,
+        data: JSON.stringify(data),
+        callback: callbackName
+      });
+
+      window[callbackName] = function(result) {
+        delete window[callbackName];
+        document.head.removeChild(script);
+        resolve(result);
+      };
+
+      const script = document.createElement('script');
+      script.src = API_URL + '?' + params.toString();
+      script.onerror = function() {
+        delete window[callbackName];
+        document.head.removeChild(script);
+        reject(new Error('Erreur réseau'));
+      };
+      document.head.appendChild(script);
     });
-    const res = await fetch(API_URL + '?' + params.toString(), {
-      method: 'GET',
-      redirect: 'follow'
-    });
-    const text = await res.text();
-    try { return JSON.parse(text); }
-    catch(e) { console.error('API parse error:', text); return { error: text }; }
   }
 
   // ── UI HELPERS ──

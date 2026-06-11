@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MATOBA — Contractant Général</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Space+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Space+Mono&display=swap" rel="stylesheet" />
   <style>
     /* ── TOKENS ── */
     :root {
@@ -59,10 +59,10 @@
     }
     #gate.out { opacity: 0; visibility: hidden; pointer-events: none; }
     .gate-name {
-      font-size: clamp(22px, 4vw, 44px);
+      font-size: clamp(24px, 5vw, 56px);
       font-weight: 200;
-      letter-spacing: .72em;
-      padding-left: .72em;
+      letter-spacing: .9em;
+      padding-left: .9em;
       color: var(--ink);
       opacity: 0;
       animation: up .8s var(--ease) .2s forwards;
@@ -82,8 +82,8 @@
     }
     nav.stuck { background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-color: var(--rule); }
     .nav-name {
-      font-size: 13px; font-weight: 200;
-      letter-spacing: .68em; padding-left: .68em;
+      font-size: 16px; font-weight: 200;
+      letter-spacing: .72em; padding-left: .72em;
       color: var(--ink);
     }
     .nav-links { display: flex; list-style: none; gap: 28px; }
@@ -230,17 +230,17 @@
       font-size: 8px; letter-spacing: .18em; text-transform: uppercase;
       color: var(--stone); margin-bottom: 8px;
     }
-    .orga-cell.center .orga-eyebrow { color: rgba(255,255,255,.3); }
+    ..orga-cell.center .orga-eyebrow { color: rgba(255,255,255,.75); }
     .orga-title {
       font-size: clamp(14px, 1.6vw, 18px); font-weight: 400;
       color: var(--ink); line-height: 1.2;
     }
-    .orga-cell.center .orga-title { color: var(--white); font-weight: 200; font-size: clamp(15px, 1.8vw, 20px); letter-spacing: .06em; }
+    .orga-cell.center .orga-title { color: #ffffff; font-weight: 600; font-size: clamp(15px, 1.8vw, 20px); letter-spacing: .38em; }
     .orga-sub {
       margin-top: 10px; font-size: 12px; line-height: 1.9;
       color: var(--stone);
     }
-    .orga-cell.center .orga-sub { color: rgba(255,255,255,.35); }
+    .orga-cell.center .orga-sub { color: rgba(255,255,255,.7); }
     /* Flèche */
     .orga-arrow {
       display: flex; flex-direction: column;
@@ -286,7 +286,7 @@
     .garantie-tag {
       font-family: 'Space Mono', monospace;
       font-size: 8px; letter-spacing: .2em; text-transform: uppercase;
-      color: rgba(255,255,255,.25); flex-shrink: 0;
+      color: rgba(255,255,255,.75); flex-shrink: 0;
     }
     .garantie-text { font-size: clamp(13px, 1.5vw, 16px); font-weight: 200; line-height: 1.6; color: rgba(255,255,255,.75); }
     .garantie-text strong { font-weight: 400; color: var(--white); }
@@ -419,7 +419,8 @@
 
     <div>
       <div class="hero-tag">Contractant général — Marseille &amp; région</div>
-      <h1>Un projet.<br/>Un pilote.<br/><em>Une responsabilité.</em></h1>
+      <h1>Un projet.<br/>Un pilote.<br/>Une responsabilité.</h1>
+      <p style="font-size:13px;line-height:1.8;color:var(--stone);max-width:320px;margin-bottom:32px;">De la conception à la livraison.</p>
       <div class="hero-cta">
         <a href="#contact" class="btn">Nous contacter</a>
       </div>
@@ -509,7 +510,7 @@
   <div class="modele-head">
     <div>
       <div class="eyebrow" data-reveal>Notre modèle</div>
-      <h2 data-reveal="1">Vous signez avec nous.<br/>On s'occupe de tout.</h2>
+      <h2 data-reveal="1">Vous nous confiez le projet.<br/>Nous en portons l’exécution.</h2>
     </div>
     <div class="modele-quote" data-reveal="2">
       Un seul contrat. Un seul interlocuteur. De la conception jusqu'à la remise des clés — <span class="brand">MΛTOBΛ</span> pilote chaque intervenant à votre place.

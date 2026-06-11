@@ -122,11 +122,44 @@
     .footer-txt { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--rule); }
 
     @media (max-width: 600px) {
+      :root { --x: 16px; }
+
+      /* topbar */
+      .topbar { padding: 14px var(--x); }
+      .topbar-name { font-size: 12px; letter-spacing: .38em; }
+      .topbar-label { display: none; }
+      .btn-logout { font-size: 10px; padding: 5px 10px; }
+
+      /* page */
+      .page { padding: 20px var(--x) 60px; }
+
+      /* header chantier */
+      .chantier-header { padding: 18px 16px; margin-bottom: 20px; }
+      .chantier-name { font-size: 20px; }
+      .chantier-meta { flex-direction: column; gap: 6px; }
+
+      /* étapes */
+      .etape-item { grid-template-columns: 28px 1fr; gap: 10px; padding: 16px; }
+      .badge { display: inline-block; margin-top: 8px; font-size: 8px; }
+
+      /* admin */
       .admin-row { grid-template-columns: 1fr; }
-      .etape-item { grid-template-columns: 28px 1fr; }
-      .badge { display: block; margin-top: 8px; }
+      .chantier-selector { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .chantier-selector select { width: 100%; min-width: unset !important; }
+      .fsubmit { width: 100%; text-align: center; justify-content: center; }
+      .admin-form { padding: 16px; }
+
+      /* inputs — évite zoom iOS */
+      .finput, .fselect, .ftextarea, .login-input { font-size: 16px !important; }
+
+      /* manage rows */
       .etape-manage-row { grid-template-columns: 1fr auto; }
       .etape-manage-status { display: none; }
+      .btn-status { font-size: 9px; padding: 4px 8px; }
+
+      /* login */
+      .login-box { max-width: 100%; }
+      .login-brand { font-size: 16px; }
     }
   </style>
 </head>
@@ -244,6 +277,30 @@
   let allChantiers    = [];
   let allEtapes       = [];
 
+  // ── SESSION persistante ──
+  function saveSession() {
+    sessionStorage.setItem('matoba_user', currentUser);
+    sessionStorage.setItem('matoba_chantier', JSON.stringify(currentChantier));
+  }
+  function clearSession() {
+    sessionStorage.removeItem('matoba_user');
+    sessionStorage.removeItem('matoba_chantier');
+  }
+  async function restoreSession() {
+    const user     = sessionStorage.getItem('matoba_user');
+    const chantier = sessionStorage.getItem('matoba_chantier');
+    if (!user) return;
+    currentUser = user;
+    if (chantier) currentChantier = JSON.parse(chantier);
+    if (currentUser === 'admin') {
+      allChantiers = await api('getChantiers');
+      if (!Array.isArray(allChantiers)) allChantiers = [];
+      if (!currentChantier && allChantiers.length > 0) currentChantier = allChantiers[0];
+    }
+    showApp();
+  }
+  restoreSession();
+
   // ── API via proxy Cloudflare Worker (tous navigateurs) ──
   const PROXY = 'https://matoba-proxy.tom-piras.workers.dev/';
 
@@ -292,6 +349,7 @@
         allChantiers = await api('getChantiers');
         if (!Array.isArray(allChantiers)) allChantiers = [];
         currentChantier = allChantiers[0] || null;
+        saveSession();
         showApp();
         return;
       }
@@ -304,6 +362,7 @@
         currentUser     = 'client';
         currentChantier = found;
         allChantiers    = chantiers;
+        saveSession();
         showApp();
         return;
       }
@@ -322,6 +381,7 @@
   document.getElementById('loginId').addEventListener('keydown',  e => { if (e.key === 'Enter') doLogin(); });
 
   function doLogout() {
+    clearSession();
     currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
     document.getElementById('app').style.display         = 'none';
     document.getElementById('loginScreen').style.display = 'flex';

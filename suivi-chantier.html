@@ -294,28 +294,27 @@
 </div>
 
 <script>
-  // ── CONFIGURATION ──
-  // Compte admin
+  const API = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
   const ADMIN_LOGIN = 'admin';
   const ADMIN_PWD   = 'matoba_admin_2024';
 
-  // ── STATE ──
-  let currentUser = null;
-  let currentChantier = null;
-  let allData = {};
+  let currentUser     = null;
+  let currentChantier = null; // objet chantier complet
+  let allChantiers    = [];
+  let allEtapes       = [];
 
-  // ── STORAGE HELPERS ──
-  async function load() {
-    try {
-      const r = await window.storage.get('matoba_chantiers');
-      allData = r ? JSON.parse(r.value) : {};
-    } catch(e) { allData = {}; }
+  // ── API ──
+  async function api(action, data = {}) {
+    const res = await fetch(API, {
+      method: 'POST',
+      body: JSON.stringify({ action, ...data })
+    });
+    return res.json();
   }
 
-  async function save() {
-    try {
-      await window.storage.set('matoba_chantiers', JSON.stringify(allData));
-    } catch(e) { console.error('Save error', e); }
+  // ── LOADING ──
+  function setLoading(msg) {
+    document.getElementById('etapesList').innerHTML = `<div class="empty"><div class="empty-text">${msg}</div></div>`;
   }
 
   // ── LOGIN ──
@@ -324,43 +323,56 @@
     const pwd = document.getElementById('loginPwd').value.trim();
     const err = document.getElementById('loginError');
     err.style.display = 'none';
-
-    await load();
+    setLoading('Connexion en cours…');
 
     if (id === ADMIN_LOGIN && pwd === ADMIN_PWD) {
       currentUser = 'admin';
+      await loadChantiers();
       showApp();
       return;
     }
 
     // Chercher dans les chantiers
-    for (const key in allData) {
-      const c = allData[key];
-      if (c.login === id && c.pwd === pwd) {
-        currentUser = 'client';
-        currentChantier = key;
-        showApp();
-        return;
-      }
+    const chantiers = await api('getChantiers');
+    const found = chantiers.find(c => c.LOGIN === id && c.PWD === pwd);
+    if (found) {
+      currentUser     = 'client';
+      currentChantier = found;
+      allChantiers    = chantiers;
+      showApp();
+      return;
     }
 
     err.style.display = 'block';
+    document.getElementById('etapesList').innerHTML = '';
   }
 
   document.getElementById('loginPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('loginId').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
   function doLogout() {
-    currentUser = null;
-    currentChantier = null;
+    currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
     document.getElementById('app').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginId').value = '';
     document.getElementById('loginPwd').value = '';
   }
 
+  // ── LOAD DATA ──
+  async function loadChantiers() {
+    allChantiers = await api('getChantiers');
+    if (allChantiers.length > 0 && !currentChantier) {
+      currentChantier = allChantiers[0];
+    }
+  }
+
+  async function loadEtapes() {
+    if (!currentChantier) return;
+    allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+  }
+
   // ── SHOW APP ──
-  function showApp() {
+  async function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
@@ -368,99 +380,93 @@
       document.getElementById('topbarLabel').textContent = 'Administration';
       document.getElementById('adminPanel').style.display = 'block';
       buildChantierSelect();
-      // Afficher le premier chantier si existe
-      const keys = Object.keys(allData);
-      if (keys.length > 0) {
-        currentChantier = keys[0];
+      if (currentChantier) {
+        await loadEtapes();
         renderChantier();
       } else {
-        document.getElementById('etapesList').innerHTML = '<div class="empty"><div class="empty-text">Aucun chantier créé. Créez votre premier chantier ci-dessous.</div></div>';
+        setLoading('Aucun chantier. Créez votre premier chantier ci-dessous.');
         document.getElementById('chantierHeader').style.display = 'none';
-        document.getElementById('progressWrap').style.display = 'none';
       }
     } else {
-      document.getElementById('topbarLabel').textContent = allData[currentChantier]?.name || '';
+      document.getElementById('topbarLabel').textContent = currentChantier?.NAME || '';
       document.getElementById('adminPanel').style.display = 'none';
+      await loadEtapes();
       renderChantier();
     }
   }
 
-  // ── RENDER CHANTIER ──
+  // ── RENDER ──
   function renderChantier() {
-    const c = allData[currentChantier];
+    const c = currentChantier;
     if (!c) return;
 
-    // Header
-    document.getElementById('chantierTag').textContent = c.type || 'Chantier';
-    document.getElementById('chantierName').textContent = c.name || '';
+    document.getElementById('chantierHeader').style.display = '';
+    document.getElementById('chantierTag').textContent  = c.TYPE || 'Chantier';
+    document.getElementById('chantierName').textContent = c.NAME || '';
     let metaHtml = '';
-    if (c.adresse) metaHtml += `<div class="chantier-meta-item"><strong>Adresse</strong> — ${c.adresse}</div>`;
-    if (c.debut)   metaHtml += `<div class="chantier-meta-item"><strong>Début</strong> — ${c.debut}</div>`;
+    if (c.ADRESSE) metaHtml += `<div class="chantier-meta-item"><strong>Adresse</strong> — ${c.ADRESSE}</div>`;
+    if (c.DEBUT)   metaHtml += `<div class="chantier-meta-item"><strong>Début</strong> — ${c.DEBUT}</div>`;
     document.getElementById('chantierMeta').innerHTML = metaHtml;
 
-    // Progress
-    const etapes = c.etapes || [];
-    const done = etapes.filter(e => e.status === 'done').length;
-    const pct = etapes.length ? Math.round((done / etapes.length) * 100) : 0;
-    document.getElementById('progressPct').textContent = pct + '%';
+    const done = allEtapes.filter(e => e.STATUS === 'done').length;
+    const pct  = allEtapes.length ? Math.round((done / allEtapes.length) * 100) : 0;
+    document.getElementById('progressPct').textContent  = pct + '%';
     document.getElementById('progressFill').style.width = pct + '%';
 
-    // Étapes
     const list = document.getElementById('etapesList');
-    if (etapes.length === 0) {
+    if (allEtapes.length === 0) {
       list.innerHTML = '<div class="empty"><div class="empty-text">Aucune étape pour ce chantier.</div></div>';
     } else {
-      list.innerHTML = etapes.map((e, i) => `
-        <div class="etape-item ${e.status === 'done' ? 'done' : e.status === 'active' ? 'active' : ''}">
+      list.innerHTML = allEtapes.map((e, i) => `
+        <div class="etape-item ${e.STATUS === 'done' ? 'done' : e.STATUS === 'active' ? 'active' : ''}">
           <div class="etape-num">${String(i+1).padStart(2,'0')}</div>
           <div class="etape-content">
-            <div class="etape-title">${e.title}</div>
-            ${e.desc ? `<div class="etape-desc">${e.desc}</div>` : ''}
-            ${e.date ? `<div class="etape-date">${e.date}</div>` : ''}
+            <div class="etape-title">${e.TITLE}</div>
+            ${e.DESC ? `<div class="etape-desc">${e.DESC}</div>` : ''}
+            ${e.DATE ? `<div class="etape-date">${e.DATE}</div>` : ''}
           </div>
           <div>
-            <span class="badge badge-${e.status === 'done' ? 'done' : e.status === 'active' ? 'active' : 'todo'}">
-              ${e.status === 'done' ? 'Terminé' : e.status === 'active' ? 'En cours' : 'À venir'}
+            <span class="badge badge-${e.STATUS === 'done' ? 'done' : e.STATUS === 'active' ? 'active' : 'todo'}">
+              ${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}
             </span>
           </div>
         </div>
       `).join('');
     }
 
-    // Admin manage list
     if (currentUser === 'admin') renderManageList();
   }
 
   function renderManageList() {
-    const c = allData[currentChantier];
-    if (!c) return;
-    const etapes = c.etapes || [];
     const div = document.getElementById('etapesManage');
-    if (etapes.length === 0) { div.innerHTML = ''; return; }
+    if (allEtapes.length === 0) { div.innerHTML = ''; return; }
     div.innerHTML = `
       <div class="etapes-manage-title">Étapes existantes</div>
-      ${etapes.map((e, i) => `
+      ${allEtapes.map((e, i) => `
         <div class="etape-manage-row">
-          <div class="etape-manage-info">${String(i+1).padStart(2,'0')} — ${e.title}</div>
-          <div class="etape-manage-status">${e.status === 'done' ? 'Terminé' : e.status === 'active' ? 'En cours' : 'À venir'}</div>
+          <div class="etape-manage-info">${String(i+1).padStart(2,'0')} — ${e.TITLE}</div>
+          <div class="etape-manage-status">${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}</div>
           <div style="display:flex;gap:6px">
-            <button class="btn-status" onclick="cycleStatus(${i})">Changer statut</button>
-            <button class="btn-delete" onclick="deleteEtape(${i})">✕</button>
+            <button class="btn-status" onclick="cycleStatus('${e.ID}','${e.STATUS}')">Changer statut</button>
+            <button class="btn-delete" onclick="deleteEtape('${e.ID}')">✕</button>
           </div>
         </div>
       `).join('')}
     `;
   }
 
-  // ── ADMIN ACTIONS ──
+  // ── ADMIN ──
   function buildChantierSelect() {
     const sel = document.getElementById('chantierSelect');
-    sel.innerHTML = Object.keys(allData).map(k => `<option value="${k}">${allData[k].name}</option>`).join('');
-    if (currentChantier) sel.value = currentChantier;
+    sel.innerHTML = allChantiers.map(c => `<option value="${c.ID}">${c.NAME}</option>`).join('');
+    if (currentChantier) sel.value = currentChantier.ID;
   }
 
-  function switchChantier() {
-    currentChantier = document.getElementById('chantierSelect').value;
+  async function switchChantier() {
+    const id = document.getElementById('chantierSelect').value;
+    currentChantier = allChantiers.find(c => c.ID === id);
+    setLoading('Chargement…');
+    await loadEtapes();
     renderChantier();
   }
 
@@ -476,16 +482,18 @@
     const adresse = document.getElementById('nc_adresse').value.trim();
     const debut   = document.getElementById('nc_debut').value.trim();
     if (!name || !login || !pwd) { alert('Nom, identifiant et mot de passe obligatoires.'); return; }
-    const key = 'chantier_' + Date.now();
-    allData[key] = { name, login, pwd, type, adresse, debut, etapes: [] };
-    await save();
-    currentChantier = key;
-    document.getElementById('newChantierForm').style.display = 'none';
-    document.getElementById('chantierHeader').style.display = '';
-    buildChantierSelect();
-    renderChantier();
-    // Reset
-    ['nc_name','nc_login','nc_pwd','nc_type','nc_adresse','nc_debut'].forEach(id => document.getElementById(id).value = '');
+
+    const r = await api('createChantier', { NAME: name, LOGIN: login, PWD: pwd, TYPE: type, ADRESSE: adresse, DEBUT: debut });
+    if (r.success) {
+      await loadChantiers();
+      currentChantier = allChantiers.find(c => c.ID === r.id) || allChantiers[allChantiers.length - 1];
+      allEtapes = [];
+      document.getElementById('newChantierForm').style.display = 'none';
+      document.getElementById('chantierHeader').style.display = '';
+      buildChantierSelect();
+      renderChantier();
+      ['nc_name','nc_login','nc_pwd','nc_type','nc_adresse','nc_debut'].forEach(id => document.getElementById(id).value = '');
+    }
   }
 
   async function addEtape() {
@@ -494,29 +502,29 @@
     const status = document.getElementById('new_status').value;
     const date   = document.getElementById('new_date').value.trim();
     if (!title) { alert('Le titre est obligatoire.'); return; }
-    if (!allData[currentChantier]) { alert('Sélectionnez un chantier.'); return; }
-    allData[currentChantier].etapes = allData[currentChantier].etapes || [];
-    allData[currentChantier].etapes.push({ title, desc, status, date });
-    await save();
+    if (!currentChantier) { alert('Sélectionnez un chantier.'); return; }
+
+    setLoading('Enregistrement…');
+    await api('addEtape', { chantier_id: currentChantier.ID, title, desc, status, date });
+    await loadEtapes();
     renderChantier();
     document.getElementById('new_title').value = '';
-    document.getElementById('new_desc').value = '';
-    document.getElementById('new_date').value = '';
+    document.getElementById('new_desc').value  = '';
+    document.getElementById('new_date').value  = '';
     document.getElementById('new_status').value = 'todo';
   }
 
-  async function cycleStatus(i) {
-    const etapes = allData[currentChantier].etapes;
+  async function cycleStatus(id, current) {
     const cycle = { todo: 'active', active: 'done', done: 'todo' };
-    etapes[i].status = cycle[etapes[i].status];
-    await save();
+    await api('updateEtape', { id, status: cycle[current] });
+    await loadEtapes();
     renderChantier();
   }
 
-  async function deleteEtape(i) {
+  async function deleteEtape(id) {
     if (!confirm('Supprimer cette étape ?')) return;
-    allData[currentChantier].etapes.splice(i, 1);
-    await save();
+    await api('deleteEtape', { id });
+    await loadEtapes();
     renderChantier();
   }
 </script>

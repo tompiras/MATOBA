@@ -93,6 +93,7 @@
 
     /* ── HERO ── */
     .hero {
+      min-height: 100svh;
       background: var(--white);
       display: flex; flex-direction: column;
       padding: 0 var(--x);
@@ -100,12 +101,13 @@
       border-bottom: 1px solid var(--rule);
     }
     .hero-body {
+      flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: clamp(32px, 5vw, 72px);
       align-items: center;
-      padding-top: clamp(64px, 9vw, 120px);
-      padding-bottom: clamp(64px, 9vw, 120px);
+      padding-top: clamp(48px, 7vw, 88px);
+      padding-bottom: clamp(48px, 7vw, 88px);
     }
     .hero-tag {
       font-family: 'Space Mono', monospace;
@@ -170,7 +172,13 @@
     }
 
     /* ── SECTIONS ── */
-    section { padding: var(--gap) var(--x); }
+    section {
+      padding: var(--gap) var(--x);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
     .bg-fog  { background: var(--fog); }
     .bg-bone { background: var(--bone); }
 

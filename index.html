@@ -172,7 +172,7 @@
       font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
       color: var(--stone); margin-bottom: 36px;
     }
-    h2 { font-size: clamp(26px, 3.5vw, 46px); font-weight: 200; line-height: 1.06; letter-spacing: -.02em; }
+    h2 { font-size: clamp(22px, 2.8vw, 38px); font-weight: 200; line-height: 1.08; letter-spacing: -.02em; }
     .lead { margin-top: 16px; font-size: 14px; line-height: 1.9; color: var(--stone); max-width: 460px; }
 
     /* ── MODÈLE ── */
@@ -226,9 +226,10 @@
     .orga-arrow svg { width: 20px; height: 20px; flex-shrink: 0; }
     .orga-arrow-label {
       font-family: 'Space Mono', monospace;
-      font-size: 7px; letter-spacing: .14em; text-transform: uppercase;
+      font-size: 8px; letter-spacing: .14em; text-transform: uppercase;
       color: var(--stone); writing-mode: vertical-rl;
       text-orientation: mixed; transform: rotate(180deg);
+      font-weight: 700;
     }
     .orga-list { display: flex; flex-direction: column; }
     .orga-item {
@@ -280,8 +281,8 @@
     .sf-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); margin-bottom: 12px; }
     .sf-list { font-size: 13px; line-height: 2; color: var(--ink); }
     .sf-note { margin-top: 24px; padding: 20px 22px; border: 1px solid var(--rule); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-    .sf-note-tag { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); flex-shrink: 0; }
-    .sf-note-text { font-size: 13px; color: var(--ink); line-height: 1.7; }
+    .sf-note-tag { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); flex-shrink: 0; font-weight: 600; }
+    .sf-note-text { font-size: 14px; color: var(--ink); line-height: 1.7; }
 
     /* ── PROJETS ── */
     .proj-grid { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
@@ -449,7 +450,9 @@
       <h2 data-reveal="1">Vous nous confiez le projet.<br/>Nous en portons l'exécution.</h2>
     </div>
     <div class="modele-quote" data-reveal="2">
-      Un seul contrat. Un seul interlocuteur. De la conception jusqu'à la remise des clés — <span class="brand">MΛTOBΛ</span> pilote chaque intervenant à votre place.
+      Un seul contrat. Un seul interlocuteur.<br/>
+      De la conception jusqu'à la remise des clés.<br/>
+      <span class="brand">MΛTOBΛ</span> pilote chaque intervenant à votre place.
     </div>
   </div>
 
@@ -487,7 +490,7 @@
       </div>
     </div>
   </div>
-  <div class="orga-note">Schéma organisationnel — contrat unique</div>
+
 
   <div class="garantie" data-reveal>
     <div class="garantie-tag">En résumé</div>
@@ -507,9 +510,9 @@
   <div class="sf-head">
     <div>
       <div class="eyebrow" data-reveal>Savoir-faire</div>
-      <h2 data-reveal="1">Tout ce que votre projet nécessite.</h2>
+      <h2 data-reveal="1">Chaque compétence, au service de votre projet.</h2>
     </div>
-    <p class="lead" data-reveal="2">Nous ne sommes pas artisans — nous pilotons. Ce modèle nous permet d'intervenir sur n'importe quel projet, quel que soit le périmètre.</p>
+    <p class="lead" data-reveal="2">Nous ne vendons pas un corps de métier.<br/>Nous construisons la bonne équipe autour de votre projet.</p>
   </div>
   <div class="sf-grid" data-reveal>
     <div class="sf-col"><div class="sf-label">Conception</div><div class="sf-list">Architecture<br/>Ingénierie structure<br/>BET fluides<br/>Permis de construire<br/>Maîtrise d'œuvre</div></div>
@@ -519,18 +522,18 @@
   </div>
   <div class="sf-note" data-reveal="3">
     <div class="sf-note-tag">En résumé</div>
-    <div class="sf-note-text">Si votre projet le demande, nous le faisons. Nous mobilisons les bons intervenants — sans que vous ayez à chercher, comparer ou coordonner.</div>
+    <div class="sf-note-text">Votre projet définit les besoins. Nous mobilisons les bons intervenants, sans que vous ayez à chercher, comparer ou coordonner.</div>
   </div>
 </section>
 
 <section id="projets">
   <div class="eyebrow" data-reveal>Projets</div>
-  <h2 data-reveal="1">Quelques références.</h2>
+  <h2 data-reveal="1">Projets menés.</h2>
   <div class="proj-grid" data-reveal="2">
-    <div class="proj"><div class="proj-tag">Rénovation · Résidentiel</div><div class="proj-name">Villa R — Aix-en-Provence</div></div>
-    <div class="proj"><div class="proj-tag">Construction · Tertiaire</div><div class="proj-name">Immeuble de bureaux — Marseille 8e</div></div>
-    <div class="proj"><div class="proj-tag">Surélévation · Résidentiel</div><div class="proj-name">Immeuble haussmannien — Marseille 6e</div></div>
-    <div class="proj"><div class="proj-tag">Aménagement · Hôtellerie</div><div class="proj-name">Boutique-hôtel — Cassis</div></div>
+    <div class="proj"><div class="proj-tag">Terrassement · Résidentiel · Cassis</div><div class="proj-name">Terrassement et préparation de terrain — villa particulier</div></div>
+    <div class="proj"><div class="proj-tag">Conception & travaux · Restauration · Aix-en-Provence</div><div class="proj-name">Conception, aménagement et réalisation d'un restaurant</div></div>
+    <div class="proj"><div class="proj-tag">Division · Restructuration · Marseille 6e</div><div class="proj-name">Restructuration d'un T3 en deux lots T2 — rue Paradis</div></div>
+    <div class="proj"><div class="proj-tag">Démolition · Construction neuve · Marseille 5e</div><div class="proj-name">Démolition complète et construction d'un immeuble R+3 — TCE, gestion globale</div></div>
     <div class="proj"><div class="proj-tag">Réhabilitation · Patrimoine</div><div class="proj-name">Mas provençal — Pays d'Aix</div></div>
     <div class="proj" style="display:flex;align-items:center;justify-content:center;background:var(--fog);min-height:80px;">
       <span style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;color:var(--stone);">EN COURS</span>
@@ -542,8 +545,7 @@
   <div class="contact-grid">
     <div data-reveal="1">
       <div class="eyebrow">Contact</div>
-      <h2>Parlons de<br/>votre projet.</h2>
-      <p class="lead">Réponse sous 24 heures.<br/>Premier échange sans engagement.</p>
+      <h2>Structurons votre<br/>projet ensemble.</h2>
       <div class="c-list">
         <div class="c-row"><div class="c-lbl">Email</div><div class="c-val"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>
         <div class="c-row"><div class="c-lbl">Zone</div><div class="c-val">Marseille &amp; PACA</div></div>
@@ -580,7 +582,7 @@
 
 <footer>
   <div class="ft-name"><span class="brand">MΛTOBΛ</span></div>
-  <div class="ft-copy">Contractant général — Marseille &amp; PACA — 2026</div>
+  <div class="ft-copy">Contractant général — Marseille &amp; PACA</div>
 </footer>
 
 <script>

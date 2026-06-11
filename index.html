@@ -322,9 +322,26 @@
     .fsuccess p { font-size: 13px; line-height: 1.8; color: var(--stone); }
 
     /* ── FOOTER ── */
-    footer { padding: 22px var(--x); border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .ft-name { font-size: 13px; font-weight: 200; letter-spacing: .8em; padding-left: .8em; color: var(--stone); }
-    .ft-copy { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: .06em; color: var(--stone); }
+    footer {
+      padding: 40px var(--x);
+      border-top: 1px solid var(--rule);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; text-align: center;
+    }
+    .ft-name {
+      font-size: clamp(14px, 2.5vw, 22px);
+      font-weight: 200;
+      color: #888;
+      text-align: center;
+    }
+    .ft-baseline {
+      font-size: clamp(10px, 1.4vw, 13px);
+      letter-spacing: .22em;
+      padding-left: .22em;
+      color: #aaa;
+      text-align: center;
+    }
 
     /* ── RESPONSIVE TABLETTE ── */
     @media (max-width: 980px) {
@@ -403,9 +420,7 @@
       .finput, .fselect, .ftextarea { font-size: 16px; } /* évite le zoom auto iOS */
 
       /* footer */
-      footer { flex-direction: column; align-items: flex-start; gap: 6px; }
-      .ft-name { font-size: 11px; letter-spacing: .52em; }
-      .ft-copy { font-size: 9px; }
+      footer { padding: 24px var(--x); }
     }
   </style>
 </head>
@@ -611,8 +626,7 @@
       <h2>Structurons votre<br/>projet ensemble.</h2>
       <div class="c-list">
         <div class="c-row"><div class="c-lbl">Email</div><div class="c-val"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>
-        <div class="c-row"><div class="c-lbl">Zone</div><div class="c-val">Marseille &amp; PACA</div></div>
-        <div class="c-row"><div class="c-lbl">Siège</div><div class="c-val">4 rue André Isaia, 13013 Marseille</div></div>
+        <div class="c-row"><div class="c-lbl">Zone</div><div class="c-val">Provence-Alpes-Côte d'Azur</div></div>
       </div>
     </div>
     <div data-reveal="2">
@@ -655,7 +669,7 @@
 
 <footer>
   <div class="ft-name"><span class="brand">MΛTOBΛ</span></div>
-  <div class="ft-copy">Contractant général — Marseille &amp; PACA</div>
+  <div class="ft-baseline">Conception&nbsp;&nbsp;|&nbsp;&nbsp;Ingénierie&nbsp;&nbsp;|&nbsp;&nbsp;Construction</div>
 </footer>
 
 <script>
@@ -670,6 +684,21 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+  // ── FOOTER : aligner MΛTOBΛ sur la largeur de la baseline ──
+  function alignFooter() {
+    const name     = document.querySelector('.ft-name');
+    const baseline = document.querySelector('.ft-baseline');
+    if (!name || !baseline) return;
+    const targetW  = baseline.offsetWidth;
+    const nameW    = name.offsetWidth;
+    const chars    = 6; // M Λ T O B Λ
+    const extra    = (targetW - nameW) / chars;
+    const ls       = Math.max(extra, 2);
+    name.style.letterSpacing = ls + 'px';
+    name.style.paddingLeft   = ls + 'px';
+  }
+  alignFooter();
+  window.addEventListener('resize', alignFooter);
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     this.style.display = 'none';

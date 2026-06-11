@@ -244,31 +244,21 @@
   let allChantiers    = [];
   let allEtapes       = [];
 
-  // ── API via JSONP — contourne le CORS Google Apps Script ──
-  function api(action, data = {}) {
-    return new Promise((resolve, reject) => {
-      const callbackName = 'cb_' + Date.now() + '_' + Math.round(Math.random() * 1000);
-      const params = new URLSearchParams({
-        action: action,
-        data: JSON.stringify(data),
-        callback: callbackName
-      });
+  // ── API via proxy Cloudflare Worker (tous navigateurs) ──
+  const PROXY = 'https://matoba-proxy.tom-piras.workers.dev/';
 
-      window[callbackName] = function(result) {
-        delete window[callbackName];
-        document.head.removeChild(script);
-        resolve(result);
-      };
-
-      const script = document.createElement('script');
-      script.src = API_URL + '?' + params.toString();
-      script.onerror = function() {
-        delete window[callbackName];
-        document.head.removeChild(script);
-        reject(new Error('Erreur réseau'));
-      };
-      document.head.appendChild(script);
+  async function api(action, data = {}) {
+    const params = new URLSearchParams({
+      action: action,
+      data: JSON.stringify(data)
     });
+    const targetUrl = API_URL + '?' + params.toString();
+    const proxyUrl  = PROXY + '?url=' + encodeURIComponent(targetUrl);
+
+    const res  = await fetch(proxyUrl);
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch(e) { console.error('Parse error:', text); return { error: text }; }
   }
 
   // ── UI HELPERS ──

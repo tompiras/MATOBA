@@ -281,23 +281,27 @@
   function saveSession() {
     sessionStorage.setItem('matoba_user', currentUser);
     sessionStorage.setItem('matoba_chantier', JSON.stringify(currentChantier));
+    sessionStorage.setItem('matoba_chantiers', JSON.stringify(allChantiers));
+    sessionStorage.setItem('matoba_etapes', JSON.stringify(allEtapes));
   }
   function clearSession() {
     sessionStorage.removeItem('matoba_user');
     sessionStorage.removeItem('matoba_chantier');
+    sessionStorage.removeItem('matoba_chantiers');
+    sessionStorage.removeItem('matoba_etapes');
   }
   async function restoreSession() {
     const user     = sessionStorage.getItem('matoba_user');
     const chantier = sessionStorage.getItem('matoba_chantier');
+    const chantiers = sessionStorage.getItem('matoba_chantiers');
+    const etapes    = sessionStorage.getItem('matoba_etapes');
     if (!user) return;
-    currentUser = user;
-    if (chantier) currentChantier = JSON.parse(chantier);
-    if (currentUser === 'admin') {
-      allChantiers = await api('getChantiers');
-      if (!Array.isArray(allChantiers)) allChantiers = [];
-      if (!currentChantier && allChantiers.length > 0) currentChantier = allChantiers[0];
-    }
-    showApp();
+    currentUser     = user;
+    if (chantier)  currentChantier = JSON.parse(chantier);
+    if (chantiers) allChantiers    = JSON.parse(chantiers);
+    if (etapes)    allEtapes       = JSON.parse(etapes);
+    // Restaurer sans appel API — affiche immédiatement le cache
+    showAppFromCache();
   }
   restoreSession();
 
@@ -390,7 +394,28 @@
     document.getElementById('loginError').style.display = 'none';
   }
 
-  // ── SHOW APP ──
+  // ── SHOW APP depuis cache (instantané) ──
+  function showAppFromCache() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display         = 'block';
+    if (currentUser === 'admin') {
+      document.getElementById('topbarLabel').textContent  = 'Administration';
+      document.getElementById('adminPanel').style.display = 'block';
+      buildChantierSelect();
+    } else {
+      document.getElementById('topbarLabel').textContent  = currentChantier?.NAME || '';
+      document.getElementById('adminPanel').style.display = 'none';
+    }
+    if (currentChantier && allEtapes.length >= 0) renderChantier();
+    // Rafraîchissement silencieux en arrière-plan
+    if (currentChantier) {
+      api('getEtapes', { chantier_id: currentChantier.ID }).then(data => {
+        if (Array.isArray(data)) { allEtapes = data; saveSession(); renderChantier(); }
+      });
+    }
+  }
+
+  // ── SHOW APP depuis login (avec chargement) ──
   async function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display         = 'block';
@@ -403,6 +428,7 @@
         showLoading('Chargement…');
         allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
         if (!Array.isArray(allEtapes)) allEtapes = [];
+        saveSession();
         renderChantier();
       } else {
         document.getElementById('etapesList').innerHTML =
@@ -414,6 +440,7 @@
       showLoading('Chargement de votre chantier…');
       allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
       if (!Array.isArray(allEtapes)) allEtapes = [];
+      saveSession();
       renderChantier();
     }
   }

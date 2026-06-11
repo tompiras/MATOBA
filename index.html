@@ -303,15 +303,14 @@
       .modele-intro, .approach-wrap, .contact-wrap { grid-template-columns: 1fr; }
       .etapes { grid-template-columns: 1fr 1fr; }
       .proj-grid { grid-template-columns: 1fr 1fr; }
-      .svc { grid-template-columns: 1fr 1fr; }
-      .svc-picto { display: none; }
+      .svc-grid-4 { grid-template-columns: 1fr 1fr !important; }
     }
     @media (max-width: 660px) {
       .nav-links { display: none; }
       .call-btn { display: inline-flex; }
       .etapes { grid-template-columns: 1fr; }
       .proj-grid { grid-template-columns: 1fr; }
-      .svc { grid-template-columns: 1fr; gap: 6px; }
+      .svc-grid-4 { grid-template-columns: 1fr !important; }
       .form-row { grid-template-columns: 1fr; }
       footer { flex-direction: column; align-items: flex-start; }
     }
@@ -570,29 +569,42 @@
 <!-- ═══ SERVICES ═══ -->
 <section class="s-fog" id="services">
   <div class="s-eye" data-reveal>Savoir-faire</div>
-  <h2 data-reveal="1">Ce que nous faisons.</h2>
-  <div class="svc-list">
-    <div class="svc" data-reveal="1">
-      <div class="svc-name">Construction neuve</div>
-      <div class="svc-body">Maisons, immeubles, bâtiments tertiaires. Gros œuvre, second œuvre, finitions — pilotage complet TCE.</div>
-      <div class="svc-picto"><svg viewBox="0 0 60 52" fill="none"><rect x="8" y="20" width="44" height="30" stroke="#1a1a1a" stroke-width="1"/><path d="M 4 20 L 30 6 L 56 20" stroke="#1a1a1a" stroke-width="1" fill="none"/><rect x="14" y="28" width="10" height="12" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><rect x="36" y="28" width="10" height="12" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><rect x="23" y="34" width="14" height="16" stroke="#1a1a1a" stroke-width="0.7" fill="none"/></svg></div>
-    </div>
-    <div class="svc" data-reveal="2">
-      <div class="svc-name">Rénovation d'envergure</div>
-      <div class="svc-body">Restructuration, surélévation, transformation de bâtiments existants. Conception et coordination complète.</div>
-      <div class="svc-picto"><svg viewBox="0 0 60 52" fill="none"><rect x="8" y="26" width="36" height="24" stroke="#1a1a1a" stroke-width="1"/><path d="M 8 26 L 26 14 L 44 26" stroke="#1a1a1a" stroke-width="1" fill="none"/><rect x="14" y="32" width="9" height="10" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><rect x="29" y="32" width="9" height="10" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><line x1="50" y1="40" x2="50" y2="8" stroke="#1a1a1a" stroke-width="0.9"/><polyline points="46,14 50,6 54,14" stroke="#1a1a1a" stroke-width="0.9" fill="none"/></svg></div>
-    </div>
-    <div class="svc" data-reveal="3">
-      <div class="svc-name">Aménagement intérieur</div>
-      <div class="svc-body">Second œuvre haut de gamme — menuiseries, revêtements, lots techniques. Exigence à chaque étape.</div>
-      <div class="svc-picto"><svg viewBox="0 0 60 52" fill="none"><rect x="6" y="6" width="48" height="40" stroke="#1a1a1a" stroke-width="1"/><path d="M 6 46 L 6 30" stroke="white" stroke-width="2"/><path d="M 6 30 Q 18 30 18 46" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><rect x="28" y="10" width="22" height="14" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><rect x="10" y="10" width="14" height="14" stroke="#1a1a1a" stroke-width="0.7" fill="none"/><line x1="6" y1="30" x2="54" y2="30" stroke="#1a1a1a" stroke-width="0.7"/></svg></div>
-    </div>
-    <div class="svc" data-reveal="4">
-      <div class="svc-name">Maîtrise d'œuvre &amp; AMO</div>
-      <div class="svc-body">Conception, études, coordination MOE et assistance à maîtrise d'ouvrage.</div>
-      <div class="svc-picto"><svg viewBox="0 0 60 52" fill="none"><line x1="10" y1="44" x2="30" y2="8" stroke="#1a1a1a" stroke-width="1.1"/><line x1="30" y1="8" x2="50" y2="44" stroke="#1a1a1a" stroke-width="1.1"/><line x1="18" y1="28" x2="42" y2="28" stroke="#1a1a1a" stroke-width="0.8"/><circle cx="30" cy="8" r="2.5" stroke="#1a1a1a" stroke-width="0.8" fill="none"/></svg></div>
-    </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,100px);align-items:end;margin-bottom:clamp(44px,6vw,72px);">
+    <h2 data-reveal="1">Tout ce que<br/>votre projet<br/>nécessite.</h2>
+    <p class="body-text" data-reveal="2">MΛTOBΛ est un contractant général. Nous ne sommes pas artisans — nous pilotons. Ce modèle nous permet d'intervenir sur n'importe quel type de projet, quel que soit le périmètre, en mobilisant les bons intervenants à chaque étape.</p>
   </div>
+
+  <!-- Grille corps de métier -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:0.75px solid var(--rule);border-left:0.75px solid var(--rule);" data-reveal="2">
+
+    <div style="border-right:0.75px solid var(--rule);border-bottom:0.75px solid var(--rule);padding:clamp(18px,2.5vw,28px);">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--stone);margin-bottom:10px;">CONCEPTION</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--ink);">Architecture<br/>Ingénierie structure<br/>BET fluides<br/>Permis de construire<br/>Maîtrise d'œuvre</div>
+    </div>
+
+    <div style="border-right:0.75px solid var(--rule);border-bottom:0.75px solid var(--rule);padding:clamp(18px,2.5vw,28px);">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--stone);margin-bottom:10px;">GROS ŒUVRE</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--ink);">Maçonnerie<br/>Structure béton &amp; bois<br/>Charpente<br/>Étanchéité<br/>Surélévation</div>
+    </div>
+
+    <div style="border-right:0.75px solid var(--rule);border-bottom:0.75px solid var(--rule);padding:clamp(18px,2.5vw,28px);">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--stone);margin-bottom:10px;">SECOND ŒUVRE</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--ink);">Plomberie &amp; CVC<br/>Électricité<br/>Plâtrerie &amp; isolation<br/>Menuiseries<br/>Revêtements</div>
+    </div>
+
+    <div style="border-right:0.75px solid var(--rule);border-bottom:0.75px solid var(--rule);padding:clamp(18px,2.5vw,28px);">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--stone);margin-bottom:10px;">FINITIONS &amp; AGENCEMENT</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--ink);">Peinture &amp; décoration<br/>Agencement sur mesure<br/>Cuisines &amp; dressing<br/>Sols &amp; carrelage<br/>Façades &amp; ravalement</div>
+    </div>
+
+  </div>
+
+  <!-- Phrase de clôture -->
+  <div style="margin-top:32px;padding:24px 28px;border:0.75px solid var(--rule);display:flex;align-items:center;gap:20px;flex-wrap:wrap;" data-reveal="3">
+    <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--stone);flex-shrink:0;">EN RÉSUMÉ</div>
+    <div style="font-size:14px;font-weight:300;color:var(--ink);line-height:1.7;">Si votre projet le demande, nous le faisons. Nous mobilisons les bons intervenants — vous n'avez pas à chercher, comparer ou gérer.</div>
+  </div>
+
 </section>
 
 <!-- ═══ PROJETS ═══ -->

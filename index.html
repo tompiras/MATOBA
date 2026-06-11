@@ -323,23 +323,24 @@
 
     /* ── FOOTER ── */
     footer {
-      padding: 40px var(--x);
+      padding: 24px var(--x);
       border-top: 1px solid var(--rule);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 12px; text-align: center;
+      gap: 8px; text-align: center;
     }
     .ft-name {
-      font-size: clamp(14px, 2.5vw, 22px);
-      font-weight: 200;
-      color: #888;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--stone);
       text-align: center;
     }
     .ft-baseline {
-      font-size: clamp(10px, 1.4vw, 13px);
-      letter-spacing: .22em;
-      padding-left: .22em;
-      color: #aaa;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      padding-left: .18em;
+      color: var(--stone);
       text-align: center;
     }
 
@@ -668,8 +669,10 @@
 </section>
 
 <footer>
-  <div class="ft-name"><span class="brand">MΛTOBΛ</span></div>
-  <div class="ft-baseline">Conception&nbsp;&nbsp;|&nbsp;&nbsp;Ingénierie&nbsp;&nbsp;|&nbsp;&nbsp;Construction</div>
+  <a href="/" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;">
+    <div class="ft-name"><span class="brand">MΛTOBΛ</span></div>
+    <div class="ft-baseline">Conception&nbsp;&nbsp;|&nbsp;&nbsp;Ingénierie&nbsp;&nbsp;|&nbsp;&nbsp;Construction</div>
+  </a>
 </footer>
 
 <script>

@@ -85,16 +85,23 @@
     .hero {
       min-height: 100svh;
       background: var(--white);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
+      display: flex;
+      flex-direction: column;
       padding: 0 var(--x);
       padding-top: 100px;
-      gap: clamp(40px, 6vw, 80px);
       border-bottom: 0.75px solid var(--rule);
       overflow: hidden;
+      position: relative;
     }
-    .hero-left { padding-bottom: clamp(32px, 5vw, 60px); }
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 80px);
+      align-items: center;
+      flex: 1;
+      padding-bottom: clamp(80px, 10vw, 120px);
+    }
+    .hero-left { }
     .hero-eye {
       font-family: 'Space Mono', monospace;
       font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
@@ -105,13 +112,38 @@
       font-weight: 200;
       font-size: clamp(40px, 6.5vw, 96px);
       line-height: 0.95; letter-spacing: -0.03em;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
       animation: fadeup 1s var(--ease) 0.35s both;
     }
     h1 em { font-style: italic; color: var(--stone); font-weight: 200; }
-    .hero-rule { width: 36px; height: 0.75px; background: var(--rule); margin-bottom: 22px; animation: fadeup 1s var(--ease) 0.48s both; }
-    .hero-sub { max-width: 340px; font-size: 14px; line-height: 1.9; color: var(--stone); margin-bottom: 36px; animation: fadeup 1s var(--ease) 0.56s both; }
-    .hero-actions { animation: fadeup 1s var(--ease) 0.66s both; }
+    .hero-actions { animation: fadeup 1s var(--ease) 0.55s both; }
+
+    /* ── BASELINE BAR ── */
+    .hero-baseline-bar {
+      border-top: 0.75px solid var(--rule);
+      padding: clamp(20px, 2.8vw, 28px) 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeup 1s var(--ease) 0.85s both;
+      flex-shrink: 0;
+    }
+    .hero-baseline {
+      font-weight: 200;
+      font-size: clamp(12px, 1.6vw, 20px);
+      letter-spacing: 0.3em;
+      padding-left: 0.3em;
+      color: var(--stone);
+      white-space: nowrap;
+    }
+    .hero-baseline span {
+      color: var(--rule);
+      margin: 0 clamp(14px, 2.2vw, 32px);
+    }
+    @media (max-width: 660px) {
+      .hero-baseline { font-size: 10px; letter-spacing: 0.16em; white-space: normal; text-align: center; }
+      .hero-baseline span { margin: 0 8px; }
+    }
     .btn {
       display: inline-flex; align-items: center;
       min-height: 44px; padding: 0 26px;
@@ -298,7 +330,7 @@
     .call-btn svg { width: 17px; height: 17px; }
 
     @media (max-width: 1020px) {
-      .hero { grid-template-columns: 1fr; min-height: auto; padding-bottom: 60px; }
+      .hero-content { grid-template-columns: 1fr; }
       .hero-drawing { display: none; }
       .modele-intro, .approach-wrap, .contact-wrap { grid-template-columns: 1fr; }
       .etapes { grid-template-columns: 1fr 1fr; }
@@ -307,7 +339,7 @@
     }
     @media (max-width: 660px) {
       .nav-links { display: none; }
-      .call-btn { display: inline-flex; }
+      .hero-content { padding-bottom: 60px; }
       .etapes { grid-template-columns: 1fr; }
       .proj-grid { grid-template-columns: 1fr; }
       .svc-grid-4 { grid-template-columns: 1fr !important; }
@@ -334,16 +366,15 @@
 
 <!-- ═══ HERO ═══ -->
 <header class="hero">
-  <div class="hero-left">
-    <div class="hero-eye">Contractant général — Marseille &amp; région</div>
-    <h1>Conception.<br/>Ingénierie.<br/><em>Construction.</em></h1>
-    <div class="hero-rule"></div>
-    <p class="hero-sub">Un interlocuteur unique pour concevoir, piloter et livrer vos projets de construction et de rénovation.</p>
-    <div class="hero-actions">
-      <a href="#contact" class="btn">Nous contacter</a>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eye">Contractant général — Marseille &amp; région</div>
+      <h1>Un projet.<br/><em>Un contrat.</em></h1>
+      <div class="hero-actions">
+        <a href="#contact" class="btn">Nous contacter</a>
+      </div>
     </div>
-  </div>
-  <div class="hero-drawing">
+    <div class="hero-drawing">
     <svg viewBox="0 0 520 480" fill="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="0" y1="60" x2="520" y2="60" stroke="#e8e5e0" stroke-width="0.5"/>
       <line x1="0" y1="120" x2="520" y2="120" stroke="#e8e5e0" stroke-width="0.5"/>
@@ -405,7 +436,16 @@
         <text x="260" y="468" font-family="Space Mono, monospace" font-size="7.5" fill="#c0bdb8" text-anchor="middle" letter-spacing="2">ÉLÉVATION PRINCIPALE — ÉCH. 1/100</text>
       </g>
     </svg>
+  </div><!-- /hero-drawing -->
+  </div><!-- /hero-content -->
+
+  <!-- BASELINE -->
+  <div class="hero-baseline-bar">
+    <div class="hero-baseline">
+      Conception<span>·</span>Ingénierie<span>·</span>Construction
+    </div>
   </div>
+
 </header>
 
 <!-- ═══════════════════════════════════════════════════════

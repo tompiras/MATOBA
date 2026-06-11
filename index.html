@@ -155,8 +155,8 @@
     }
     .hero-baseline-text {
       width: 100%;
-      font-size: clamp(11px, 1.4vw, 17px);
-      font-weight: 200;
+      font-size: 13px;
+      font-weight: 300;
       color: var(--stone);
       display: flex;
       justify-content: space-between;
@@ -164,6 +164,8 @@
     }
     .hero-baseline-word { white-space: nowrap; align-self: center; letter-spacing: .28em; padding-left: .28em; }
     .hero-baseline-sep { width: 1px; background: var(--rule); align-self: stretch; flex-shrink: 0; }
+    @media (min-width: 980px) { .hero-baseline-text { font-size: 16px; } }
+    @media (max-width: 600px) { .hero-baseline-text { font-size: 10px; } .hero-baseline-word { letter-spacing: .14em; padding-left: .14em; } }
 
     /* ── SECTIONS ── */
     section {

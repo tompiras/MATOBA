@@ -431,8 +431,8 @@
 
 <div id="gate">
   <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">
-    <div class="gate-name"><span class="brand">MΛTOBΛ</span></div>
-    <div style="font-size:11px;letter-spacing:.18em;color:var(--stone);text-transform:uppercase;font-weight:400;">Conception · Ingénierie · Construction</div>
+    <div class="gate-name" id="gateName"><span class="brand">MΛTOBΛ</span></div>
+    <div id="gateBaseline" style="font-size:11px;letter-spacing:.18em;color:var(--stone);text-transform:uppercase;font-weight:400;">Conception · Ingénierie · Construction</div>
   </div>
 </div>
 
@@ -448,12 +448,15 @@
   <a href="/suivi-chantier.html" class="nav-client-mobile">Espace client</a>
 </nav>
 
+<div style="padding:8px var(--x);border-bottom:1px solid var(--rule);background:var(--white);">
+  <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);font-weight:500;font-family:'Inter',sans-serif;">Contractant général — Provence-Alpes-Côte d'Azur</span>
+</div>
+
 <header class="hero">
   <div class="hero-body">
     <div>
       <h1>Un projet.<br/>Un pilote.<br/>Une responsabilité.</h1>
-      <p class="hero-sub">Un seul interlocuteur, de la conception à la remise des clés.</p>
-      <p style="font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin-bottom:28px;font-weight:500;">Contractant général — Provence-Alpes-Côte d'Azur</p>
+      <p class="hero-sub" style="white-space:nowrap;">Un seul interlocuteur, de la conception à la remise des clés.</p>
       <div class="hero-cta">
         <a href="#contact" class="btn">Nous contacter</a>
       </div>
@@ -633,7 +636,10 @@
 
   <div class="garantie" data-reveal>
     <div class="garantie-tag">En résumé</div>
-    <div class="garantie-text">Vous n'avez <strong>aucun contact direct</strong> avec les artisans ou bureaux d'études. <span class="brand">MΛTOBΛ</span> est votre <strong>seul interlocuteur</strong>, du premier rendez-vous à la remise des clés.</div>
+    <div class="garantie-text">
+      Vous n'avez <strong>aucun contact direct</strong> avec les artisans ou bureaux d'études.<br/>
+      <span class="brand">MΛTOBΛ</span> est votre <strong>seul interlocuteur</strong>, du premier rendez-vous à la remise des clés.
+    </div>
   </div>
 
   <div class="etapes" data-reveal>
@@ -739,6 +745,16 @@
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.addEventListener('load', () => {
     window.scrollTo(0, 0);
+    // Aligner baseline gate sur largeur MΛTOBΛ
+    const gateName     = document.getElementById('gateName');
+    const gateBaseline = document.getElementById('gateBaseline');
+    if (gateName && gateBaseline) {
+      const nameW    = gateName.offsetWidth;
+      const baseW    = gateBaseline.offsetWidth;
+      const chars    = 'Conception · Ingénierie · Construction'.length;
+      const extra    = (nameW - baseW) / chars;
+      gateBaseline.style.letterSpacing = Math.max(.5, extra) + 'px';
+    }
     setTimeout(() => document.getElementById('gate').classList.add('out'), 3200);
     document.getElementById('gate').addEventListener('click', () => {
       document.getElementById('gate').classList.add('out');

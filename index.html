@@ -448,15 +448,12 @@
   <a href="/suivi-chantier.html" class="nav-client-mobile">Espace client</a>
 </nav>
 
-<div style="padding:8px var(--x);border-bottom:1px solid var(--rule);background:var(--white);">
-  <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);font-weight:500;font-family:'Inter',sans-serif;">Contractant général — Provence-Alpes-Côte d'Azur</span>
-</div>
-
 <header class="hero">
   <div class="hero-body">
     <div>
       <h1>Un projet.<br/>Un pilote.<br/>Une responsabilité.</h1>
       <p class="hero-sub" style="white-space:nowrap;">Un seul interlocuteur, de la conception à la remise des clés.</p>
+      <p style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);font-weight:500;margin-bottom:28px;">Contractant général — Provence-Alpes-Côte d'Azur</p>
       <div class="hero-cta">
         <a href="#contact" class="btn">Nous contacter</a>
       </div>
@@ -745,15 +742,18 @@
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.addEventListener('load', () => {
     window.scrollTo(0, 0);
-    // Aligner baseline gate sur largeur MΛTOBΛ
+    // Aligner MΛTOBΛ gate sur largeur baseline
     const gateName     = document.getElementById('gateName');
     const gateBaseline = document.getElementById('gateBaseline');
     if (gateName && gateBaseline) {
-      const nameW    = gateName.offsetWidth;
-      const baseW    = gateBaseline.offsetWidth;
-      const chars    = 'Conception · Ingénierie · Construction'.length;
-      const extra    = (nameW - baseW) / chars;
-      gateBaseline.style.letterSpacing = Math.max(.5, extra) + 'px';
+      const baseW = gateBaseline.offsetWidth;
+      const nameW = gateName.offsetWidth;
+      const chars = 6; // M Λ T O B Λ
+      const extra = (baseW - nameW) / chars;
+      if (extra > 0) {
+        gateName.style.letterSpacing = extra + 'px';
+        gateName.style.paddingLeft   = extra + 'px';
+      }
     }
     setTimeout(() => document.getElementById('gate').classList.add('out'), 3200);
     document.getElementById('gate').addEventListener('click', () => {

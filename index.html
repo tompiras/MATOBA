@@ -678,7 +678,9 @@
 </footer>
 
 <script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.addEventListener('load', () => {
+    window.scrollTo(0, 0);
     setTimeout(() => document.getElementById('gate').classList.add('out'), 1800);
   });
   const nav = document.getElementById('nav');

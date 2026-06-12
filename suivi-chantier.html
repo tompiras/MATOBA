@@ -3,267 +3,1522 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MΛTOBΛ — Apporteur d'affaires</title>
+  <title>MΛTOBΛ — Suivi de chantier</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink:   #0a0a0a;
-      --white: #ffffff;
+      --ink:   #111;
+      --white: #fff;
       --fog:   #f7f6f4;
       --bone:  #eeece8;
-      --rule:  #d8d5cf;
-      --stone: #6b6762;
-      --x:     clamp(24px, 6vw, 96px);
-      --gap:   clamp(56px, 8vw, 100px);
-      --ease:  cubic-bezier(0.16, 1, 0.3, 1);
+      --rule:  #dedbd5;
+      --stone: #999490;
+      --green: #2d6a4f;
+      --green-light: #e8f5ef;
+      --orange: #b5600a;
+      --orange-light: #fdf0e3;
+      --red: #c0392b;
+      --red-light: #fdf0ef;
+      --grey-light: #f0eeea;
+      --x: clamp(20px, 5vw, 64px);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body { font-family: 'Inter', sans-serif; font-weight: 400; background: var(--white); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: 'Inter', sans-serif; font-weight: 300; background: var(--fog); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100vh; }
     a { color: inherit; text-decoration: none; }
 
-    .brand { font-family: 'Inter', sans-serif; font-weight: 200; font-style: normal; font-synthesis: none; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
-
-    [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
-    [data-reveal].on { opacity: 1; transform: none; }
-    [data-reveal="1"] { transition-delay: .07s; }
-    [data-reveal="2"] { transition-delay: .15s; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; inset: 0 0 auto 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px var(--x);
+    .topbar {
+      background: var(--white);
       border-bottom: 1px solid var(--rule);
-      background: rgba(255,255,255,.96); backdrop-filter: blur(16px);
+      padding: 16px var(--x);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
     }
-    .nav-name { font-size: 13px; font-weight: 200; letter-spacing: .72em; padding-right: .72em; color: var(--ink); text-align: center; }
-    .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: nowrap; align-items: center; }
-    .nav-links a { font-size: 11px; letter-spacing: .04em; color: var(--stone); transition: color .2s; white-space: nowrap; }
-    .nav-links a:hover { color: var(--ink); }
-    .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
-    .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
+    .topbar-name { font-size: 14px; font-weight: 200; letter-spacing: .52em; padding-left: .52em; color: var(--ink); }
+    .topbar-right { display: flex; align-items: center; gap: 20px; }
+    .topbar-label { font-size: 11px; letter-spacing: .06em; color: var(--stone); }
+    .btn-logout { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 6px 14px; background: none; cursor: pointer; transition: color .2s, border-color .2s; font-family: 'Inter', sans-serif; }
+    .btn-logout:hover { color: var(--ink); border-color: var(--ink); }
 
-    /* ── HERO ── */
-    .hero { padding: 120px var(--x) var(--gap); border-bottom: 1px solid var(--rule); }
-    .hero-tag { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); margin-bottom: 24px; animation: up 1s var(--ease) .2s both; }
-    h1 { font-size: clamp(32px, 4.2vw, 58px); font-weight: 300; line-height: 1.08; letter-spacing: -.025em; margin-bottom: 20px; max-width: 760px; animation: up 1s var(--ease) .35s both; }
-    .hero-sub { font-size: 14px; line-height: 1.9; color: var(--stone); max-width: 480px; margin-bottom: 32px; animation: up 1s var(--ease) .45s both; }
-    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; animation: up 1s var(--ease) .55s both; }
-    @keyframes up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    #loginScreen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--white);
+      padding: 40px var(--x);
+    }
+    .login-box { width: 100%; max-width: 400px; }
+    .login-brand { font-size: 18px; font-weight: 200; letter-spacing: .52em; padding-right: .52em; color: var(--ink); margin-bottom: 8px; }
+    .login-sub { font-size: 12px; color: var(--stone); letter-spacing: .04em; margin-bottom: 32px; }
+    .login-type-toggle { display: flex; gap: 8px; margin-bottom: 24px; }
+    .type-btn { flex: 1; padding: 11px 8px; border: 1px solid var(--rule); background: var(--white); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; color: var(--stone); transition: all .2s; }
+    .type-btn.active { border-color: var(--ink); color: var(--ink); background: var(--fog); }
+    .login-form { display: flex; flex-direction: column; gap: 14px; }
+    .login-group { display: flex; flex-direction: column; gap: 5px; }
+    .login-label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
+    .login-input { border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300; outline: none; border-radius: 0; transition: border-color .2s; }
+    .login-input:focus { border-color: var(--ink); }
+    .login-input::placeholder { color: var(--rule); }
+    .login-btn { margin-top: 8px; height: 44px; background: var(--ink); color: var(--white); border: none; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+    .login-btn:hover { background: #2a2a2a; }
+    .login-error { font-size: 12px; color: var(--red); padding: 10px 14px; background: var(--red-light); border: 1px solid #f5c6c6; display: none; margin-top: 4px; }
+    .login-loading { font-size: 12px; color: var(--stone); padding: 10px 0; display: none; }
 
-    .btn { display: inline-flex; align-items: center; height: 44px; padding: 0 24px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--white); border: 1px solid var(--ink); transition: background .2s, transform .15s; }
-    .btn:hover { background: #2a2a2a; transform: translateY(-1px); }
-    .btn-ghost { background: transparent; color: var(--ink); }
-    .btn-ghost:hover { background: var(--ink); color: var(--white); }
+    #app { display: none; }
+    .page { max-width: 900px; margin: 0 auto; padding: 40px var(--x) 80px; }
 
-    /* ── SECTIONS ── */
-    section { padding: var(--gap) var(--x); }
-    .bg-fog { background: var(--fog); }
+    .chantier-header, .apporteur-header { background: var(--white); border: 1px solid var(--rule); padding: 28px 32px; margin-bottom: 32px; }
+    .chantier-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 8px; }
+    .chantier-name { font-size: clamp(20px, 3vw, 28px); font-weight: 200; letter-spacing: -.01em; margin-bottom: 16px; }
+    .chantier-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .chantier-meta-item { font-size: 12px; color: var(--stone); }
+    .chantier-meta-item strong { font-weight: 500; color: var(--ink); }
 
-    .eyebrow { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); margin-bottom: 28px; }
-    h2 { font-size: clamp(22px, 2.8vw, 36px); font-weight: 300; line-height: 1.12; letter-spacing: -.02em; }
-    .lead { margin-top: 16px; font-size: 14.5px; line-height: 1.9; color: var(--stone); max-width: 540px; }
+    .progress-wrap { margin-bottom: 32px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--stone); margin-bottom: 8px; letter-spacing: .04em; }
+    .progress-track { height: 3px; background: var(--rule); }
+    .progress-fill { height: 100%; background: var(--ink); transition: width .8s var(--ease); }
 
-    .head-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: end; margin-bottom: clamp(40px, 5vw, 64px); }
+    .etapes-list { display: flex; flex-direction: column; gap: 1px; }
+    .etape-item { background: var(--white); border: 1px solid var(--rule); padding: 20px 24px; display: grid; grid-template-columns: 36px 1fr auto; gap: 16px; align-items: start; }
+    .etape-item.active { border-color: var(--ink); }
+    .etape-num { font-size: 10px; letter-spacing: .1em; color: var(--stone); font-weight: 500; padding-top: 3px; }
+    .etape-content { min-width: 0; }
+    .etape-title { font-size: 14px; font-weight: 400; margin-bottom: 4px; }
+    .etape-desc { font-size: 12px; line-height: 1.7; color: var(--stone); }
+    .etape-date { font-size: 11px; color: var(--stone); margin-top: 6px; }
+    .badge { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+    .badge-done   { background: var(--green-light); color: var(--green); }
+    .badge-active { background: var(--orange-light); color: var(--orange); }
+    .badge-todo   { background: var(--grey-light); color: var(--stone); }
+    .badge-refuse { background: var(--red-light); color: var(--red); }
 
-    /* ── ÉTAPES ── */
-    .etapes { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
-    .etape { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: clamp(20px, 2.5vw, 30px); }
-    .etape-num { font-size: 9px; letter-spacing: .1em; color: var(--stone); margin-bottom: 16px; }
-    .etape-title { font-size: 14px; font-weight: 400; margin-bottom: 8px; line-height: 1.3; }
-    .etape-body { font-size: 13px; line-height: 1.8; color: var(--stone); }
+    /* ── APPORTEUR — résumé ── */
+    .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule); margin-bottom: 32px; }
+    .summary-card { background: var(--white); padding: 20px 22px; border-right: 1px solid var(--rule); }
+    .summary-card:last-child { border-right: none; }
+    .summary-label { font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); margin-bottom: 10px; }
+    .summary-value { font-size: clamp(18px, 2.2vw, 24px); font-weight: 300; }
 
-    /* ── COMMISSION ── */
-    .commission-box { border: 1px solid var(--rule); padding: clamp(28px, 4vw, 44px); display: flex; flex-direction: column; gap: 12px; }
-    .commission-box .big { font-size: clamp(28px, 4vw, 42px); font-weight: 300; letter-spacing: -.01em; }
-    .commission-box p { font-size: 13.5px; line-height: 1.9; color: var(--stone); max-width: 480px; }
+    /* ── APPORTEUR — liste affaires ── */
+    .affaires-list { display: flex; flex-direction: column; gap: 1px; }
+    .affaire-item { background: var(--white); border: 1px solid var(--rule); padding: 18px 22px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+    .affaire-info { min-width: 0; }
+    .affaire-title { font-size: 14px; font-weight: 400; margin-bottom: 4px; }
+    .affaire-meta { font-size: 12px; color: var(--stone); display: flex; gap: 14px; flex-wrap: wrap; }
+    .affaire-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .affaire-montant { font-size: 14px; font-weight: 500; }
+    .affaire-commission { font-size: 12px; color: var(--stone); }
+    .affaire-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 
-    /* ── FORM ── */
-    .form-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 96px); align-items: start; }
-    .form { display: flex; flex-direction: column; gap: 12px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    /* ── DOCUMENTS ── */
+    .documents-section { margin-top: 32px; }
+    .section-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 20px; }
+    .doc-category { margin-bottom: 28px; }
+    .doc-category-title { font-size: 13px; font-weight: 400; margin-bottom: 10px; }
+    .doc-empty { font-size: 12px; color: var(--stone); padding: 12px 0; }
+    .doc-list { display: flex; flex-direction: column; gap: 1px; }
+    .doc-item { background: var(--white); border: 1px solid var(--rule); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .doc-name { font-size: 13px; color: var(--ink); border-bottom: 1px solid var(--rule); word-break: break-word; }
+    .doc-meta { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--stone); flex-shrink: 0; }
+    .doc-grid-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+    .doc-photo { position: relative; border: 1px solid var(--rule); aspect-ratio: 1; overflow: hidden; background: var(--grey-light); display: block; }
+    .doc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .doc-photo-meta { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.92); padding: 4px 6px; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--stone); }
+    .doc-upload { background: var(--white); border: 1px solid var(--rule); padding: 22px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .doc-file-input { border: 1px solid var(--rule); background: var(--white); padding: 9px 10px; font-family: 'Inter', sans-serif; font-size: 13px; width: 100%; }
+    .doc-upload-status { font-size: 12px; color: var(--stone); }
+
+    #adminPanel { margin-top: 48px; border-top: 1px solid var(--rule); padding-top: 40px; }
+    .admin-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 24px; }
+    .admin-tabs { display: flex; gap: 4px; margin-bottom: 28px; border-bottom: 1px solid var(--rule); }
+    .admin-tab { padding: 10px 22px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); cursor: pointer; border: none; border-bottom: 2px solid transparent; background: none; font-family: 'Inter', sans-serif; transition: color .2s, border-color .2s; }
+    .admin-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+    .admin-form { display: flex; flex-direction: column; gap: 14px; background: var(--white); border: 1px solid var(--rule); padding: 24px; }
+    .admin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .fg { display: flex; flex-direction: column; gap: 5px; }
-    .flabel { font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--stone); }
-    .finput, .fselect, .ftextarea { width: 100%; border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 11px 13px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300; outline: none; border-radius: 0; appearance: none; transition: border-color .2s; }
-    .finput::placeholder, .ftextarea::placeholder { color: var(--rule); }
+    .flabel { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
+    .finput, .fselect, .ftextarea { border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 300; outline: none; border-radius: 0; appearance: none; transition: border-color .2s; width: 100%; }
     .finput:focus, .fselect:focus, .ftextarea:focus { border-color: var(--ink); }
-    .fselect { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999490' stroke-width='1' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; background-color: var(--white); }
-    .ftextarea { min-height: 96px; resize: vertical; line-height: 1.7; }
-    .fsubmit { align-self: flex-start; height: 44px; padding: 0 26px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .15s; }
-    .fsubmit:hover { background: #2a2a2a; transform: translateY(-1px); }
-    .fsuccess { display: none; padding: 20px 16px; border: 1px solid var(--rule); background: var(--fog); }
-    .fsuccess p { font-size: 13px; line-height: 1.8; color: var(--stone); }
-    .c-list { margin-top: 36px; }
-    .c-row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--rule); }
-    .c-row:first-child { border-top: 1px solid var(--rule); }
-    .c-lbl { font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); min-width: 56px; padding-top: 2px; }
-    .c-val { font-size: 13.5px; line-height: 1.6; color: var(--ink); }
-    .c-val a { border-bottom: 1px solid var(--rule); }
+    .finput::placeholder, .ftextarea::placeholder { color: var(--rule); }
+    .fselect { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999490' stroke-width='1' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-color: var(--white); }
+    .ftextarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+    .fsubmit { align-self: flex-start; height: 40px; padding: 0 22px; background: var(--ink); color: var(--white); border: none; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+    .fsubmit:hover { background: #2a2a2a; }
+    .fsubmit:disabled { background: var(--stone); cursor: wait; }
 
-    /* ── FOOTER ── */
-    footer { padding: 24px var(--x); border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
-    .ft-name { font-size: 13px; font-weight: 500; color: #666; }
-    .ft-baseline { font-size: 10px; font-weight: 400; letter-spacing: .18em; padding-left: .18em; color: var(--stone); }
+    .chantier-selector { margin-bottom: 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .chantier-selector label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 980px) {
-      .head-row, .form-wrap { grid-template-columns: 1fr; }
-      .etapes { grid-template-columns: 1fr; }
+    .etapes-manage, .affaires-manage { margin-top: 32px; }
+    .etapes-manage-title, .affaires-manage-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 16px; }
+    .etape-manage-row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 12px 16px; background: var(--white); border: 1px solid var(--rule); margin-bottom: 2px; }
+    .etape-manage-info { font-size: 13px; }
+    .etape-manage-status { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); }
+    .btn-delete { background: none; border: none; cursor: pointer; color: var(--stone); font-size: 16px; padding: 2px 6px; transition: color .2s; }
+    .btn-delete:hover { color: var(--red); }
+    .btn-status { background: none; border: 1px solid var(--rule); cursor: pointer; font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; color: var(--stone); transition: all .2s; }
+    .btn-status:hover { border-color: var(--ink); color: var(--ink); }
+
+    .affaire-manage-row { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: 10px; align-items: center; padding: 14px 16px; background: var(--white); border: 1px solid var(--rule); margin-bottom: 2px; }
+    .affaire-manage-info { font-size: 13px; min-width: 0; }
+    .affaire-manage-info .sub { font-size: 11px; color: var(--stone); margin-top: 2px; }
+    .montant-input { width: 110px; border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 6px 8px; font-family: 'Inter', sans-serif; font-size: 12px; outline: none; }
+    .montant-input:focus { border-color: var(--ink); }
+
+    .empty { padding: 48px 24px; text-align: center; border: 1px solid var(--rule); background: var(--white); }
+    .empty-text { font-size: 13px; color: var(--stone); }
+
+    footer { padding: 20px var(--x); border-top: 1px solid var(--rule); background: var(--white); text-align: center; }
+    .footer-txt { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--rule); }
+
+    /* ── MESSAGERIE ── */
+    .chat-bubble {
+      position: fixed; bottom: 24px; right: 24px; z-index: 300;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--ink); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; box-shadow: 0 6px 20px rgba(0,0,0,.18);
+      transition: transform .2s, background .2s;
     }
+    .chat-bubble:hover { transform: scale(1.06); background: #2a2a2a; }
+    .chat-badge {
+      position: absolute; top: -2px; right: -2px;
+      background: var(--red); color: #fff; font-size: 9px; font-weight: 600;
+      min-width: 16px; height: 16px; border-radius: 8px;
+      display: none; align-items: center; justify-content: center; padding: 0 4px;
+      border: 2px solid var(--fog);
+    }
+    .chat-panel {
+      position: fixed; bottom: 92px; right: 24px; z-index: 300;
+      width: 340px; max-width: calc(100vw - 32px);
+      height: 460px; max-height: calc(100vh - 140px);
+      background: var(--white); border: 1px solid var(--rule);
+      display: none; flex-direction: column;
+      box-shadow: 0 10px 36px rgba(0,0,0,.14);
+    }
+    .chat-panel.open { display: flex; }
+    .chat-header { padding: 14px 18px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .chat-header-title { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; font-weight: 500; }
+    .chat-header-sub { font-size: 11px; color: var(--stone); margin-top: 3px; }
+    .chat-close { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--stone); line-height: 1; padding: 0 4px; transition: color .2s; }
+    .chat-close:hover { color: var(--ink); }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; background: var(--fog); }
+    .chat-msg { display: flex; flex-direction: column; max-width: 82%; }
+    .chat-msg.own { align-self: flex-end; align-items: flex-end; }
+    .chat-msg.other { align-self: flex-start; align-items: flex-start; }
+    .chat-msg-label { font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); margin-bottom: 4px; }
+    .chat-msg-bubble { padding: 9px 13px; font-size: 13px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
+    .chat-msg.own .chat-msg-bubble { background: var(--ink); color: var(--white); }
+    .chat-msg.other .chat-msg-bubble { background: var(--white); color: var(--ink); border: 1px solid var(--rule); }
+    .chat-msg-time { font-size: 9px; color: var(--stone); margin-top: 4px; }
+    .chat-input-row { border-top: 1px solid var(--rule); padding: 10px 12px; display: flex; gap: 8px; background: var(--white); flex-shrink: 0; }
+    .chat-input { flex: 1; border: 1px solid var(--rule); padding: 9px 11px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 300; outline: none; resize: none; max-height: 80px; }
+    .chat-input:focus { border-color: var(--ink); }
+    .chat-send { background: var(--ink); color: var(--white); border: none; padding: 0 16px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+    .chat-send:hover { background: #2a2a2a; }
+    .chat-send:disabled { background: var(--stone); cursor: wait; }
+    .chat-empty { text-align: center; color: var(--stone); font-size: 12px; padding: 24px 0; }
+
     @media (max-width: 600px) {
-      :root { --x: 22px; --gap: 48px; }
-      .nav-links { display: none; }
-      .nav-client-mobile { display: block; }
-      .nav-name { font-size: 12px; letter-spacing: .42em; }
-      .hero { padding: 88px var(--x) 48px; }
-      h1 { font-size: 32px; }
-      h2 { font-size: 24px; }
-      .form-row { grid-template-columns: 1fr; }
-      .finput, .fselect, .ftextarea { font-size: 16px; }
+      :root { --x: 16px; }
+
+      /* topbar */
+      .topbar { padding: 14px var(--x); }
+      .topbar-name { font-size: 12px; letter-spacing: .38em; }
+      .topbar-label { display: none; }
+      .btn-logout { font-size: 10px; padding: 5px 10px; }
+
+      /* page */
+      .page { padding: 20px var(--x) 60px; }
+
+      /* header chantier */
+      .chantier-header, .apporteur-header { padding: 18px 16px; margin-bottom: 20px; }
+      .chantier-name { font-size: 20px; }
+      .chantier-meta { flex-direction: column; gap: 6px; }
+
+      /* étapes */
+      .etape-item { grid-template-columns: 28px 1fr; gap: 10px; padding: 16px; }
+      .badge { display: inline-block; margin-top: 8px; font-size: 8px; }
+
+      /* apporteur */
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .summary-card { border-bottom: 1px solid var(--rule); }
+      .summary-card:nth-child(2n) { border-right: none; }
+      .affaire-item { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
+      .affaire-right { align-items: flex-start; text-align: left; }
+
+      /* documents */
+      .doc-grid-photos { grid-template-columns: repeat(3, 1fr); }
+      .doc-item { padding: 10px 14px; }
+
+      /* admin */
+      .admin-tabs { overflow-x: auto; }
+      .admin-row { grid-template-columns: 1fr; }
+      .chantier-selector { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .chantier-selector select { width: 100%; min-width: unset !important; }
+      .fsubmit { width: 100%; text-align: center; justify-content: center; }
+      .admin-form, .doc-upload { padding: 16px; }
+
+      /* inputs — évite zoom iOS */
+      .finput, .fselect, .ftextarea, .login-input { font-size: 16px !important; }
+
+      /* manage rows */
+      .etape-manage-row { grid-template-columns: 1fr auto; }
+      .etape-manage-status { display: none; }
+      .btn-status { font-size: 9px; padding: 4px 8px; }
+      .affaire-manage-row { grid-template-columns: 1fr; gap: 8px; }
+
+      /* login */
+      .login-box { max-width: 100%; }
+      .login-brand { font-size: 16px; }
+
+      /* chat */
+      .chat-bubble { right: 16px; bottom: 16px; width: 50px; height: 50px; }
+      .chat-panel { right: 10px; left: 10px; width: auto; bottom: 76px; height: 60vh; }
+      .chat-input, .chat-send { font-size: 16px !important; }
     }
   </style>
 </head>
 <body>
 
-<nav id="nav">
-  <a href="/" class="nav-name" style="display:flex;flex-direction:column;gap:7px;">
-    <span class="brand">MΛTOBΛ</span>
-    <span style="font-size:7.5px;letter-spacing:.16em;color:var(--stone);font-weight:400;text-transform:uppercase;">Contractant général — Provence-Alpes-Côte d'Azur</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="/">Accueil</a></li>
-    <li><a href="#candidature" class="nav-cta">Devenir apporteur</a></li>
-    <li><a href="/suivi-chantier.html" class="nav-cta" style="border-color:var(--stone);color:var(--stone)!important;">Espace connexion</a></li>
-  </ul>
-  <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
-</nav>
+<div id="loginScreen">
+  <div class="login-box">
+    <a href="/" style="text-decoration:none;display:block;text-align:center;">
+      <div class="login-brand">MΛTOBΛ</div>
+      <div class="login-sub">Suivi de chantier — accès dédié</div>
+    </a>
 
-<header class="hero">
-  <div class="hero-tag">Programme apporteur d'affaires</div>
-  <h1>Vous connaissez un projet.<br/>Nous nous occupons du reste.</h1>
-  <p class="hero-sub">Mettez-nous en relation avec un projet de construction ou de rénovation. Nous le portons de A à Z, vous percevez une commission sur chaque affaire signée.</p>
-  <div class="hero-cta">
-    <a href="#candidature" class="btn">Devenir apporteur</a>
-    <a href="/suivi-chantier.html" class="btn btn-ghost">Accéder à mon espace</a>
-  </div>
-</header>
+    <div class="login-type-toggle">
+      <button class="type-btn active" id="typeClient" onclick="setLoginType('client')">Client</button>
+      <button class="type-btn" id="typeApporteur" onclick="setLoginType('apporteur')">Apporteur d'affaires</button>
+    </div>
 
-<section>
-  <div class="head-row">
-    <div>
-      <div class="eyebrow" data-reveal>Comment ça marche</div>
-      <h2 data-reveal="1">Trois étapes,<br/>une commission.</h2>
-    </div>
-    <p class="lead" data-reveal="2">Votre rôle s'arrête à la mise en relation. Nous gérons la suite — vous suivez l'avancement et votre commission depuis votre espace dédié.</p>
-  </div>
-  <div class="etapes" data-reveal>
-    <div class="etape">
-      <div class="etape-num">01</div>
-      <div class="etape-title">Mise en relation</div>
-      <div class="etape-body">Transmettez-nous le contact et le projet via le formulaire ci-dessous ou votre espace apporteur.</div>
-    </div>
-    <div class="etape">
-      <div class="etape-num">02</div>
-      <div class="etape-title">Étude &amp; signature</div>
-      <div class="etape-body">Nous échangeons avec le prospect, établissons un chiffrage et signons le contrat si le projet se concrétise.</div>
-    </div>
-    <div class="etape">
-      <div class="etape-num">03</div>
-      <div class="etape-title">Commission</div>
-      <div class="etape-body">Votre commission est calculée sur le montant signé et versée à l'encaissement du premier acompte.</div>
-    </div>
-  </div>
-</section>
-
-<section class="bg-fog">
-  <div class="head-row" style="margin-bottom:0;">
-    <div>
-      <div class="eyebrow" data-reveal>Commission</div>
-      <h2 data-reveal="1">Une rémunération<br/>simple et transparente.</h2>
-    </div>
-    <div data-reveal="2">
-      <div class="commission-box">
-        <div class="big">1 % à 2 %</div>
-        <p>du montant HT du contrat signé, selon sa taille. Versement à l'encaissement du premier acompte client. Le détail du barème vous est communiqué lors de la création de votre accès.</p>
+    <div class="login-form">
+      <div class="login-group">
+        <label class="login-label" for="loginId">Identifiant</label>
+        <input id="loginId" type="text" class="login-input" placeholder="Votre identifiant" autocomplete="username" />
       </div>
+      <div class="login-group">
+        <label class="login-label" for="loginPwd">Mot de passe</label>
+        <input id="loginPwd" type="password" class="login-input" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
+      <div class="login-loading" id="loginLoading">Connexion en cours…</div>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon espace</button>
     </div>
   </div>
-</section>
+</div>
 
-<section id="candidature">
-  <div class="form-wrap">
-    <div data-reveal="1">
-      <div class="eyebrow">Candidature</div>
-      <h2>Devenir apporteur<br/>d'affaires.</h2>
-      <p class="lead">Renseignez vos coordonnées et votre activité. Nous créons votre accès dédié après un premier échange.</p>
-      <div class="c-list">
-        <div class="c-row"><div class="c-lbl">Email</div><div class="c-val"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>
-        <div class="c-row"><div class="c-lbl">Zone</div><div class="c-val">Provence-Alpes-Côte d'Azur</div></div>
-      </div>
+<div id="app">
+  <div class="topbar">
+    <a href="/" class="topbar-name">MΛTOBΛ</a>
+    <div class="topbar-right">
+      <span class="topbar-label" id="topbarLabel"></span>
+      <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
     </div>
-    <div data-reveal="2">
-      <form class="form" id="apporteurForm">
-        <div class="form-row">
-          <div class="fg"><label class="flabel" for="nom">Nom</label><input id="nom" type="text" class="finput" placeholder="Votre nom" required /></div>
-          <div class="fg"><label class="flabel" for="email">Email</label><input id="email" type="email" class="finput" placeholder="votre@email.fr" required /></div>
+  </div>
+
+  <div class="page">
+
+    <!-- ── VUE CLIENT (chantier) ── -->
+    <div id="clientView" style="display:none">
+      <div class="chantier-header" id="chantierHeader" style="display:none">
+        <div class="chantier-tag" id="chantierTag"></div>
+        <div class="chantier-name" id="chantierName"></div>
+        <div class="chantier-meta" id="chantierMeta"></div>
+      </div>
+
+      <div class="progress-wrap" id="progressWrap" style="display:none">
+        <div class="progress-label">
+          <span>Avancement</span>
+          <span id="progressPct">0%</span>
         </div>
-        <div class="form-row">
-          <div class="fg"><label class="flabel" for="tel">Téléphone</label><input id="tel" type="tel" class="finput" placeholder="06 00 00 00 00" /></div>
-          <div class="fg">
-            <label class="flabel" for="activite">Votre activité</label>
-            <select id="activite" class="fselect" required>
-              <option value="" disabled selected>Sélectionner</option>
-              <option>Architecte / Maître d'œuvre</option>
-              <option>Agent immobilier</option>
-              <option>Courtier (travaux ou immobilier)</option>
-              <option>Artisan / Entreprise du bâtiment</option>
-              <option>Notaire / Expert-comptable</option>
-              <option>Particulier</option>
-              <option>Autre</option>
-            </select>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+
+      <div class="etapes-list" id="etapesList"></div>
+
+      <div class="documents-section">
+        <div class="section-title">Documents</div>
+        <div id="docCategories"></div>
+      </div>
+    </div>
+
+    <!-- ── VUE APPORTEUR ── -->
+    <div id="apporteurView" style="display:none">
+      <div class="apporteur-header">
+        <div class="chantier-tag">Espace apporteur d'affaires</div>
+        <div class="chantier-name" id="apporteurName"></div>
+      </div>
+
+      <div class="summary-grid" id="apporteurSummary"></div>
+
+      <div class="affaires-list" id="affairesList"></div>
+    </div>
+
+    <!-- ── ADMIN ── -->
+    <div id="adminPanel" style="display:none">
+      <div class="admin-title">Administration</div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="tabChantiers" onclick="switchAdminTab('chantiers')">Chantiers</button>
+        <button class="admin-tab" id="tabApporteurs" onclick="switchAdminTab('apporteurs')">Apporteurs d'affaires</button>
+      </div>
+
+      <!-- ── Onglet Chantiers ── -->
+      <div id="adminChantiers">
+
+        <div class="chantier-selector">
+          <label>Chantier actif :</label>
+          <select class="fselect" id="chantierSelect" onchange="switchChantier()" style="min-width:220px"></select>
+          <button class="fsubmit" style="height:36px;font-size:10px" onclick="showNewChantierForm()">+ Nouveau chantier</button>
+        </div>
+
+        <div id="newChantierForm" style="display:none;margin-bottom:24px;">
+          <div class="admin-form">
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Nom du chantier</label><input type="text" class="finput" id="nc_name" placeholder="Ex: Rénovation appartement — Paradis" /></div>
+              <div class="fg"><label class="flabel">Identifiant client</label><input type="text" class="finput" id="nc_login" placeholder="Ex: paradis2024" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Mot de passe client</label><input type="text" class="finput" id="nc_pwd" placeholder="Ex: matoba2024" /></div>
+              <div class="fg"><label class="flabel">Type de projet</label><input type="text" class="finput" id="nc_type" placeholder="Ex: Rénovation complète" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Adresse</label><input type="text" class="finput" id="nc_adresse" placeholder="Ex: 12 rue Paradis, Marseille 6e" /></div>
+              <div class="fg"><label class="flabel">Début prévu</label><input type="text" class="finput" id="nc_debut" placeholder="Ex: Septembre 2026" /></div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="fsubmit" id="btnCreateChantier" onclick="createChantier()">Créer le chantier</button>
+              <button class="fsubmit" style="background:var(--stone)" onclick="document.getElementById('newChantierForm').style.display='none'">Annuler</button>
+            </div>
           </div>
         </div>
-        <div class="fg"><label class="flabel" for="msg">Message</label><textarea id="msg" class="ftextarea" placeholder="Présentez-vous en quelques mots, et le type de projets que vous êtes susceptible d'apporter…"></textarea></div>
-        <button type="submit" class="fsubmit">Envoyer ma candidature</button>
-      </form>
-      <div class="fsuccess" id="fsuccess"><p>Votre candidature a bien été reçue.<br/>Nous vous recontactons dans les 48 heures.</p></div>
+
+        <div class="admin-form">
+          <div class="fg"><label class="flabel">Titre de l'étape</label><input type="text" class="finput" id="new_title" placeholder="Ex: Démolition et dépose" /></div>
+          <div class="fg"><label class="flabel">Description</label><textarea class="ftextarea" id="new_desc" placeholder="Ex: Dépose des anciens revêtements, démolition des cloisons non porteuses."></textarea></div>
+          <div class="admin-row">
+            <div class="fg">
+              <label class="flabel">Statut</label>
+              <select class="fselect" id="new_status">
+                <option value="todo">À venir</option>
+                <option value="active">En cours</option>
+                <option value="done">Terminé</option>
+              </select>
+            </div>
+            <div class="fg"><label class="flabel">Date (optionnel)</label><input type="text" class="finput" id="new_date" placeholder="Ex: 15 janvier 2025" /></div>
+          </div>
+          <button class="fsubmit" id="btnAddEtape" onclick="addEtape()">Ajouter l'étape</button>
+        </div>
+
+        <div class="etapes-manage" id="etapesManage"></div>
+
+        <div class="documents-section">
+          <div class="section-title">Documents</div>
+
+          <div class="doc-upload">
+            <div class="admin-row">
+              <div class="fg">
+                <label class="flabel">Catégorie</label>
+                <select class="fselect" id="doc_categorie">
+                  <option value="photos">Photos de chantier</option>
+                  <option value="devis">Devis</option>
+                  <option value="contrats">Contrats</option>
+                  <option value="factures">Factures</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="flabel">Fichier</label>
+                <input type="file" class="doc-file-input" id="doc_file" />
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <button class="fsubmit" id="btnUploadDoc" onclick="uploadDocumentUI()">Envoyer</button>
+              <div class="doc-upload-status" id="docUploadStatus"></div>
+            </div>
+          </div>
+
+          <div id="docCategoriesAdmin"></div>
+        </div>
+      </div>
+
+      <!-- ── Onglet Apporteurs ── -->
+      <div id="adminApporteurs" style="display:none">
+
+        <div class="chantier-selector">
+          <label>Apporteur actif :</label>
+          <select class="fselect" id="apporteurSelect" onchange="switchApporteurAdmin()" style="min-width:220px"></select>
+          <button class="fsubmit" style="height:36px;font-size:10px" onclick="showNewApporteurForm()">+ Nouvel apporteur</button>
+        </div>
+
+        <div id="newApporteurForm" style="display:none;margin-bottom:24px;">
+          <div class="admin-form">
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Nom</label><input type="text" class="finput" id="na_nom" placeholder="Ex: Jean Dupont" /></div>
+              <div class="fg"><label class="flabel">Identifiant</label><input type="text" class="finput" id="na_login" placeholder="Ex: jdupont" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Mot de passe</label><input type="text" class="finput" id="na_pwd" placeholder="Ex: matoba2026" /></div>
+              <div class="fg"><label class="flabel">Email</label><input type="email" class="finput" id="na_email" placeholder="jean@exemple.fr" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Téléphone</label><input type="text" class="finput" id="na_tel" placeholder="06 00 00 00 00" /></div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="fsubmit" id="btnCreateApporteur" onclick="createApporteurUI()">Créer l'apporteur</button>
+              <button class="fsubmit" style="background:var(--stone)" onclick="document.getElementById('newApporteurForm').style.display='none'">Annuler</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="noApporteurMsg" style="display:none">
+          <div class="empty"><div class="empty-text">Aucun apporteur. Créez le premier ci-dessus.</div></div>
+        </div>
+
+        <div id="apporteurAdminContent" style="display:none">
+          <div class="admin-form">
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Nom du projet</label><input type="text" class="finput" id="aff_projet" placeholder="Ex: Rénovation villa — Cassis" /></div>
+              <div class="fg"><label class="flabel">Client / prospect</label><input type="text" class="finput" id="aff_client" placeholder="Ex: M. et Mme Martin" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg">
+                <label class="flabel">Statut</label>
+                <select class="fselect" id="aff_status">
+                  <option value="en_attente">En attente</option>
+                  <option value="signe">Signé</option>
+                  <option value="refuse">Refusé</option>
+                </select>
+              </div>
+              <div class="fg"><label class="flabel">Date</label><input type="text" class="finput" id="aff_date" placeholder="Ex: Juin 2026" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Montant signé HT (€, optionnel)</label><input type="number" class="finput" id="aff_montant" placeholder="Ex: 85000" /></div>
+              <div class="fg"><label class="flabel">Note (optionnel)</label><input type="text" class="finput" id="aff_note" placeholder="Note interne" /></div>
+            </div>
+            <button class="fsubmit" id="btnAddAffaire" onclick="addAffaireUI()">Ajouter l'affaire</button>
+          </div>
+
+          <div class="affaires-manage" id="affairesManage"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer><div class="footer-txt">MΛTOBΛ — Suivi de chantier</div></footer>
+
+  <!-- ── MESSAGERIE ── -->
+  <button class="chat-bubble" id="chatBubble" onclick="toggleChat()" aria-label="Messagerie">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </svg>
+    <span class="chat-badge" id="chatBadge"></span>
+  </button>
+
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+      <div>
+        <div class="chat-header-title">Messagerie</div>
+        <div class="chat-header-sub" id="chatSub"></div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Votre message…"></textarea>
+      <button class="chat-send" id="chatSendBtn" onclick="sendChatMessage()">Envoyer</button>
     </div>
   </div>
-</section>
-
-<footer>
-  <a href="/" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;">
-    <div class="ft-name"><span class="brand">MΛTOBΛ</span></div>
-    <div class="ft-baseline">Conception&nbsp;&nbsp;|&nbsp;&nbsp;Ingénierie&nbsp;&nbsp;|&nbsp;&nbsp;Construction</div>
-  </a>
-</footer>
+</div>
 
 <script>
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
-  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+  const API_URL     = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
+  const ADMIN_LOGIN = 'admin';
+  const ADMIN_PWD   = 'MATO889293';
 
-  function alignFooter() {
-    const name     = document.querySelector('.ft-name');
-    const baseline = document.querySelector('.ft-baseline');
-    if (!name || !baseline) return;
-    const targetW  = baseline.offsetWidth;
-    const nameW    = name.offsetWidth;
-    const chars    = 6;
-    const extra    = (targetW - nameW) / chars;
-    const ls       = Math.max(extra, 2);
-    name.style.letterSpacing = ls + 'px';
-    name.style.paddingLeft   = ls + 'px';
+  let currentUser     = null;   // 'admin' | 'client' | 'apporteur'
+  let loginType       = 'client';
+  let currentChantier = null;
+  let allChantiers    = [];
+  let allEtapes       = [];
+  let currentApporteur = null;       // apporteur connecté (vue apporteur)
+  let currentApporteurAdmin = null;  // apporteur sélectionné côté admin
+  let allApporteurs   = [];
+  let allAffaires     = [];
+  let allDocuments    = [];
+  let adminTab        = 'chantiers';
+
+  // ── LOGIN TYPE TOGGLE ──
+  function setLoginType(type) {
+    loginType = type;
+    document.getElementById('typeClient').classList.toggle('active', type === 'client');
+    document.getElementById('typeApporteur').classList.toggle('active', type === 'apporteur');
+    document.getElementById('loginError').style.display = 'none';
   }
-  alignFooter();
-  window.addEventListener('resize', alignFooter);
 
-  document.getElementById('apporteurForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    this.style.display = 'none';
-    document.getElementById('fsuccess').style.display = 'block';
+  // ── SESSION persistante ──
+  function saveSession() {
+    sessionStorage.setItem('matoba_user', currentUser);
+    sessionStorage.setItem('matoba_chantier', JSON.stringify(currentChantier));
+    sessionStorage.setItem('matoba_chantiers', JSON.stringify(allChantiers));
+    sessionStorage.setItem('matoba_etapes', JSON.stringify(allEtapes));
+    sessionStorage.setItem('matoba_apporteur', JSON.stringify(currentApporteur));
+    sessionStorage.setItem('matoba_apporteurs', JSON.stringify(allApporteurs));
+    sessionStorage.setItem('matoba_affaires', JSON.stringify(allAffaires));
+  }
+  function clearSession() {
+    ['matoba_user','matoba_chantier','matoba_chantiers','matoba_etapes','matoba_apporteur','matoba_apporteurs','matoba_affaires']
+      .forEach(k => sessionStorage.removeItem(k));
+  }
+  async function restoreSession() {
+    const user = sessionStorage.getItem('matoba_user');
+    if (!user) return;
+    currentUser = user;
+    const chantier   = sessionStorage.getItem('matoba_chantier');
+    const chantiers  = sessionStorage.getItem('matoba_chantiers');
+    const etapes     = sessionStorage.getItem('matoba_etapes');
+    const apporteur  = sessionStorage.getItem('matoba_apporteur');
+    const apporteurs = sessionStorage.getItem('matoba_apporteurs');
+    const affaires   = sessionStorage.getItem('matoba_affaires');
+    if (chantier)   currentChantier  = JSON.parse(chantier);
+    if (chantiers)  allChantiers     = JSON.parse(chantiers);
+    if (etapes)     allEtapes        = JSON.parse(etapes);
+    if (apporteur)  currentApporteur = JSON.parse(apporteur);
+    if (apporteurs) allApporteurs    = JSON.parse(apporteurs);
+    if (affaires)   allAffaires      = JSON.parse(affaires);
+    showAppFromCache();
+  }
+  restoreSession();
+
+  // ── API via proxy Cloudflare Worker (GET) ──
+  const PROXY = 'https://matoba-proxy.tom-piras.workers.dev/';
+
+  async function api(action, data = {}) {
+    const params = new URLSearchParams({ action: action, data: JSON.stringify(data) });
+    const targetUrl = API_URL + '?' + params.toString();
+    const proxyUrl  = PROXY + '?url=' + encodeURIComponent(targetUrl);
+    const res  = await fetch(proxyUrl);
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch(e) { console.error('Parse error:', text); return { error: text }; }
+  }
+
+  // ── UI HELPERS ──
+  function showLoading(msg) {
+    document.getElementById('etapesList').innerHTML = `<div class="empty"><div class="empty-text">${msg}</div></div>`;
+    document.getElementById('chantierHeader').style.display = 'none';
+    document.getElementById('progressWrap').style.display   = 'none';
+  }
+  function setBtn(id, disabled, text) {
+    const b = document.getElementById(id);
+    if (!b) return;
+    b.disabled    = disabled;
+    b.textContent = text;
+  }
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  // ── LOGIN ──
+  async function doLogin() {
+    const id  = document.getElementById('loginId').value.trim();
+    const pwd = document.getElementById('loginPwd').value.trim();
+    if (!id || !pwd) return;
+
+    document.getElementById('loginError').style.display   = 'none';
+    document.getElementById('loginLoading').style.display = 'block';
+    setBtn('loginBtn', true, 'Connexion…');
+
+    try {
+      // Admin
+      if (id === ADMIN_LOGIN && pwd === ADMIN_PWD) {
+        currentUser = 'admin';
+        allChantiers  = await api('getChantiers');
+        if (!Array.isArray(allChantiers)) allChantiers = [];
+        allApporteurs = await api('getApporteurs');
+        if (!Array.isArray(allApporteurs)) allApporteurs = [];
+        currentChantier      = allChantiers[0] || null;
+        currentApporteurAdmin = allApporteurs[0] || null;
+        saveSession();
+        showApp();
+        return;
+      }
+
+      if (loginType === 'apporteur') {
+        const apporteurs = await api('getApporteurs');
+        if (!Array.isArray(apporteurs)) throw new Error('Réponse invalide');
+        const found = apporteurs.find(a => String(a.LOGIN).trim() === id && String(a.PWD).trim() === pwd);
+        if (found) {
+          currentUser      = 'apporteur';
+          currentApporteur = found;
+          allApporteurs    = apporteurs;
+          saveSession();
+          showApp();
+          return;
+        }
+      } else {
+        const chantiers = await api('getChantiers');
+        if (!Array.isArray(chantiers)) throw new Error('Réponse invalide');
+        const found = chantiers.find(c => String(c.LOGIN).trim() === id && String(c.PWD).trim() === pwd);
+        if (found) {
+          currentUser     = 'client';
+          currentChantier = found;
+          allChantiers    = chantiers;
+          saveSession();
+          showApp();
+          return;
+        }
+      }
+
+      document.getElementById('loginError').style.display = 'block';
+    } catch(e) {
+      document.getElementById('loginError').textContent    = 'Erreur de connexion. Réessayez.';
+      document.getElementById('loginError').style.display  = 'block';
+    } finally {
+      document.getElementById('loginLoading').style.display = 'none';
+      setBtn('loginBtn', false, 'Accéder à mon espace');
+    }
+  }
+
+  document.getElementById('loginPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('loginId').addEventListener('keydown',  e => { if (e.key === 'Enter') doLogin(); });
+
+  function doLogout() {
+    clearSession();
+    currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
+    currentApporteur = null; currentApporteurAdmin = null; allApporteurs = []; allAffaires = [];
+    allDocuments = [];
+    stopChatPolling();
+    chatMessages = []; chatConvType = null; chatConvId = null;
+    document.getElementById('chatPanel').classList.remove('open');
+    document.getElementById('chatBadge').style.display = 'none';
+    document.getElementById('app').style.display         = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginId').value  = '';
+    document.getElementById('loginPwd').value = '';
+    document.getElementById('loginError').style.display = 'none';
+  }
+
+  // ── SHOW APP depuis cache (instantané) ──
+  function showAppFromCache() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display         = 'block';
+    applyViewForUser();
+
+    if (currentUser === 'admin') {
+      buildChantierSelect();
+      buildApporteurSelect();
+      if (currentChantier && allEtapes.length >= 0) renderChantier();
+      renderApporteurAdmin();
+      if (currentChantier) {
+        api('getEtapes', { chantier_id: currentChantier.ID }).then(data => {
+          if (Array.isArray(data)) { allEtapes = data; saveSession(); renderChantier(); }
+        });
+      }
+    } else if (currentUser === 'client') {
+      if (currentChantier) renderChantier();
+      if (currentChantier) {
+        api('getEtapes', { chantier_id: currentChantier.ID }).then(data => {
+          if (Array.isArray(data)) { allEtapes = data; saveSession(); renderChantier(); }
+        });
+      }
+    } else if (currentUser === 'apporteur') {
+      renderApporteurView();
+      if (currentApporteur) {
+        api('getAffaires', { apporteur_id: currentApporteur.ID }).then(data => {
+          if (Array.isArray(data)) { allAffaires = data; saveSession(); renderApporteurView(); }
+        });
+      }
+    }
+
+    updateChatConv();
+    startChatPolling();
+  }
+
+  // ── SHOW APP depuis login (avec chargement) ──
+  async function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display         = 'block';
+    applyViewForUser();
+
+    if (currentUser === 'admin') {
+      buildChantierSelect();
+      buildApporteurSelect();
+      switchAdminTab('chantiers');
+
+      if (currentChantier) {
+        showLoading('Chargement…');
+        allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+        if (!Array.isArray(allEtapes)) allEtapes = [];
+        renderChantier();
+      } else {
+        document.getElementById('etapesList').innerHTML =
+          '<div class="empty"><div class="empty-text">Aucun chantier. Créez votre premier chantier ci-dessous.</div></div>';
+      }
+
+      if (currentApporteurAdmin) {
+        allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+        if (!Array.isArray(allAffaires)) allAffaires = [];
+      }
+      renderApporteurAdmin();
+      saveSession();
+
+    } else if (currentUser === 'client') {
+      showLoading('Chargement de votre chantier…');
+      allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+      if (!Array.isArray(allEtapes)) allEtapes = [];
+      saveSession();
+      renderChantier();
+
+    } else if (currentUser === 'apporteur') {
+      document.getElementById('affairesList').innerHTML = '<div class="empty"><div class="empty-text">Chargement…</div></div>';
+      allAffaires = await api('getAffaires', { apporteur_id: currentApporteur.ID });
+      if (!Array.isArray(allAffaires)) allAffaires = [];
+      saveSession();
+      renderApporteurView();
+    }
+
+    updateChatConv();
+    startChatPolling();
+  }
+
+  // ── BASCULE D'AFFICHAGE SELON LE TYPE D'UTILISATEUR ──
+  function applyViewForUser() {
+    const isAdmin     = currentUser === 'admin';
+    const isClient    = currentUser === 'client';
+    const isApporteur = currentUser === 'apporteur';
+
+    document.getElementById('clientView').style.display    = isClient ? '' : 'none';
+    document.getElementById('apporteurView').style.display  = isApporteur ? '' : 'none';
+    document.getElementById('adminPanel').style.display     = isAdmin ? 'block' : 'none';
+
+    if (isAdmin) {
+      document.getElementById('topbarLabel').textContent = 'Administration';
+    } else if (isClient) {
+      document.getElementById('topbarLabel').textContent = currentChantier?.NAME || '';
+    } else if (isApporteur) {
+      document.getElementById('topbarLabel').textContent = currentApporteur?.NOM || '';
+      document.getElementById('apporteurName').textContent = currentApporteur?.NOM || '';
+    }
+  }
+
+  // ── RENDER : VUE CLIENT ── 
+  function renderChantier() {
+    const c = currentChantier;
+    if (!c) return;
+
+    document.getElementById('chantierHeader').style.display = '';
+    document.getElementById('progressWrap').style.display   = '';
+    document.getElementById('chantierTag').textContent      = c.TYPE  || 'Chantier';
+    document.getElementById('chantierName').textContent     = c.NAME  || '';
+
+    let metaHtml = '';
+    if (c.ADRESSE) metaHtml += `<div class="chantier-meta-item"><strong>Adresse</strong> — ${c.ADRESSE}</div>`;
+    if (c.DEBUT)   metaHtml += `<div class="chantier-meta-item"><strong>Début</strong> — ${c.DEBUT}</div>`;
+    document.getElementById('chantierMeta').innerHTML = metaHtml;
+
+    const done = allEtapes.filter(e => e.STATUS === 'done').length;
+    const pct  = allEtapes.length ? Math.round((done / allEtapes.length) * 100) : 0;
+    document.getElementById('progressPct').textContent  = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
+
+    const list = document.getElementById('etapesList');
+    if (allEtapes.length === 0) {
+      list.innerHTML = '<div class="empty"><div class="empty-text">Aucune étape pour ce chantier.</div></div>';
+    } else {
+      list.innerHTML = allEtapes.map((e, i) => `
+        <div class="etape-item ${e.STATUS === 'active' ? 'active' : ''}">
+          <div class="etape-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="etape-content">
+            <div class="etape-title">${e.TITLE || ''}</div>
+            ${e.DESC ? `<div class="etape-desc">${e.DESC}</div>` : ''}
+            ${e.DATE ? `<div class="etape-date">${e.DATE}</div>` : ''}
+          </div>
+          <span class="badge badge-${e.STATUS === 'done' ? 'done' : e.STATUS === 'active' ? 'active' : 'todo'}">
+            ${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    if (currentUser === 'admin') renderManageList();
+
+    refreshDocuments();
+  }
+
+  function renderManageList() {
+    const div = document.getElementById('etapesManage');
+    if (allEtapes.length === 0) { div.innerHTML = ''; return; }
+    div.innerHTML = `
+      <div class="etapes-manage-title">Étapes existantes</div>
+      ${allEtapes.map((e, i) => `
+        <div class="etape-manage-row">
+          <div class="etape-manage-info">${String(i+1).padStart(2,'0')} — ${e.TITLE || ''}</div>
+          <div class="etape-manage-status">${e.STATUS === 'done' ? 'Terminé' : e.STATUS === 'active' ? 'En cours' : 'À venir'}</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-status" onclick="cycleStatus('${e.ID}','${e.STATUS}')">Changer statut</button>
+            <button class="btn-delete" onclick="deleteEtape('${e.ID}')">✕</button>
+          </div>
+        </div>
+      `).join('')}
+    `;
+  }
+
+  // ── DOCUMENTS ──
+  const DOC_CATEGORIES = [
+    { key: 'photos',   label: 'Photos de chantier' },
+    { key: 'devis',    label: 'Devis' },
+    { key: 'contrats', label: 'Contrats' },
+    { key: 'factures', label: 'Factures' }
+  ];
+
+  function driveImageUrl(fileId)    { return `https://drive.google.com/uc?export=view&id=${fileId}`; }
+  function driveDownloadUrl(fileId) { return `https://drive.google.com/uc?export=download&id=${fileId}`; }
+
+  function formatDocDate(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  async function refreshDocuments() {
+    if (!currentChantier) return;
+    const id = currentChantier.ID;
+    const data = await api('getDocuments', { chantier_id: id });
+    if (id !== currentChantier?.ID) return; // chantier changé pendant l'appel
+    allDocuments = Array.isArray(data) ? data : [];
+    if (currentUser === 'client') renderDocuments('docCategories', false);
+    if (currentUser === 'admin' && adminTab === 'chantiers') renderDocuments('docCategoriesAdmin', true);
+  }
+
+  function renderDocuments(containerId, isAdmin) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = DOC_CATEGORIES.map(cat => {
+      const docs = allDocuments.filter(d => d.CATEGORIE === cat.key);
+      let body;
+      if (docs.length === 0) {
+        body = '<div class="doc-empty">Aucun document.</div>';
+      } else if (cat.key === 'photos') {
+        body = `<div class="doc-grid-photos">${docs.map(d => renderDocPhoto(d, isAdmin)).join('')}</div>`;
+      } else {
+        body = `<div class="doc-list">${docs.map(d => renderDocItem(d, isAdmin)).join('')}</div>`;
+      }
+      return `
+        <div class="doc-category">
+          <div class="doc-category-title">${cat.label}</div>
+          ${body}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderDocPhoto(d, isAdmin) {
+    return `
+      <a class="doc-photo" href="${driveDownloadUrl(d.FILE_ID)}" target="_blank" rel="noopener" title="${escapeHtml(d.NOM)}">
+        <img src="${driveImageUrl(d.FILE_ID)}" alt="${escapeHtml(d.NOM)}" loading="lazy" onerror="this.parentElement.style.background='var(--grey-light)'; this.remove();" />
+        <span class="doc-photo-meta">
+          <span>${formatDocDate(d.DATE)}</span>
+          ${isAdmin ? `<button class="btn-delete" onclick="event.preventDefault(); deleteDocumentUI('${d.ID}')">✕</button>` : ''}
+        </span>
+      </a>
+    `;
+  }
+
+  function renderDocItem(d, isAdmin) {
+    return `
+      <div class="doc-item">
+        <a class="doc-name" href="${driveDownloadUrl(d.FILE_ID)}" target="_blank" rel="noopener">${escapeHtml(d.NOM)}</a>
+        <div class="doc-meta">
+          <span>${formatDocDate(d.DATE)}</span>
+          ${isAdmin ? `<button class="btn-delete" onclick="deleteDocumentUI('${d.ID}')">✕</button>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadDocumentUI() {
+    const fileInput = document.getElementById('doc_file');
+    const categorie = document.getElementById('doc_categorie').value;
+    const file = fileInput.files[0];
+    if (!file) { alert('Choisissez un fichier.'); return; }
+    if (!currentChantier) { alert('Sélectionnez un chantier.'); return; }
+
+    const status = document.getElementById('docUploadStatus');
+    setBtn('btnUploadDoc', true, 'Envoi…');
+    status.textContent = 'Envoi en cours…';
+
+    try {
+      const base64 = await fileToBase64(file);
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          action: 'uploadDocument',
+          chantier_id: currentChantier.ID,
+          categorie: categorie,
+          nom: file.name,
+          mimeType: file.type,
+          base64: base64
+        })
+      });
+      const json = await res.json();
+      if (json.success) {
+        status.textContent = 'Document envoyé.';
+        fileInput.value = '';
+        await refreshDocuments();
+      } else {
+        status.textContent = 'Erreur : ' + (json.error || 'inconnue');
+      }
+    } catch(e) {
+      status.textContent = "Erreur d'envoi : " + e.message;
+    }
+    setBtn('btnUploadDoc', false, 'Envoyer');
+  }
+
+  async function deleteDocumentUI(id) {
+    if (!confirm('Supprimer ce document ?')) return;
+    await api('deleteDocument', { id });
+    await refreshDocuments();
+  }
+
+  // ── RENDER : VUE APPORTEUR ──
+  function affaireStatusLabel(s) {
+    if (s === 'signe')   return { label: 'Signé',     cls: 'badge-done' };
+    if (s === 'refuse')  return { label: 'Refusé',    cls: 'badge-refuse' };
+    return { label: 'En attente', cls: 'badge-todo' };
+  }
+  function commissionStatusLabel(s) {
+    if (s === 'verse') return { label: 'Versé',    cls: 'badge-done' };
+    return { label: 'À verser', cls: 'badge-active' };
+  }
+  function formatMontant(v) {
+    if (v === '' || v === null || v === undefined) return '—';
+    if (typeof v === 'string' && isNaN(Number(v))) return v; // ex: "Sur devis"
+    return Number(v).toLocaleString('fr-FR') + ' €';
+  }
+
+  function renderApporteurView() {
+    const signees = allAffaires.filter(a => a.STATUS === 'signe');
+    const totalCommission = signees.reduce((sum, a) => sum + (typeof a.COMMISSION === 'number' ? a.COMMISSION : 0), 0);
+    const aVerser = signees.filter(a => a.COMMISSION_STATUS !== 'verse')
+      .reduce((sum, a) => sum + (typeof a.COMMISSION === 'number' ? a.COMMISSION : 0), 0);
+    const verse = signees.filter(a => a.COMMISSION_STATUS === 'verse')
+      .reduce((sum, a) => sum + (typeof a.COMMISSION === 'number' ? a.COMMISSION : 0), 0);
+
+    document.getElementById('apporteurSummary').innerHTML = `
+      <div class="summary-card"><div class="summary-label">Affaires apportées</div><div class="summary-value">${allAffaires.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Affaires signées</div><div class="summary-value">${signees.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Commission à verser</div><div class="summary-value">${formatMontant(aVerser)}</div></div>
+      <div class="summary-card"><div class="summary-label">Commission versée</div><div class="summary-value">${formatMontant(verse)}</div></div>
+    `;
+
+    const list = document.getElementById('affairesList');
+    if (allAffaires.length === 0) {
+      list.innerHTML = '<div class="empty"><div class="empty-text">Aucune affaire enregistrée pour le moment.</div></div>';
+      return;
+    }
+    list.innerHTML = allAffaires.map(a => {
+      const st = affaireStatusLabel(a.STATUS);
+      const cs = commissionStatusLabel(a.COMMISSION_STATUS);
+      return `
+        <div class="affaire-item">
+          <div class="affaire-info">
+            <div class="affaire-title">${a.PROJET || ''}</div>
+            <div class="affaire-meta">
+              ${a.CLIENT ? `<span>${a.CLIENT}</span>` : ''}
+              ${a.DATE ? `<span>${a.DATE}</span>` : ''}
+            </div>
+          </div>
+          <div class="affaire-right">
+            <div class="affaire-badges">
+              <span class="badge ${st.cls}">${st.label}</span>
+              ${a.STATUS === 'signe' ? `<span class="badge ${cs.cls}">${cs.label}</span>` : ''}
+            </div>
+            ${a.STATUS === 'signe' ? `
+              <div class="affaire-montant">${formatMontant(a.MONTANT)}</div>
+              <div class="affaire-commission">Commission : ${formatMontant(a.COMMISSION)}</div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── ADMIN : TABS ──
+  function switchAdminTab(tab) {
+    adminTab = tab;
+    document.getElementById('tabChantiers').classList.toggle('active', tab === 'chantiers');
+    document.getElementById('tabApporteurs').classList.toggle('active', tab === 'apporteurs');
+    document.getElementById('adminChantiers').style.display  = tab === 'chantiers'  ? '' : 'none';
+    document.getElementById('adminApporteurs').style.display = tab === 'apporteurs' ? '' : 'none';
+    if (tab === 'chantiers') refreshDocuments();
+    updateChatConv();
+  }
+
+  // ── ADMIN : CHANTIERS (existant) ──
+  function buildChantierSelect() {
+    const sel = document.getElementById('chantierSelect');
+    if (allChantiers.length === 0) { sel.innerHTML = '<option>Aucun chantier</option>'; return; }
+    sel.innerHTML = allChantiers.map(c => `<option value="${c.ID}">${c.NAME}</option>`).join('');
+    if (currentChantier) sel.value = currentChantier.ID;
+  }
+
+  async function switchChantier() {
+    const id = document.getElementById('chantierSelect').value;
+    currentChantier = allChantiers.find(c => c.ID === id) || null;
+    showLoading('Chargement…');
+    allEtapes = await api('getEtapes', { chantier_id: id });
+    if (!Array.isArray(allEtapes)) allEtapes = [];
+    renderChantier();
+    saveSession();
+    if (adminTab === 'chantiers') updateChatConv();
+  }
+
+  function showNewChantierForm() {
+    document.getElementById('newChantierForm').style.display = 'block';
+  }
+
+  async function createChantier() {
+    const name    = document.getElementById('nc_name').value.trim();
+    const login   = document.getElementById('nc_login').value.trim();
+    const pwd     = document.getElementById('nc_pwd').value.trim();
+    const type    = document.getElementById('nc_type').value.trim();
+    const adresse = document.getElementById('nc_adresse').value.trim();
+    const debut   = document.getElementById('nc_debut').value.trim();
+    if (!name || !login || !pwd) { alert('Nom, identifiant et mot de passe sont obligatoires.'); return; }
+
+    setBtn('btnCreateChantier', true, 'Création…');
+    const r = await api('createChantier', { NAME: name, LOGIN: login, PWD: pwd, TYPE: type, ADRESSE: adresse, DEBUT: debut });
+    setBtn('btnCreateChantier', false, 'Créer le chantier');
+
+    if (r.success) {
+      allChantiers = await api('getChantiers');
+      if (!Array.isArray(allChantiers)) allChantiers = [];
+      currentChantier = allChantiers.find(c => c.ID === r.id) || allChantiers[allChantiers.length - 1];
+      allEtapes = [];
+      document.getElementById('newChantierForm').style.display = 'none';
+      buildChantierSelect();
+      renderChantier();
+      saveSession();
+      if (adminTab === 'chantiers') updateChatConv();
+      ['nc_name','nc_login','nc_pwd','nc_type','nc_adresse','nc_debut'].forEach(id => document.getElementById(id).value = '');
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+  }
+
+  async function addEtape() {
+    const title  = document.getElementById('new_title').value.trim();
+    const desc   = document.getElementById('new_desc').value.trim();
+    const status = document.getElementById('new_status').value;
+    const date   = document.getElementById('new_date').value.trim();
+    if (!title) { alert('Le titre est obligatoire.'); return; }
+    if (!currentChantier) { alert('Sélectionnez un chantier.'); return; }
+
+    setBtn('btnAddEtape', true, 'Enregistrement…');
+    const r = await api('addEtape', { chantier_id: currentChantier.ID, title, desc, status, date });
+    if (r.success) {
+      allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+      if (!Array.isArray(allEtapes)) allEtapes = [];
+      renderChantier();
+      saveSession();
+      document.getElementById('new_title').value  = '';
+      document.getElementById('new_desc').value   = '';
+      document.getElementById('new_date').value   = '';
+      document.getElementById('new_status').value = 'todo';
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+    setBtn('btnAddEtape', false, 'Ajouter l\'étape');
+  }
+
+  async function cycleStatus(id, current) {
+    const cycle = { todo: 'active', active: 'done', done: 'todo' };
+    await api('updateEtape', { id, status: cycle[current] || 'todo' });
+    allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+    if (!Array.isArray(allEtapes)) allEtapes = [];
+    renderChantier();
+    saveSession();
+  }
+
+  async function deleteEtape(id) {
+    if (!confirm('Supprimer cette étape ?')) return;
+    await api('deleteEtape', { id });
+    allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
+    if (!Array.isArray(allEtapes)) allEtapes = [];
+    renderChantier();
+    saveSession();
+  }
+
+  // ── ADMIN : APPORTEURS ──
+  function buildApporteurSelect() {
+    const sel = document.getElementById('apporteurSelect');
+    if (allApporteurs.length === 0) {
+      sel.innerHTML = '<option>Aucun apporteur</option>';
+      currentApporteurAdmin = null;
+      return;
+    }
+    sel.innerHTML = allApporteurs.map(a => `<option value="${a.ID}">${a.NOM}</option>`).join('');
+    if (!currentApporteurAdmin) currentApporteurAdmin = allApporteurs[0];
+    sel.value = currentApporteurAdmin.ID;
+  }
+
+  async function switchApporteurAdmin() {
+    const id = document.getElementById('apporteurSelect').value;
+    currentApporteurAdmin = allApporteurs.find(a => a.ID === id) || null;
+    if (currentApporteurAdmin) {
+      allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+      if (!Array.isArray(allAffaires)) allAffaires = [];
+    } else {
+      allAffaires = [];
+    }
+    renderApporteurAdmin();
+    saveSession();
+    if (adminTab === 'apporteurs') updateChatConv();
+  }
+
+  function showNewApporteurForm() {
+    document.getElementById('newApporteurForm').style.display = 'block';
+  }
+
+  async function createApporteurUI() {
+    const nom   = document.getElementById('na_nom').value.trim();
+    const login = document.getElementById('na_login').value.trim();
+    const pwd   = document.getElementById('na_pwd').value.trim();
+    const email = document.getElementById('na_email').value.trim();
+    const tel   = document.getElementById('na_tel').value.trim();
+    if (!nom || !login || !pwd) { alert('Nom, identifiant et mot de passe sont obligatoires.'); return; }
+
+    setBtn('btnCreateApporteur', true, 'Création…');
+    const r = await api('createApporteur', { NOM: nom, LOGIN: login, PWD: pwd, EMAIL: email, TELEPHONE: tel });
+    setBtn('btnCreateApporteur', false, 'Créer l\'apporteur');
+
+    if (r.success) {
+      allApporteurs = await api('getApporteurs');
+      if (!Array.isArray(allApporteurs)) allApporteurs = [];
+      currentApporteurAdmin = allApporteurs.find(a => a.ID === r.id) || allApporteurs[allApporteurs.length - 1];
+      allAffaires = [];
+      document.getElementById('newApporteurForm').style.display = 'none';
+      buildApporteurSelect();
+      renderApporteurAdmin();
+      saveSession();
+      if (adminTab === 'apporteurs') updateChatConv();
+      ['na_nom','na_login','na_pwd','na_email','na_tel'].forEach(id => document.getElementById(id).value = '');
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+  }
+
+  function renderApporteurAdmin() {
+    const hasApporteurs = allApporteurs.length > 0;
+    document.getElementById('noApporteurMsg').style.display      = hasApporteurs ? 'none' : 'block';
+    document.getElementById('apporteurAdminContent').style.display = hasApporteurs ? 'block' : 'none';
+    if (!hasApporteurs) return;
+    renderAffairesManage();
+  }
+
+  async function addAffaireUI() {
+    const projet  = document.getElementById('aff_projet').value.trim();
+    const client  = document.getElementById('aff_client').value.trim();
+    const status  = document.getElementById('aff_status').value;
+    const date    = document.getElementById('aff_date').value.trim();
+    const montant = document.getElementById('aff_montant').value.trim();
+    const note    = document.getElementById('aff_note').value.trim();
+    if (!projet) { alert('Le nom du projet est obligatoire.'); return; }
+    if (!currentApporteurAdmin) { alert('Sélectionnez un apporteur.'); return; }
+
+    setBtn('btnAddAffaire', true, 'Enregistrement…');
+    const r = await api('addAffaire', {
+      APPORTEUR_ID: currentApporteurAdmin.ID,
+      PROJET: projet, CLIENT: client, STATUS: status, DATE: date,
+      MONTANT: montant, COMMISSION_STATUS: 'a_verser', NOTE: note
+    });
+    if (r.success) {
+      allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+      if (!Array.isArray(allAffaires)) allAffaires = [];
+      renderAffairesManage();
+      saveSession();
+      ['aff_projet','aff_client','aff_date','aff_montant','aff_note'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('aff_status').value = 'en_attente';
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+    setBtn('btnAddAffaire', false, 'Ajouter l\'affaire');
+  }
+
+  function renderAffairesManage() {
+    const div = document.getElementById('affairesManage');
+    if (!currentApporteurAdmin) { div.innerHTML = ''; return; }
+    if (allAffaires.length === 0) {
+      div.innerHTML = `<div class="affaires-manage-title">Affaires de ${currentApporteurAdmin.NOM}</div>
+        <div class="empty"><div class="empty-text">Aucune affaire pour cet apporteur.</div></div>`;
+      return;
+    }
+    div.innerHTML = `
+      <div class="affaires-manage-title">Affaires de ${currentApporteurAdmin.NOM}</div>
+      ${allAffaires.map(a => {
+        const st = affaireStatusLabel(a.STATUS);
+        const cs = commissionStatusLabel(a.COMMISSION_STATUS);
+        return `
+        <div class="affaire-manage-row">
+          <div class="affaire-manage-info">
+            ${a.PROJET || ''}
+            <div class="sub">${a.CLIENT || ''}${a.DATE ? ' · ' + a.DATE : ''}</div>
+          </div>
+          <input type="number" class="montant-input" placeholder="Montant €" value="${typeof a.MONTANT === 'number' ? a.MONTANT : ''}" onchange="updateMontant('${a.ID}', this.value)" />
+          <button class="btn-status" onclick="cycleAffaireStatus('${a.ID}','${a.STATUS}')">${st.label}</button>
+          <button class="btn-status" onclick="cycleCommissionStatus('${a.ID}','${a.COMMISSION_STATUS}')" ${a.STATUS !== 'signe' ? 'style="visibility:hidden"' : ''}>${cs.label}</button>
+          <button class="btn-delete" onclick="deleteAffaireUI('${a.ID}')">✕</button>
+        </div>
+        `;
+      }).join('')}
+    `;
+  }
+
+  async function reloadAffairesAdmin() {
+    if (!currentApporteurAdmin) return;
+    allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+    if (!Array.isArray(allAffaires)) allAffaires = [];
+    renderAffairesManage();
+    saveSession();
+  }
+
+  async function cycleAffaireStatus(id, current) {
+    const cycle = { en_attente: 'signe', signe: 'refuse', refuse: 'en_attente' };
+    await api('updateAffaire', { id, STATUS: cycle[current] || 'en_attente' });
+    await reloadAffairesAdmin();
+  }
+
+  async function cycleCommissionStatus(id, current) {
+    const cycle = { a_verser: 'verse', verse: 'a_verser' };
+    await api('updateAffaire', { id, COMMISSION_STATUS: cycle[current] || 'a_verser' });
+    await reloadAffairesAdmin();
+  }
+
+  async function updateMontant(id, value) {
+    await api('updateAffaire', { id, MONTANT: value });
+    await reloadAffairesAdmin();
+  }
+
+  async function deleteAffaireUI(id) {
+    if (!confirm('Supprimer cette affaire ?')) return;
+    await api('deleteAffaire', { id });
+    await reloadAffairesAdmin();
+  }
+
+  // ── MESSAGERIE ──
+  let chatConvType    = null;
+  let chatConvId      = null;
+  let chatMessages    = [];
+  let chatOpen        = false;
+  let chatPollHandle  = null;
+  let unreadMessages  = 0;
+  const baseTitle     = document.title;
+
+  function setUnread(n) {
+    unreadMessages = Math.max(0, n);
+    document.title = unreadMessages > 0 ? `(${unreadMessages}) ${baseTitle}` : baseTitle;
+    drawFavicon(unreadMessages > 0);
+  }
+
+  function drawFavicon(hasUnread) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64; canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#111';
+    ctx.beginPath();
+    ctx.arc(32, 32, 32, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = '300 34px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('M', 32, 36);
+    if (hasUnread) {
+      ctx.fillStyle = '#c0392b';
+      ctx.beginPath();
+      ctx.arc(50, 14, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+    let link = document.getElementById('faviconDynamic');
+    if (!link) {
+      link = document.createElement('link');
+      link.id  = 'faviconDynamic';
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = canvas.toDataURL('image/png');
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && chatOpen) setUnread(0);
+  });
+
+  drawFavicon(false);
+
+  function chatRole() {
+    return currentUser; // 'admin' | 'client' | 'apporteur'
+  }
+
+  function updateChatConv() {
+    let newType = null, newId = null, subLabel = '';
+
+    if (currentUser === 'client' && currentChantier) {
+      newType = 'chantier'; newId = currentChantier.ID;
+      subLabel = 'Échange avec MΛTOBΛ';
+    } else if (currentUser === 'apporteur' && currentApporteur) {
+      newType = 'apporteur'; newId = currentApporteur.ID;
+      subLabel = 'Échange avec MΛTOBΛ';
+    } else if (currentUser === 'admin') {
+      if (adminTab === 'chantiers' && currentChantier) {
+        newType = 'chantier'; newId = currentChantier.ID;
+        subLabel = currentChantier.NAME || '';
+      } else if (adminTab === 'apporteurs' && currentApporteurAdmin) {
+        newType = 'apporteur'; newId = currentApporteurAdmin.ID;
+        subLabel = currentApporteurAdmin.NOM || '';
+      }
+    }
+
+    const changed = (newType !== chatConvType) || (newId !== chatConvId);
+    chatConvType = newType;
+    chatConvId   = newId;
+    document.getElementById('chatSub').textContent = subLabel;
+
+    const sendBtn   = document.getElementById('chatSendBtn');
+    const inputEl   = document.getElementById('chatInput');
+    const hasConv   = !!(chatConvType && chatConvId);
+    sendBtn.disabled = !hasConv;
+    inputEl.disabled = !hasConv;
+    inputEl.placeholder = hasConv ? 'Votre message…' : 'Sélectionnez une conversation…';
+
+    if (changed) {
+      chatMessages = [];
+      renderChat();
+      if (hasConv) loadChatMessages();
+    }
+  }
+
+  function loadChatMessages() {
+    if (!chatConvType || !chatConvId) return;
+    const type = chatConvType, id = chatConvId;
+    api('getMessages', { conv_type: type, conv_id: id }).then(data => {
+      // si la conversation a changé pendant l'appel, on ignore le résultat
+      if (type !== chatConvType || id !== chatConvId) return;
+      if (!Array.isArray(data)) return;
+      const newCount = data.length - chatMessages.length;
+      chatMessages = data;
+      renderChat();
+      if (newCount > 0 && (!chatOpen || document.hidden)) {
+        const badge = document.getElementById('chatBadge');
+        badge.style.display = 'flex';
+        setUnread(unreadMessages + newCount);
+      }
+    });
+  }
+
+  function startChatPolling() {
+    stopChatPolling();
+    chatPollHandle = setInterval(loadChatMessages, 5000);
+  }
+  function stopChatPolling() {
+    if (chatPollHandle) { clearInterval(chatPollHandle); chatPollHandle = null; }
+  }
+
+  function formatChatTime(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    const now = new Date();
+    const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    if (d.toDateString() === now.toDateString()) return time;
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) + ' ' + time;
+  }
+
+  function chatAuthorLabel(auteur) {
+    if (auteur === 'admin') return 'MΛTOBΛ';
+    if (auteur === 'apporteur') return 'Apporteur';
+    return 'Client';
+  }
+
+  function renderChat() {
+    const div = document.getElementById('chatMessages');
+    if (!chatConvType || !chatConvId) {
+      div.innerHTML = '<div class="chat-empty">Sélectionnez un chantier ou un apporteur pour afficher la conversation.</div>';
+      return;
+    }
+    if (chatMessages.length === 0) {
+      div.innerHTML = '<div class="chat-empty">Aucun message pour le moment.<br/>Démarrez la conversation.</div>';
+      return;
+    }
+    const me = chatRole();
+    div.innerHTML = chatMessages.map(m => {
+      const isOwn = m.AUTEUR === me;
+      const label = isOwn ? 'Vous' : chatAuthorLabel(m.AUTEUR);
+      return `<div class="chat-msg ${isOwn ? 'own' : 'other'}">
+        <div class="chat-msg-label">${label}</div>
+        <div class="chat-msg-bubble">${escapeHtml(m.CONTENU)}</div>
+        <div class="chat-msg-time">${formatChatTime(m.DATE)}</div>
+      </div>`;
+    }).join('');
+    div.scrollTop = div.scrollHeight;
+  }
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    const panel = document.getElementById('chatPanel');
+    panel.classList.toggle('open', chatOpen);
+    if (chatOpen) {
+      document.getElementById('chatBadge').style.display = 'none';
+      setUnread(0);
+      loadChatMessages();
+      setTimeout(() => document.getElementById('chatInput').focus(), 100);
+    }
+  }
+
+  async function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text || !chatConvType || !chatConvId) return;
+
+    const sendBtn = document.getElementById('chatSendBtn');
+    input.value = '';
+    sendBtn.disabled = true;
+
+    await api('postMessage', {
+      CONV_TYPE: chatConvType,
+      CONV_ID: chatConvId,
+      AUTEUR: chatRole(),
+      CONTENU: text
+    });
+
+    sendBtn.disabled = false;
+    loadChatMessages();
+    input.focus();
+  }
+
+  document.getElementById('chatInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendChatMessage();
+    }
   });
 </script>
 </body>

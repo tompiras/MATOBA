@@ -114,6 +114,7 @@
     @media (max-width: 600px) {
       :root { --x: 22px; --gap: 48px; }
       .nav-links { display: none; }
+      .nav-region { display: none; }
       .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
       .hero { padding: 88px var(--x) 48px; }
@@ -129,7 +130,7 @@
 <nav id="nav">
   <a href="/" class="nav-name" style="display:flex;flex-direction:column;gap:7px;">
     <span class="brand">MΛTOBΛ</span>
-    <span style="font-size:7.5px;letter-spacing:.16em;color:var(--stone);font-weight:400;text-transform:uppercase;">Contractant général — Provence-Alpes-Côte d'Azur</span>
+    <span style="font-size:7.5px;letter-spacing:.16em;color:var(--stone);font-weight:400;text-transform:uppercase;">Contractant général<span class="nav-region"> — Provence-Alpes-Côte d'Azur</span></span>
   </a>
   <ul class="nav-links">
     <li><a href="/">Accueil</a></li>

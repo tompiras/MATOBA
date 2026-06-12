@@ -104,7 +104,7 @@
 
     /* ── FOOTER ── */
     footer { padding: 24px var(--x); border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
-    .ft-name { font-size: 13px; font-weight: 500; color: #666; }
+    .ft-name { font-size: 13px; font-weight: 500; color: #666; letter-spacing: .5em; padding-left: .5em; }
     .ft-baseline { font-size: 10px; font-weight: 400; letter-spacing: .18em; padding-left: .18em; color: var(--stone); }
 
     /* ── RESPONSIVE ── */
@@ -251,20 +251,6 @@
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
 
-  function alignFooter() {
-    const name     = document.querySelector('.ft-name');
-    const baseline = document.querySelector('.ft-baseline');
-    if (!name || !baseline) return;
-    const targetW  = baseline.offsetWidth;
-    const nameW    = name.offsetWidth;
-    const chars    = 6;
-    const extra    = (targetW - nameW) / chars;
-    const ls       = Math.max(extra, 2);
-    name.style.letterSpacing = ls + 'px';
-    name.style.paddingLeft   = ls + 'px';
-  }
-  alignFooter();
-  window.addEventListener('resize', alignFooter);
 
   document.getElementById('apporteurForm').addEventListener('submit', function(e) {
     e.preventDefault();

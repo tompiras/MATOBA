@@ -44,6 +44,7 @@
     .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
     .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
     .nav-mobile-actions { display: none; }
+    .lead-break { display: none; }
 
     /* ── HERO ── */
     .hero { padding: 120px var(--x) var(--gap); border-bottom: 1px solid var(--rule); }
@@ -120,8 +121,11 @@
       .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
       .hero { padding: 88px var(--x) 48px; }
-      h1 { font-size: 32px; }
+      h1 { font-size: clamp(19px, 6.2vw, 27px); line-height: 1.18; }
       h2 { font-size: 24px; }
+      .h2-candidature { font-size: clamp(19px, 6.2vw, 27px); }
+      .candidature-break { display: none; }
+      .lead-break { display: block; }
       .form-row { grid-template-columns: 1fr; }
       .finput, .fselect, .ftextarea { font-size: 16px; }
     }
@@ -161,7 +165,7 @@
       <div class="eyebrow" data-reveal>Comment ça marche</div>
       <h2 data-reveal="1">Trois étapes,<br/>une commission.</h2>
     </div>
-    <p class="lead" data-reveal="2">Votre rôle s'arrête à la mise en relation. Nous gérons la suite — vous suivez l'avancement et votre commission depuis votre espace dédié.</p>
+    <p class="lead" data-reveal="2">Votre rôle s'arrête à la mise en relation.<br class="lead-break"> Nous gérons la suite — vous suivez l'avancement et votre commission depuis votre espace dédié.</p>
   </div>
   <div class="etapes" data-reveal>
     <div class="etape">
@@ -201,7 +205,7 @@
   <div class="form-wrap">
     <div data-reveal="1">
       <div class="eyebrow">Candidature</div>
-      <h2>Devenir apporteur<br/>d'affaires.</h2>
+      <h2 class="h2-candidature">Devenir apporteur<br class="candidature-break"/>d'affaires.</h2>
       <p class="lead">Renseignez vos coordonnées et votre activité. Nous créons votre accès dédié après un premier échange.</p>
       <div class="c-list">
         <div class="c-row"><div class="c-lbl">Email</div><div class="c-val"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>

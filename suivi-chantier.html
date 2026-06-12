@@ -17,6 +17,8 @@
       --green-light: #e8f5ef;
       --orange: #b5600a;
       --orange-light: #fdf0e3;
+      --red: #c0392b;
+      --red-light: #fdf0ef;
       --grey-light: #f0eeea;
       --x: clamp(20px, 5vw, 64px);
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -47,7 +49,10 @@
     }
     .login-box { width: 100%; max-width: 400px; }
     .login-brand { font-size: 18px; font-weight: 200; letter-spacing: .52em; padding-left: .52em; color: var(--ink); margin-bottom: 8px; }
-    .login-sub { font-size: 12px; color: var(--stone); letter-spacing: .04em; margin-bottom: 40px; }
+    .login-sub { font-size: 12px; color: var(--stone); letter-spacing: .04em; margin-bottom: 32px; }
+    .login-type-toggle { display: flex; gap: 8px; margin-bottom: 24px; }
+    .type-btn { flex: 1; padding: 11px 8px; border: 1px solid var(--rule); background: var(--white); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; color: var(--stone); transition: all .2s; }
+    .type-btn.active { border-color: var(--ink); color: var(--ink); background: var(--fog); }
     .login-form { display: flex; flex-direction: column; gap: 14px; }
     .login-group { display: flex; flex-direction: column; gap: 5px; }
     .login-label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
@@ -56,13 +61,13 @@
     .login-input::placeholder { color: var(--rule); }
     .login-btn { margin-top: 8px; height: 44px; background: var(--ink); color: var(--white); border: none; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
     .login-btn:hover { background: #2a2a2a; }
-    .login-error { font-size: 12px; color: #c0392b; padding: 10px 14px; background: #fdf0ef; border: 1px solid #f5c6c6; display: none; margin-top: 4px; }
+    .login-error { font-size: 12px; color: var(--red); padding: 10px 14px; background: var(--red-light); border: 1px solid #f5c6c6; display: none; margin-top: 4px; }
     .login-loading { font-size: 12px; color: var(--stone); padding: 10px 0; display: none; }
 
     #app { display: none; }
     .page { max-width: 900px; margin: 0 auto; padding: 40px var(--x) 80px; }
 
-    .chantier-header { background: var(--white); border: 1px solid var(--rule); padding: 28px 32px; margin-bottom: 32px; }
+    .chantier-header, .apporteur-header { background: var(--white); border: 1px solid var(--rule); padding: 28px 32px; margin-bottom: 32px; }
     .chantier-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 8px; }
     .chantier-name { font-size: clamp(20px, 3vw, 28px); font-weight: 200; letter-spacing: -.01em; margin-bottom: 16px; }
     .chantier-meta { display: flex; gap: 28px; flex-wrap: wrap; }
@@ -86,9 +91,31 @@
     .badge-done   { background: var(--green-light); color: var(--green); }
     .badge-active { background: var(--orange-light); color: var(--orange); }
     .badge-todo   { background: var(--grey-light); color: var(--stone); }
+    .badge-refuse { background: var(--red-light); color: var(--red); }
+
+    /* ── APPORTEUR — résumé ── */
+    .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule); margin-bottom: 32px; }
+    .summary-card { background: var(--white); padding: 20px 22px; border-right: 1px solid var(--rule); }
+    .summary-card:last-child { border-right: none; }
+    .summary-label { font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); margin-bottom: 10px; }
+    .summary-value { font-size: clamp(18px, 2.2vw, 24px); font-weight: 300; }
+
+    /* ── APPORTEUR — liste affaires ── */
+    .affaires-list { display: flex; flex-direction: column; gap: 1px; }
+    .affaire-item { background: var(--white); border: 1px solid var(--rule); padding: 18px 22px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+    .affaire-info { min-width: 0; }
+    .affaire-title { font-size: 14px; font-weight: 400; margin-bottom: 4px; }
+    .affaire-meta { font-size: 12px; color: var(--stone); display: flex; gap: 14px; flex-wrap: wrap; }
+    .affaire-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .affaire-montant { font-size: 14px; font-weight: 500; }
+    .affaire-commission { font-size: 12px; color: var(--stone); }
+    .affaire-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 
     #adminPanel { margin-top: 48px; border-top: 1px solid var(--rule); padding-top: 40px; }
     .admin-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 24px; }
+    .admin-tabs { display: flex; gap: 4px; margin-bottom: 28px; border-bottom: 1px solid var(--rule); }
+    .admin-tab { padding: 10px 22px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); cursor: pointer; border: none; border-bottom: 2px solid transparent; background: none; font-family: 'Inter', sans-serif; transition: color .2s, border-color .2s; }
+    .admin-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
     .admin-form { display: flex; flex-direction: column; gap: 14px; background: var(--white); border: 1px solid var(--rule); padding: 24px; }
     .admin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .fg { display: flex; flex-direction: column; gap: 5px; }
@@ -105,15 +132,21 @@
     .chantier-selector { margin-bottom: 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .chantier-selector label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
 
-    .etapes-manage { margin-top: 32px; }
-    .etapes-manage-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 16px; }
+    .etapes-manage, .affaires-manage { margin-top: 32px; }
+    .etapes-manage-title, .affaires-manage-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 16px; }
     .etape-manage-row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 12px 16px; background: var(--white); border: 1px solid var(--rule); margin-bottom: 2px; }
     .etape-manage-info { font-size: 13px; }
     .etape-manage-status { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); }
     .btn-delete { background: none; border: none; cursor: pointer; color: var(--stone); font-size: 16px; padding: 2px 6px; transition: color .2s; }
-    .btn-delete:hover { color: #c0392b; }
+    .btn-delete:hover { color: var(--red); }
     .btn-status { background: none; border: 1px solid var(--rule); cursor: pointer; font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; color: var(--stone); transition: all .2s; }
     .btn-status:hover { border-color: var(--ink); color: var(--ink); }
+
+    .affaire-manage-row { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: 10px; align-items: center; padding: 14px 16px; background: var(--white); border: 1px solid var(--rule); margin-bottom: 2px; }
+    .affaire-manage-info { font-size: 13px; min-width: 0; }
+    .affaire-manage-info .sub { font-size: 11px; color: var(--stone); margin-top: 2px; }
+    .montant-input { width: 110px; border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 6px 8px; font-family: 'Inter', sans-serif; font-size: 12px; outline: none; }
+    .montant-input:focus { border-color: var(--ink); }
 
     .empty { padding: 48px 24px; text-align: center; border: 1px solid var(--rule); background: var(--white); }
     .empty-text { font-size: 13px; color: var(--stone); }
@@ -134,7 +167,7 @@
       .page { padding: 20px var(--x) 60px; }
 
       /* header chantier */
-      .chantier-header { padding: 18px 16px; margin-bottom: 20px; }
+      .chantier-header, .apporteur-header { padding: 18px 16px; margin-bottom: 20px; }
       .chantier-name { font-size: 20px; }
       .chantier-meta { flex-direction: column; gap: 6px; }
 
@@ -142,7 +175,15 @@
       .etape-item { grid-template-columns: 28px 1fr; gap: 10px; padding: 16px; }
       .badge { display: inline-block; margin-top: 8px; font-size: 8px; }
 
+      /* apporteur */
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .summary-card { border-bottom: 1px solid var(--rule); }
+      .summary-card:nth-child(2n) { border-right: none; }
+      .affaire-item { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
+      .affaire-right { align-items: flex-start; text-align: left; }
+
       /* admin */
+      .admin-tabs { overflow-x: auto; }
       .admin-row { grid-template-columns: 1fr; }
       .chantier-selector { flex-direction: column; align-items: flex-start; gap: 10px; }
       .chantier-selector select { width: 100%; min-width: unset !important; }
@@ -156,6 +197,7 @@
       .etape-manage-row { grid-template-columns: 1fr auto; }
       .etape-manage-status { display: none; }
       .btn-status { font-size: 9px; padding: 4px 8px; }
+      .affaire-manage-row { grid-template-columns: 1fr; gap: 8px; }
 
       /* login */
       .login-box { max-width: 100%; }
@@ -168,7 +210,13 @@
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-brand">MΛTOBΛ</div>
-    <div class="login-sub">Suivi de chantier — accès client</div>
+    <div class="login-sub">Suivi de chantier — accès dédié</div>
+
+    <div class="login-type-toggle">
+      <button class="type-btn active" id="typeClient" onclick="setLoginType('client')">Client</button>
+      <button class="type-btn" id="typeApporteur" onclick="setLoginType('apporteur')">Apporteur d'affaires</button>
+    </div>
+
     <div class="login-form">
       <div class="login-group">
         <label class="login-label" for="loginId">Identifiant</label>
@@ -180,7 +228,7 @@
       </div>
       <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
       <div class="login-loading" id="loginLoading">Connexion en cours…</div>
-      <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon chantier</button>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon espace</button>
     </div>
   </div>
 </div>
@@ -196,70 +244,157 @@
 
   <div class="page">
 
-    <div class="chantier-header" id="chantierHeader" style="display:none">
-      <div class="chantier-tag" id="chantierTag"></div>
-      <div class="chantier-name" id="chantierName"></div>
-      <div class="chantier-meta" id="chantierMeta"></div>
-    </div>
-
-    <div class="progress-wrap" id="progressWrap" style="display:none">
-      <div class="progress-label">
-        <span>Avancement</span>
-        <span id="progressPct">0%</span>
+    <!-- ── VUE CLIENT (chantier) ── -->
+    <div id="clientView" style="display:none">
+      <div class="chantier-header" id="chantierHeader" style="display:none">
+        <div class="chantier-tag" id="chantierTag"></div>
+        <div class="chantier-name" id="chantierName"></div>
+        <div class="chantier-meta" id="chantierMeta"></div>
       </div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+      <div class="progress-wrap" id="progressWrap" style="display:none">
+        <div class="progress-label">
+          <span>Avancement</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+
+      <div class="etapes-list" id="etapesList"></div>
     </div>
 
-    <div class="etapes-list" id="etapesList"></div>
+    <!-- ── VUE APPORTEUR ── -->
+    <div id="apporteurView" style="display:none">
+      <div class="apporteur-header">
+        <div class="chantier-tag">Espace apporteur d'affaires</div>
+        <div class="chantier-name" id="apporteurName"></div>
+      </div>
 
+      <div class="summary-grid" id="apporteurSummary"></div>
+
+      <div class="affaires-list" id="affairesList"></div>
+    </div>
+
+    <!-- ── ADMIN ── -->
     <div id="adminPanel" style="display:none">
-      <div class="admin-title">Gestion des chantiers</div>
+      <div class="admin-title">Administration</div>
 
-      <div class="chantier-selector">
-        <label>Chantier actif :</label>
-        <select class="fselect" id="chantierSelect" onchange="switchChantier()" style="min-width:220px"></select>
-        <button class="fsubmit" style="height:36px;font-size:10px" onclick="showNewChantierForm()">+ Nouveau chantier</button>
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="tabChantiers" onclick="switchAdminTab('chantiers')">Chantiers</button>
+        <button class="admin-tab" id="tabApporteurs" onclick="switchAdminTab('apporteurs')">Apporteurs d'affaires</button>
       </div>
 
-      <div id="newChantierForm" style="display:none;margin-bottom:24px;">
+      <!-- ── Onglet Chantiers ── -->
+      <div id="adminChantiers">
+
+        <div class="chantier-selector">
+          <label>Chantier actif :</label>
+          <select class="fselect" id="chantierSelect" onchange="switchChantier()" style="min-width:220px"></select>
+          <button class="fsubmit" style="height:36px;font-size:10px" onclick="showNewChantierForm()">+ Nouveau chantier</button>
+        </div>
+
+        <div id="newChantierForm" style="display:none;margin-bottom:24px;">
+          <div class="admin-form">
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Nom du chantier</label><input type="text" class="finput" id="nc_name" placeholder="Ex: Rénovation appartement — Paradis" /></div>
+              <div class="fg"><label class="flabel">Identifiant client</label><input type="text" class="finput" id="nc_login" placeholder="Ex: paradis2024" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Mot de passe client</label><input type="text" class="finput" id="nc_pwd" placeholder="Ex: matoba2024" /></div>
+              <div class="fg"><label class="flabel">Type de projet</label><input type="text" class="finput" id="nc_type" placeholder="Ex: Rénovation complète" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Adresse</label><input type="text" class="finput" id="nc_adresse" placeholder="Ex: 12 rue Paradis, Marseille 6e" /></div>
+              <div class="fg"><label class="flabel">Début prévu</label><input type="text" class="finput" id="nc_debut" placeholder="Ex: Septembre 2026" /></div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="fsubmit" id="btnCreateChantier" onclick="createChantier()">Créer le chantier</button>
+              <button class="fsubmit" style="background:var(--stone)" onclick="document.getElementById('newChantierForm').style.display='none'">Annuler</button>
+            </div>
+          </div>
+        </div>
+
         <div class="admin-form">
+          <div class="fg"><label class="flabel">Titre de l'étape</label><input type="text" class="finput" id="new_title" placeholder="Ex: Démolition et dépose" /></div>
+          <div class="fg"><label class="flabel">Description</label><textarea class="ftextarea" id="new_desc" placeholder="Ex: Dépose des anciens revêtements, démolition des cloisons non porteuses."></textarea></div>
           <div class="admin-row">
-            <div class="fg"><label class="flabel">Nom du chantier</label><input type="text" class="finput" id="nc_name" placeholder="Ex: Rénovation appartement — Paradis" /></div>
-            <div class="fg"><label class="flabel">Identifiant client</label><input type="text" class="finput" id="nc_login" placeholder="Ex: paradis2024" /></div>
+            <div class="fg">
+              <label class="flabel">Statut</label>
+              <select class="fselect" id="new_status">
+                <option value="todo">À venir</option>
+                <option value="active">En cours</option>
+                <option value="done">Terminé</option>
+              </select>
+            </div>
+            <div class="fg"><label class="flabel">Date (optionnel)</label><input type="text" class="finput" id="new_date" placeholder="Ex: 15 janvier 2025" /></div>
           </div>
-          <div class="admin-row">
-            <div class="fg"><label class="flabel">Mot de passe client</label><input type="text" class="finput" id="nc_pwd" placeholder="Ex: matoba2024" /></div>
-            <div class="fg"><label class="flabel">Type de projet</label><input type="text" class="finput" id="nc_type" placeholder="Ex: Rénovation complète" /></div>
+          <button class="fsubmit" id="btnAddEtape" onclick="addEtape()">Ajouter l'étape</button>
+        </div>
+
+        <div class="etapes-manage" id="etapesManage"></div>
+      </div>
+
+      <!-- ── Onglet Apporteurs ── -->
+      <div id="adminApporteurs" style="display:none">
+
+        <div class="chantier-selector">
+          <label>Apporteur actif :</label>
+          <select class="fselect" id="apporteurSelect" onchange="switchApporteurAdmin()" style="min-width:220px"></select>
+          <button class="fsubmit" style="height:36px;font-size:10px" onclick="showNewApporteurForm()">+ Nouvel apporteur</button>
+        </div>
+
+        <div id="newApporteurForm" style="display:none;margin-bottom:24px;">
+          <div class="admin-form">
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Nom</label><input type="text" class="finput" id="na_nom" placeholder="Ex: Jean Dupont" /></div>
+              <div class="fg"><label class="flabel">Identifiant</label><input type="text" class="finput" id="na_login" placeholder="Ex: jdupont" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Mot de passe</label><input type="text" class="finput" id="na_pwd" placeholder="Ex: matoba2026" /></div>
+              <div class="fg"><label class="flabel">Email</label><input type="email" class="finput" id="na_email" placeholder="jean@exemple.fr" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Téléphone</label><input type="text" class="finput" id="na_tel" placeholder="06 00 00 00 00" /></div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="fsubmit" id="btnCreateApporteur" onclick="createApporteurUI()">Créer l'apporteur</button>
+              <button class="fsubmit" style="background:var(--stone)" onclick="document.getElementById('newApporteurForm').style.display='none'">Annuler</button>
+            </div>
           </div>
-          <div class="admin-row">
-            <div class="fg"><label class="flabel">Adresse</label><input type="text" class="finput" id="nc_adresse" placeholder="Ex: 12 rue Paradis, Marseille 6e" /></div>
-            <div class="fg"><label class="flabel">Début prévu</label><input type="text" class="finput" id="nc_debut" placeholder="Ex: Septembre 2026" /></div>
+        </div>
+
+        <div id="noApporteurMsg" style="display:none">
+          <div class="empty"><div class="empty-text">Aucun apporteur. Créez le premier ci-dessus.</div></div>
+        </div>
+
+        <div id="apporteurAdminContent" style="display:none">
+          <div class="admin-form">
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Nom du projet</label><input type="text" class="finput" id="aff_projet" placeholder="Ex: Rénovation villa — Cassis" /></div>
+              <div class="fg"><label class="flabel">Client / prospect</label><input type="text" class="finput" id="aff_client" placeholder="Ex: M. et Mme Martin" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg">
+                <label class="flabel">Statut</label>
+                <select class="fselect" id="aff_status">
+                  <option value="en_attente">En attente</option>
+                  <option value="signe">Signé</option>
+                  <option value="refuse">Refusé</option>
+                </select>
+              </div>
+              <div class="fg"><label class="flabel">Date</label><input type="text" class="finput" id="aff_date" placeholder="Ex: Juin 2026" /></div>
+            </div>
+            <div class="admin-row">
+              <div class="fg"><label class="flabel">Montant signé HT (€, optionnel)</label><input type="number" class="finput" id="aff_montant" placeholder="Ex: 85000" /></div>
+              <div class="fg"><label class="flabel">Note (optionnel)</label><input type="text" class="finput" id="aff_note" placeholder="Note interne" /></div>
+            </div>
+            <button class="fsubmit" id="btnAddAffaire" onclick="addAffaireUI()">Ajouter l'affaire</button>
           </div>
-          <div style="display:flex;gap:10px">
-            <button class="fsubmit" id="btnCreateChantier" onclick="createChantier()">Créer le chantier</button>
-            <button class="fsubmit" style="background:var(--stone)" onclick="document.getElementById('newChantierForm').style.display='none'">Annuler</button>
-          </div>
+
+          <div class="affaires-manage" id="affairesManage"></div>
         </div>
       </div>
 
-      <div class="admin-form">
-        <div class="fg"><label class="flabel">Titre de l'étape</label><input type="text" class="finput" id="new_title" placeholder="Ex: Démolition et dépose" /></div>
-        <div class="fg"><label class="flabel">Description</label><textarea class="ftextarea" id="new_desc" placeholder="Ex: Dépose des anciens revêtements, démolition des cloisons non porteuses."></textarea></div>
-        <div class="admin-row">
-          <div class="fg">
-            <label class="flabel">Statut</label>
-            <select class="fselect" id="new_status">
-              <option value="todo">À venir</option>
-              <option value="active">En cours</option>
-              <option value="done">Terminé</option>
-            </select>
-          </div>
-          <div class="fg"><label class="flabel">Date (optionnel)</label><input type="text" class="finput" id="new_date" placeholder="Ex: 15 janvier 2025" /></div>
-        </div>
-        <button class="fsubmit" id="btnAddEtape" onclick="addEtape()">Ajouter l'étape</button>
-      </div>
-
-      <div class="etapes-manage" id="etapesManage"></div>
     </div>
 
   </div>
@@ -272,10 +407,24 @@
   const ADMIN_LOGIN = 'admin';
   const ADMIN_PWD   = 'MATO889293';
 
-  let currentUser     = null;
+  let currentUser     = null;   // 'admin' | 'client' | 'apporteur'
+  let loginType       = 'client';
   let currentChantier = null;
   let allChantiers    = [];
   let allEtapes       = [];
+  let currentApporteur = null;       // apporteur connecté (vue apporteur)
+  let currentApporteurAdmin = null;  // apporteur sélectionné côté admin
+  let allApporteurs   = [];
+  let allAffaires     = [];
+  let adminTab        = 'chantiers';
+
+  // ── LOGIN TYPE TOGGLE ──
+  function setLoginType(type) {
+    loginType = type;
+    document.getElementById('typeClient').classList.toggle('active', type === 'client');
+    document.getElementById('typeApporteur').classList.toggle('active', type === 'apporteur');
+    document.getElementById('loginError').style.display = 'none';
+  }
 
   // ── SESSION persistante ──
   function saveSession() {
@@ -283,39 +432,41 @@
     sessionStorage.setItem('matoba_chantier', JSON.stringify(currentChantier));
     sessionStorage.setItem('matoba_chantiers', JSON.stringify(allChantiers));
     sessionStorage.setItem('matoba_etapes', JSON.stringify(allEtapes));
+    sessionStorage.setItem('matoba_apporteur', JSON.stringify(currentApporteur));
+    sessionStorage.setItem('matoba_apporteurs', JSON.stringify(allApporteurs));
+    sessionStorage.setItem('matoba_affaires', JSON.stringify(allAffaires));
   }
   function clearSession() {
-    sessionStorage.removeItem('matoba_user');
-    sessionStorage.removeItem('matoba_chantier');
-    sessionStorage.removeItem('matoba_chantiers');
-    sessionStorage.removeItem('matoba_etapes');
+    ['matoba_user','matoba_chantier','matoba_chantiers','matoba_etapes','matoba_apporteur','matoba_apporteurs','matoba_affaires']
+      .forEach(k => sessionStorage.removeItem(k));
   }
   async function restoreSession() {
-    const user     = sessionStorage.getItem('matoba_user');
-    const chantier = sessionStorage.getItem('matoba_chantier');
-    const chantiers = sessionStorage.getItem('matoba_chantiers');
-    const etapes    = sessionStorage.getItem('matoba_etapes');
+    const user = sessionStorage.getItem('matoba_user');
     if (!user) return;
-    currentUser     = user;
-    if (chantier)  currentChantier = JSON.parse(chantier);
-    if (chantiers) allChantiers    = JSON.parse(chantiers);
-    if (etapes)    allEtapes       = JSON.parse(etapes);
-    // Restaurer sans appel API — affiche immédiatement le cache
+    currentUser = user;
+    const chantier   = sessionStorage.getItem('matoba_chantier');
+    const chantiers  = sessionStorage.getItem('matoba_chantiers');
+    const etapes     = sessionStorage.getItem('matoba_etapes');
+    const apporteur  = sessionStorage.getItem('matoba_apporteur');
+    const apporteurs = sessionStorage.getItem('matoba_apporteurs');
+    const affaires   = sessionStorage.getItem('matoba_affaires');
+    if (chantier)   currentChantier  = JSON.parse(chantier);
+    if (chantiers)  allChantiers     = JSON.parse(chantiers);
+    if (etapes)     allEtapes        = JSON.parse(etapes);
+    if (apporteur)  currentApporteur = JSON.parse(apporteur);
+    if (apporteurs) allApporteurs    = JSON.parse(apporteurs);
+    if (affaires)   allAffaires      = JSON.parse(affaires);
     showAppFromCache();
   }
   restoreSession();
 
-  // ── API via proxy Cloudflare Worker (tous navigateurs) ──
+  // ── API via proxy Cloudflare Worker ──
   const PROXY = 'https://matoba-proxy.tom-piras.workers.dev/';
 
   async function api(action, data = {}) {
-    const params = new URLSearchParams({
-      action: action,
-      data: JSON.stringify(data)
-    });
+    const params = new URLSearchParams({ action: action, data: JSON.stringify(data) });
     const targetUrl = API_URL + '?' + params.toString();
     const proxyUrl  = PROXY + '?url=' + encodeURIComponent(targetUrl);
-
     const res  = await fetch(proxyUrl);
     const text = await res.text();
     try { return JSON.parse(text); }
@@ -328,7 +479,6 @@
     document.getElementById('chantierHeader').style.display = 'none';
     document.getElementById('progressWrap').style.display   = 'none';
   }
-
   function setBtn(id, disabled, text) {
     const b = document.getElementById(id);
     if (!b) return;
@@ -350,25 +500,41 @@
       // Admin
       if (id === ADMIN_LOGIN && pwd === ADMIN_PWD) {
         currentUser = 'admin';
-        allChantiers = await api('getChantiers');
+        allChantiers  = await api('getChantiers');
         if (!Array.isArray(allChantiers)) allChantiers = [];
-        currentChantier = allChantiers[0] || null;
+        allApporteurs = await api('getApporteurs');
+        if (!Array.isArray(allApporteurs)) allApporteurs = [];
+        currentChantier      = allChantiers[0] || null;
+        currentApporteurAdmin = allApporteurs[0] || null;
         saveSession();
         showApp();
         return;
       }
 
-      // Client
-      const chantiers = await api('getChantiers');
-      if (!Array.isArray(chantiers)) throw new Error('Réponse invalide');
-      const found = chantiers.find(c => String(c.LOGIN).trim() === id && String(c.PWD).trim() === pwd);
-      if (found) {
-        currentUser     = 'client';
-        currentChantier = found;
-        allChantiers    = chantiers;
-        saveSession();
-        showApp();
-        return;
+      if (loginType === 'apporteur') {
+        const apporteurs = await api('getApporteurs');
+        if (!Array.isArray(apporteurs)) throw new Error('Réponse invalide');
+        const found = apporteurs.find(a => String(a.LOGIN).trim() === id && String(a.PWD).trim() === pwd);
+        if (found) {
+          currentUser      = 'apporteur';
+          currentApporteur = found;
+          allApporteurs    = apporteurs;
+          saveSession();
+          showApp();
+          return;
+        }
+      } else {
+        const chantiers = await api('getChantiers');
+        if (!Array.isArray(chantiers)) throw new Error('Réponse invalide');
+        const found = chantiers.find(c => String(c.LOGIN).trim() === id && String(c.PWD).trim() === pwd);
+        if (found) {
+          currentUser     = 'client';
+          currentChantier = found;
+          allChantiers    = chantiers;
+          saveSession();
+          showApp();
+          return;
+        }
       }
 
       document.getElementById('loginError').style.display = 'block';
@@ -377,7 +543,7 @@
       document.getElementById('loginError').style.display  = 'block';
     } finally {
       document.getElementById('loginLoading').style.display = 'none';
-      setBtn('loginBtn', false, 'Accéder à mon chantier');
+      setBtn('loginBtn', false, 'Accéder à mon espace');
     }
   }
 
@@ -387,6 +553,7 @@
   function doLogout() {
     clearSession();
     currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
+    currentApporteur = null; currentApporteurAdmin = null; allApporteurs = []; allAffaires = [];
     document.getElementById('app').style.display         = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginId').value  = '';
@@ -398,20 +565,32 @@
   function showAppFromCache() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display         = 'block';
+    applyViewForUser();
+
     if (currentUser === 'admin') {
-      document.getElementById('topbarLabel').textContent  = 'Administration';
-      document.getElementById('adminPanel').style.display = 'block';
       buildChantierSelect();
-    } else {
-      document.getElementById('topbarLabel').textContent  = currentChantier?.NAME || '';
-      document.getElementById('adminPanel').style.display = 'none';
-    }
-    if (currentChantier && allEtapes.length >= 0) renderChantier();
-    // Rafraîchissement silencieux en arrière-plan
-    if (currentChantier) {
-      api('getEtapes', { chantier_id: currentChantier.ID }).then(data => {
-        if (Array.isArray(data)) { allEtapes = data; saveSession(); renderChantier(); }
-      });
+      buildApporteurSelect();
+      if (currentChantier && allEtapes.length >= 0) renderChantier();
+      renderApporteurAdmin();
+      if (currentChantier) {
+        api('getEtapes', { chantier_id: currentChantier.ID }).then(data => {
+          if (Array.isArray(data)) { allEtapes = data; saveSession(); renderChantier(); }
+        });
+      }
+    } else if (currentUser === 'client') {
+      if (currentChantier) renderChantier();
+      if (currentChantier) {
+        api('getEtapes', { chantier_id: currentChantier.ID }).then(data => {
+          if (Array.isArray(data)) { allEtapes = data; saveSession(); renderChantier(); }
+        });
+      }
+    } else if (currentUser === 'apporteur') {
+      renderApporteurView();
+      if (currentApporteur) {
+        api('getAffaires', { apporteur_id: currentApporteur.ID }).then(data => {
+          if (Array.isArray(data)) { allAffaires = data; saveSession(); renderApporteurView(); }
+        });
+      }
     }
   }
 
@@ -419,33 +598,67 @@
   async function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display         = 'block';
+    applyViewForUser();
 
     if (currentUser === 'admin') {
-      document.getElementById('topbarLabel').textContent  = 'Administration';
-      document.getElementById('adminPanel').style.display = 'block';
       buildChantierSelect();
+      buildApporteurSelect();
+      switchAdminTab('chantiers');
+
       if (currentChantier) {
         showLoading('Chargement…');
         allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
         if (!Array.isArray(allEtapes)) allEtapes = [];
-        saveSession();
         renderChantier();
       } else {
         document.getElementById('etapesList').innerHTML =
           '<div class="empty"><div class="empty-text">Aucun chantier. Créez votre premier chantier ci-dessous.</div></div>';
       }
-    } else {
-      document.getElementById('topbarLabel').textContent  = currentChantier?.NAME || '';
-      document.getElementById('adminPanel').style.display = 'none';
+
+      if (currentApporteurAdmin) {
+        allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+        if (!Array.isArray(allAffaires)) allAffaires = [];
+      }
+      renderApporteurAdmin();
+      saveSession();
+
+    } else if (currentUser === 'client') {
       showLoading('Chargement de votre chantier…');
       allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
       if (!Array.isArray(allEtapes)) allEtapes = [];
       saveSession();
       renderChantier();
+
+    } else if (currentUser === 'apporteur') {
+      document.getElementById('affairesList').innerHTML = '<div class="empty"><div class="empty-text">Chargement…</div></div>';
+      allAffaires = await api('getAffaires', { apporteur_id: currentApporteur.ID });
+      if (!Array.isArray(allAffaires)) allAffaires = [];
+      saveSession();
+      renderApporteurView();
     }
   }
 
-  // ── RENDER ──
+  // ── BASCULE D'AFFICHAGE SELON LE TYPE D'UTILISATEUR ──
+  function applyViewForUser() {
+    const isAdmin     = currentUser === 'admin';
+    const isClient    = currentUser === 'client';
+    const isApporteur = currentUser === 'apporteur';
+
+    document.getElementById('clientView').style.display    = isClient ? '' : 'none';
+    document.getElementById('apporteurView').style.display  = isApporteur ? '' : 'none';
+    document.getElementById('adminPanel').style.display     = isAdmin ? 'block' : 'none';
+
+    if (isAdmin) {
+      document.getElementById('topbarLabel').textContent = 'Administration';
+    } else if (isClient) {
+      document.getElementById('topbarLabel').textContent = currentChantier?.NAME || '';
+    } else if (isApporteur) {
+      document.getElementById('topbarLabel').textContent = currentApporteur?.NOM || '';
+      document.getElementById('apporteurName').textContent = currentApporteur?.NOM || '';
+    }
+  }
+
+  // ── RENDER : VUE CLIENT ── 
   function renderChantier() {
     const c = currentChantier;
     if (!c) return;
@@ -462,8 +675,8 @@
 
     const done = allEtapes.filter(e => e.STATUS === 'done').length;
     const pct  = allEtapes.length ? Math.round((done / allEtapes.length) * 100) : 0;
-    document.getElementById('progressPct').textContent      = pct + '%';
-    document.getElementById('progressFill').style.width     = pct + '%';
+    document.getElementById('progressPct').textContent  = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
 
     const list = document.getElementById('etapesList');
     if (allEtapes.length === 0) {
@@ -505,7 +718,79 @@
     `;
   }
 
-  // ── ADMIN ──
+  // ── RENDER : VUE APPORTEUR ──
+  function affaireStatusLabel(s) {
+    if (s === 'signe')   return { label: 'Signé',     cls: 'badge-done' };
+    if (s === 'refuse')  return { label: 'Refusé',    cls: 'badge-refuse' };
+    return { label: 'En attente', cls: 'badge-todo' };
+  }
+  function commissionStatusLabel(s) {
+    if (s === 'verse') return { label: 'Versé',    cls: 'badge-done' };
+    return { label: 'À verser', cls: 'badge-active' };
+  }
+  function formatMontant(v) {
+    if (v === '' || v === null || v === undefined) return '—';
+    if (typeof v === 'string' && isNaN(Number(v))) return v; // ex: "Sur devis"
+    return Number(v).toLocaleString('fr-FR') + ' €';
+  }
+
+  function renderApporteurView() {
+    const signees = allAffaires.filter(a => a.STATUS === 'signe');
+    const totalCommission = signees.reduce((sum, a) => sum + (typeof a.COMMISSION === 'number' ? a.COMMISSION : 0), 0);
+    const aVerser = signees.filter(a => a.COMMISSION_STATUS !== 'verse')
+      .reduce((sum, a) => sum + (typeof a.COMMISSION === 'number' ? a.COMMISSION : 0), 0);
+    const verse = signees.filter(a => a.COMMISSION_STATUS === 'verse')
+      .reduce((sum, a) => sum + (typeof a.COMMISSION === 'number' ? a.COMMISSION : 0), 0);
+
+    document.getElementById('apporteurSummary').innerHTML = `
+      <div class="summary-card"><div class="summary-label">Affaires apportées</div><div class="summary-value">${allAffaires.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Affaires signées</div><div class="summary-value">${signees.length}</div></div>
+      <div class="summary-card"><div class="summary-label">Commission à verser</div><div class="summary-value">${formatMontant(aVerser)}</div></div>
+      <div class="summary-card"><div class="summary-label">Commission versée</div><div class="summary-value">${formatMontant(verse)}</div></div>
+    `;
+
+    const list = document.getElementById('affairesList');
+    if (allAffaires.length === 0) {
+      list.innerHTML = '<div class="empty"><div class="empty-text">Aucune affaire enregistrée pour le moment.</div></div>';
+      return;
+    }
+    list.innerHTML = allAffaires.map(a => {
+      const st = affaireStatusLabel(a.STATUS);
+      const cs = commissionStatusLabel(a.COMMISSION_STATUS);
+      return `
+        <div class="affaire-item">
+          <div class="affaire-info">
+            <div class="affaire-title">${a.PROJET || ''}</div>
+            <div class="affaire-meta">
+              ${a.CLIENT ? `<span>${a.CLIENT}</span>` : ''}
+              ${a.DATE ? `<span>${a.DATE}</span>` : ''}
+            </div>
+          </div>
+          <div class="affaire-right">
+            <div class="affaire-badges">
+              <span class="badge ${st.cls}">${st.label}</span>
+              ${a.STATUS === 'signe' ? `<span class="badge ${cs.cls}">${cs.label}</span>` : ''}
+            </div>
+            ${a.STATUS === 'signe' ? `
+              <div class="affaire-montant">${formatMontant(a.MONTANT)}</div>
+              <div class="affaire-commission">Commission : ${formatMontant(a.COMMISSION)}</div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── ADMIN : TABS ──
+  function switchAdminTab(tab) {
+    adminTab = tab;
+    document.getElementById('tabChantiers').classList.toggle('active', tab === 'chantiers');
+    document.getElementById('tabApporteurs').classList.toggle('active', tab === 'apporteurs');
+    document.getElementById('adminChantiers').style.display  = tab === 'chantiers'  ? '' : 'none';
+    document.getElementById('adminApporteurs').style.display = tab === 'apporteurs' ? '' : 'none';
+  }
+
+  // ── ADMIN : CHANTIERS (existant) ──
   function buildChantierSelect() {
     const sel = document.getElementById('chantierSelect');
     if (allChantiers.length === 0) { sel.innerHTML = '<option>Aucun chantier</option>'; return; }
@@ -520,6 +805,7 @@
     allEtapes = await api('getEtapes', { chantier_id: id });
     if (!Array.isArray(allEtapes)) allEtapes = [];
     renderChantier();
+    saveSession();
   }
 
   function showNewChantierForm() {
@@ -547,6 +833,7 @@
       document.getElementById('newChantierForm').style.display = 'none';
       buildChantierSelect();
       renderChantier();
+      saveSession();
       ['nc_name','nc_login','nc_pwd','nc_type','nc_adresse','nc_debut'].forEach(id => document.getElementById(id).value = '');
     } else {
       alert('Erreur : ' + (r.error || 'inconnue'));
@@ -567,6 +854,7 @@
       allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
       if (!Array.isArray(allEtapes)) allEtapes = [];
       renderChantier();
+      saveSession();
       document.getElementById('new_title').value  = '';
       document.getElementById('new_desc').value   = '';
       document.getElementById('new_date').value   = '';
@@ -583,6 +871,7 @@
     allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
     if (!Array.isArray(allEtapes)) allEtapes = [];
     renderChantier();
+    saveSession();
   }
 
   async function deleteEtape(id) {
@@ -591,6 +880,161 @@
     allEtapes = await api('getEtapes', { chantier_id: currentChantier.ID });
     if (!Array.isArray(allEtapes)) allEtapes = [];
     renderChantier();
+    saveSession();
+  }
+
+  // ── ADMIN : APPORTEURS ──
+  function buildApporteurSelect() {
+    const sel = document.getElementById('apporteurSelect');
+    if (allApporteurs.length === 0) {
+      sel.innerHTML = '<option>Aucun apporteur</option>';
+      currentApporteurAdmin = null;
+      return;
+    }
+    sel.innerHTML = allApporteurs.map(a => `<option value="${a.ID}">${a.NOM}</option>`).join('');
+    if (!currentApporteurAdmin) currentApporteurAdmin = allApporteurs[0];
+    sel.value = currentApporteurAdmin.ID;
+  }
+
+  async function switchApporteurAdmin() {
+    const id = document.getElementById('apporteurSelect').value;
+    currentApporteurAdmin = allApporteurs.find(a => a.ID === id) || null;
+    if (currentApporteurAdmin) {
+      allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+      if (!Array.isArray(allAffaires)) allAffaires = [];
+    } else {
+      allAffaires = [];
+    }
+    renderApporteurAdmin();
+    saveSession();
+  }
+
+  function showNewApporteurForm() {
+    document.getElementById('newApporteurForm').style.display = 'block';
+  }
+
+  async function createApporteurUI() {
+    const nom   = document.getElementById('na_nom').value.trim();
+    const login = document.getElementById('na_login').value.trim();
+    const pwd   = document.getElementById('na_pwd').value.trim();
+    const email = document.getElementById('na_email').value.trim();
+    const tel   = document.getElementById('na_tel').value.trim();
+    if (!nom || !login || !pwd) { alert('Nom, identifiant et mot de passe sont obligatoires.'); return; }
+
+    setBtn('btnCreateApporteur', true, 'Création…');
+    const r = await api('createApporteur', { NOM: nom, LOGIN: login, PWD: pwd, EMAIL: email, TELEPHONE: tel });
+    setBtn('btnCreateApporteur', false, 'Créer l\'apporteur');
+
+    if (r.success) {
+      allApporteurs = await api('getApporteurs');
+      if (!Array.isArray(allApporteurs)) allApporteurs = [];
+      currentApporteurAdmin = allApporteurs.find(a => a.ID === r.id) || allApporteurs[allApporteurs.length - 1];
+      allAffaires = [];
+      document.getElementById('newApporteurForm').style.display = 'none';
+      buildApporteurSelect();
+      renderApporteurAdmin();
+      saveSession();
+      ['na_nom','na_login','na_pwd','na_email','na_tel'].forEach(id => document.getElementById(id).value = '');
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+  }
+
+  function renderApporteurAdmin() {
+    const hasApporteurs = allApporteurs.length > 0;
+    document.getElementById('noApporteurMsg').style.display      = hasApporteurs ? 'none' : 'block';
+    document.getElementById('apporteurAdminContent').style.display = hasApporteurs ? 'block' : 'none';
+    if (!hasApporteurs) return;
+    renderAffairesManage();
+  }
+
+  async function addAffaireUI() {
+    const projet  = document.getElementById('aff_projet').value.trim();
+    const client  = document.getElementById('aff_client').value.trim();
+    const status  = document.getElementById('aff_status').value;
+    const date    = document.getElementById('aff_date').value.trim();
+    const montant = document.getElementById('aff_montant').value.trim();
+    const note    = document.getElementById('aff_note').value.trim();
+    if (!projet) { alert('Le nom du projet est obligatoire.'); return; }
+    if (!currentApporteurAdmin) { alert('Sélectionnez un apporteur.'); return; }
+
+    setBtn('btnAddAffaire', true, 'Enregistrement…');
+    const r = await api('addAffaire', {
+      APPORTEUR_ID: currentApporteurAdmin.ID,
+      PROJET: projet, CLIENT: client, STATUS: status, DATE: date,
+      MONTANT: montant, COMMISSION_STATUS: 'a_verser', NOTE: note
+    });
+    if (r.success) {
+      allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+      if (!Array.isArray(allAffaires)) allAffaires = [];
+      renderAffairesManage();
+      saveSession();
+      ['aff_projet','aff_client','aff_date','aff_montant','aff_note'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('aff_status').value = 'en_attente';
+    } else {
+      alert('Erreur : ' + (r.error || 'inconnue'));
+    }
+    setBtn('btnAddAffaire', false, 'Ajouter l\'affaire');
+  }
+
+  function renderAffairesManage() {
+    const div = document.getElementById('affairesManage');
+    if (!currentApporteurAdmin) { div.innerHTML = ''; return; }
+    if (allAffaires.length === 0) {
+      div.innerHTML = `<div class="affaires-manage-title">Affaires de ${currentApporteurAdmin.NOM}</div>
+        <div class="empty"><div class="empty-text">Aucune affaire pour cet apporteur.</div></div>`;
+      return;
+    }
+    div.innerHTML = `
+      <div class="affaires-manage-title">Affaires de ${currentApporteurAdmin.NOM}</div>
+      ${allAffaires.map(a => {
+        const st = affaireStatusLabel(a.STATUS);
+        const cs = commissionStatusLabel(a.COMMISSION_STATUS);
+        return `
+        <div class="affaire-manage-row">
+          <div class="affaire-manage-info">
+            ${a.PROJET || ''}
+            <div class="sub">${a.CLIENT || ''}${a.DATE ? ' · ' + a.DATE : ''}</div>
+          </div>
+          <input type="number" class="montant-input" placeholder="Montant €" value="${typeof a.MONTANT === 'number' ? a.MONTANT : ''}" onchange="updateMontant('${a.ID}', this.value)" />
+          <button class="btn-status" onclick="cycleAffaireStatus('${a.ID}','${a.STATUS}')">${st.label}</button>
+          <button class="btn-status" onclick="cycleCommissionStatus('${a.ID}','${a.COMMISSION_STATUS}')" ${a.STATUS !== 'signe' ? 'style="visibility:hidden"' : ''}>${cs.label}</button>
+          <button class="btn-delete" onclick="deleteAffaireUI('${a.ID}')">✕</button>
+        </div>
+        `;
+      }).join('')}
+    `;
+  }
+
+  async function reloadAffairesAdmin() {
+    if (!currentApporteurAdmin) return;
+    allAffaires = await api('getAffaires', { apporteur_id: currentApporteurAdmin.ID });
+    if (!Array.isArray(allAffaires)) allAffaires = [];
+    renderAffairesManage();
+    saveSession();
+  }
+
+  async function cycleAffaireStatus(id, current) {
+    const cycle = { en_attente: 'signe', signe: 'refuse', refuse: 'en_attente' };
+    await api('updateAffaire', { id, STATUS: cycle[current] || 'en_attente' });
+    await reloadAffairesAdmin();
+  }
+
+  async function cycleCommissionStatus(id, current) {
+    const cycle = { a_verser: 'verse', verse: 'a_verser' };
+    await api('updateAffaire', { id, COMMISSION_STATUS: cycle[current] || 'a_verser' });
+    await reloadAffairesAdmin();
+  }
+
+  async function updateMontant(id, value) {
+    await api('updateAffaire', { id, MONTANT: value });
+    await reloadAffairesAdmin();
+  }
+
+  async function deleteAffaireUI(id) {
+    if (!confirm('Supprimer cette affaire ?')) return;
+    await api('deleteAffaire', { id });
+    await reloadAffairesAdmin();
   }
 </script>
 </body>

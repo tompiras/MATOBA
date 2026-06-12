@@ -338,6 +338,8 @@
       font-size: 13px;
       font-weight: 500;
       color: #666;
+      letter-spacing: .5em;
+      padding-left: .5em;
       text-align: center;
     }
     .ft-baseline {
@@ -779,21 +781,7 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
-  // ── FOOTER : aligner MΛTOBΛ sur la largeur de la baseline ──
-  function alignFooter() {
-    const name     = document.querySelector('.ft-name');
-    const baseline = document.querySelector('.ft-baseline');
-    if (!name || !baseline) return;
-    const targetW  = baseline.offsetWidth;
-    const nameW    = name.offsetWidth;
-    const chars    = 6; // M Λ T O B Λ
-    const extra    = (targetW - nameW) / chars;
-    const ls       = Math.max(extra, 2);
-    name.style.letterSpacing = ls + 'px';
-    name.style.paddingLeft   = ls + 'px';
-  }
-  alignFooter();
-  window.addEventListener('resize', alignFooter);
+  // ── FOOTER ──
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     this.style.display = 'none';

@@ -111,6 +111,24 @@
     .affaire-commission { font-size: 12px; color: var(--stone); }
     .affaire-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 
+    /* ── DOCUMENTS ── */
+    .documents-section { margin-top: 32px; }
+    .section-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 20px; }
+    .doc-category { margin-bottom: 28px; }
+    .doc-category-title { font-size: 13px; font-weight: 400; margin-bottom: 10px; }
+    .doc-empty { font-size: 12px; color: var(--stone); padding: 12px 0; }
+    .doc-list { display: flex; flex-direction: column; gap: 1px; }
+    .doc-item { background: var(--white); border: 1px solid var(--rule); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .doc-name { font-size: 13px; color: var(--ink); border-bottom: 1px solid var(--rule); word-break: break-word; }
+    .doc-meta { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--stone); flex-shrink: 0; }
+    .doc-grid-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+    .doc-photo { position: relative; border: 1px solid var(--rule); aspect-ratio: 1; overflow: hidden; background: var(--grey-light); display: block; }
+    .doc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .doc-photo-meta { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.92); padding: 4px 6px; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--stone); }
+    .doc-upload { background: var(--white); border: 1px solid var(--rule); padding: 22px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .doc-file-input { border: 1px solid var(--rule); background: var(--white); padding: 9px 10px; font-family: 'Inter', sans-serif; font-size: 13px; width: 100%; }
+    .doc-upload-status { font-size: 12px; color: var(--stone); }
+
     #adminPanel { margin-top: 48px; border-top: 1px solid var(--rule); padding-top: 40px; }
     .admin-title { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 24px; }
     .admin-tabs { display: flex; gap: 4px; margin-bottom: 28px; border-bottom: 1px solid var(--rule); }
@@ -230,13 +248,17 @@
       .affaire-item { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
       .affaire-right { align-items: flex-start; text-align: left; }
 
+      /* documents */
+      .doc-grid-photos { grid-template-columns: repeat(3, 1fr); }
+      .doc-item { padding: 10px 14px; }
+
       /* admin */
       .admin-tabs { overflow-x: auto; }
       .admin-row { grid-template-columns: 1fr; }
       .chantier-selector { flex-direction: column; align-items: flex-start; gap: 10px; }
       .chantier-selector select { width: 100%; min-width: unset !important; }
       .fsubmit { width: 100%; text-align: center; justify-content: center; }
-      .admin-form { padding: 16px; }
+      .admin-form, .doc-upload { padding: 16px; }
 
       /* inputs — évite zoom iOS */
       .finput, .fselect, .ftextarea, .login-input { font-size: 16px !important; }
@@ -314,6 +336,11 @@
       </div>
 
       <div class="etapes-list" id="etapesList"></div>
+
+      <div class="documents-section">
+        <div class="section-title">Documents</div>
+        <div id="docCategories"></div>
+      </div>
     </div>
 
     <!-- ── VUE APPORTEUR ── -->
@@ -385,6 +412,34 @@
         </div>
 
         <div class="etapes-manage" id="etapesManage"></div>
+
+        <div class="documents-section">
+          <div class="section-title">Documents</div>
+
+          <div class="doc-upload">
+            <div class="admin-row">
+              <div class="fg">
+                <label class="flabel">Catégorie</label>
+                <select class="fselect" id="doc_categorie">
+                  <option value="photos">Photos de chantier</option>
+                  <option value="devis">Devis</option>
+                  <option value="contrats">Contrats</option>
+                  <option value="factures">Factures</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="flabel">Fichier</label>
+                <input type="file" class="doc-file-input" id="doc_file" />
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <button class="fsubmit" id="btnUploadDoc" onclick="uploadDocumentUI()">Envoyer</button>
+              <div class="doc-upload-status" id="docUploadStatus"></div>
+            </div>
+          </div>
+
+          <div id="docCategoriesAdmin"></div>
+        </div>
       </div>
 
       <!-- ── Onglet Apporteurs ── -->
@@ -492,6 +547,7 @@
   let currentApporteurAdmin = null;  // apporteur sélectionné côté admin
   let allApporteurs   = [];
   let allAffaires     = [];
+  let allDocuments    = [];
   let adminTab        = 'chantiers';
 
   // ── LOGIN TYPE TOGGLE ──
@@ -536,7 +592,7 @@
   }
   restoreSession();
 
-  // ── API via proxy Cloudflare Worker ──
+  // ── API via proxy Cloudflare Worker (GET) ──
   const PROXY = 'https://matoba-proxy.tom-piras.workers.dev/';
 
   async function api(action, data = {}) {
@@ -560,6 +616,11 @@
     if (!b) return;
     b.disabled    = disabled;
     b.textContent = text;
+  }
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
   }
 
   // ── LOGIN ──
@@ -630,6 +691,7 @@
     clearSession();
     currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
     currentApporteur = null; currentApporteurAdmin = null; allApporteurs = []; allAffaires = [];
+    allDocuments = [];
     stopChatPolling();
     chatMessages = []; chatConvType = null; chatConvId = null;
     document.getElementById('chatPanel').classList.remove('open');
@@ -784,6 +846,8 @@
     }
 
     if (currentUser === 'admin') renderManageList();
+
+    refreshDocuments();
   }
 
   function renderManageList() {
@@ -802,6 +866,133 @@
         </div>
       `).join('')}
     `;
+  }
+
+  // ── DOCUMENTS ──
+  const DOC_CATEGORIES = [
+    { key: 'photos',   label: 'Photos de chantier' },
+    { key: 'devis',    label: 'Devis' },
+    { key: 'contrats', label: 'Contrats' },
+    { key: 'factures', label: 'Factures' }
+  ];
+
+  function driveImageUrl(fileId)    { return `https://drive.google.com/uc?export=view&id=${fileId}`; }
+  function driveDownloadUrl(fileId) { return `https://drive.google.com/uc?export=download&id=${fileId}`; }
+
+  function formatDocDate(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  async function refreshDocuments() {
+    if (!currentChantier) return;
+    const id = currentChantier.ID;
+    const data = await api('getDocuments', { chantier_id: id });
+    if (id !== currentChantier?.ID) return; // chantier changé pendant l'appel
+    allDocuments = Array.isArray(data) ? data : [];
+    if (currentUser === 'client') renderDocuments('docCategories', false);
+    if (currentUser === 'admin' && adminTab === 'chantiers') renderDocuments('docCategoriesAdmin', true);
+  }
+
+  function renderDocuments(containerId, isAdmin) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = DOC_CATEGORIES.map(cat => {
+      const docs = allDocuments.filter(d => d.CATEGORIE === cat.key);
+      let body;
+      if (docs.length === 0) {
+        body = '<div class="doc-empty">Aucun document.</div>';
+      } else if (cat.key === 'photos') {
+        body = `<div class="doc-grid-photos">${docs.map(d => renderDocPhoto(d, isAdmin)).join('')}</div>`;
+      } else {
+        body = `<div class="doc-list">${docs.map(d => renderDocItem(d, isAdmin)).join('')}</div>`;
+      }
+      return `
+        <div class="doc-category">
+          <div class="doc-category-title">${cat.label}</div>
+          ${body}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderDocPhoto(d, isAdmin) {
+    return `
+      <a class="doc-photo" href="${driveDownloadUrl(d.FILE_ID)}" target="_blank" rel="noopener" title="${escapeHtml(d.NOM)}">
+        <img src="${driveImageUrl(d.FILE_ID)}" alt="${escapeHtml(d.NOM)}" loading="lazy" onerror="this.parentElement.style.background='var(--grey-light)'; this.remove();" />
+        <span class="doc-photo-meta">
+          <span>${formatDocDate(d.DATE)}</span>
+          ${isAdmin ? `<button class="btn-delete" onclick="event.preventDefault(); deleteDocumentUI('${d.ID}')">✕</button>` : ''}
+        </span>
+      </a>
+    `;
+  }
+
+  function renderDocItem(d, isAdmin) {
+    return `
+      <div class="doc-item">
+        <a class="doc-name" href="${driveDownloadUrl(d.FILE_ID)}" target="_blank" rel="noopener">${escapeHtml(d.NOM)}</a>
+        <div class="doc-meta">
+          <span>${formatDocDate(d.DATE)}</span>
+          ${isAdmin ? `<button class="btn-delete" onclick="deleteDocumentUI('${d.ID}')">✕</button>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadDocumentUI() {
+    const fileInput = document.getElementById('doc_file');
+    const categorie = document.getElementById('doc_categorie').value;
+    const file = fileInput.files[0];
+    if (!file) { alert('Choisissez un fichier.'); return; }
+    if (!currentChantier) { alert('Sélectionnez un chantier.'); return; }
+
+    const status = document.getElementById('docUploadStatus');
+    setBtn('btnUploadDoc', true, 'Envoi…');
+    status.textContent = 'Envoi en cours…';
+
+    try {
+      const base64 = await fileToBase64(file);
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          action: 'uploadDocument',
+          chantier_id: currentChantier.ID,
+          categorie: categorie,
+          nom: file.name,
+          mimeType: file.type,
+          base64: base64
+        })
+      });
+      const json = await res.json();
+      if (json.success) {
+        status.textContent = 'Document envoyé.';
+        fileInput.value = '';
+        await refreshDocuments();
+      } else {
+        status.textContent = 'Erreur : ' + (json.error || 'inconnue');
+      }
+    } catch(e) {
+      status.textContent = "Erreur d'envoi : " + e.message;
+    }
+    setBtn('btnUploadDoc', false, 'Envoyer');
+  }
+
+  async function deleteDocumentUI(id) {
+    if (!confirm('Supprimer ce document ?')) return;
+    await api('deleteDocument', { id });
+    await refreshDocuments();
   }
 
   // ── RENDER : VUE APPORTEUR ──
@@ -874,6 +1065,7 @@
     document.getElementById('tabApporteurs').classList.toggle('active', tab === 'apporteurs');
     document.getElementById('adminChantiers').style.display  = tab === 'chantiers'  ? '' : 'none';
     document.getElementById('adminApporteurs').style.display = tab === 'apporteurs' ? '' : 'none';
+    if (tab === 'chantiers') refreshDocuments();
     updateChatConv();
   }
 
@@ -1247,12 +1439,6 @@
   }
   function stopChatPolling() {
     if (chatPollHandle) { clearInterval(chatPollHandle); chatPollHandle = null; }
-  }
-
-  function escapeHtml(str) {
-    const d = document.createElement('div');
-    d.textContent = str == null ? '' : String(str);
-    return d.innerHTML;
   }
 
   function formatChatTime(iso) {

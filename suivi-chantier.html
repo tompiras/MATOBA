@@ -1134,6 +1134,52 @@
   let chatMessages    = [];
   let chatOpen        = false;
   let chatPollHandle  = null;
+  let unreadMessages  = 0;
+  const baseTitle     = document.title;
+
+  function setUnread(n) {
+    unreadMessages = Math.max(0, n);
+    document.title = unreadMessages > 0 ? `(${unreadMessages}) ${baseTitle}` : baseTitle;
+    drawFavicon(unreadMessages > 0);
+  }
+
+  function drawFavicon(hasUnread) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64; canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#111';
+    ctx.beginPath();
+    ctx.arc(32, 32, 32, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = '300 34px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('M', 32, 36);
+    if (hasUnread) {
+      ctx.fillStyle = '#c0392b';
+      ctx.beginPath();
+      ctx.arc(50, 14, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+    let link = document.getElementById('faviconDynamic');
+    if (!link) {
+      link = document.createElement('link');
+      link.id  = 'faviconDynamic';
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = canvas.toDataURL('image/png');
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && chatOpen) setUnread(0);
+  });
+
+  drawFavicon(false);
 
   function chatRole() {
     return currentUser; // 'admin' | 'client' | 'apporteur'
@@ -1184,12 +1230,13 @@
       // si la conversation a changé pendant l'appel, on ignore le résultat
       if (type !== chatConvType || id !== chatConvId) return;
       if (!Array.isArray(data)) return;
-      const isNewMsg = data.length > chatMessages.length;
+      const newCount = data.length - chatMessages.length;
       chatMessages = data;
       renderChat();
-      if (isNewMsg && !chatOpen) {
+      if (newCount > 0 && (!chatOpen || document.hidden)) {
         const badge = document.getElementById('chatBadge');
         badge.style.display = 'flex';
+        setUnread(unreadMessages + newCount);
       }
     });
   }
@@ -1252,6 +1299,7 @@
     panel.classList.toggle('open', chatOpen);
     if (chatOpen) {
       document.getElementById('chatBadge').style.display = 'none';
+      setUnread(0);
       loadChatMessages();
       setTimeout(() => document.getElementById('chatInput').focus(), 100);
     }

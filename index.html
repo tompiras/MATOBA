@@ -90,6 +90,8 @@
       color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px;
       white-space: nowrap;
     }
+    .nav-mobile-actions { display: none; }
+    .nav-break { display: none; }
 
     /* ── HERO ── */
     .hero {
@@ -378,6 +380,8 @@
 
       /* nav */
       .nav-links { display: none; }
+      .nav-break { display: block; }
+      .nav-mobile-actions { display: flex; gap: 8px; }
       .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
 
@@ -441,7 +445,7 @@
 <nav id="nav">
   <a href="/" class="nav-name" style="display:flex;flex-direction:column;gap:7px;">
     <span class="brand">MΛTOBΛ</span>
-    <span style="font-size:7.5px;letter-spacing:.16em;color:var(--stone);font-weight:400;text-transform:uppercase;">Contractant général — Provence-Alpes-Côte d'Azur</span>
+    <span class="nav-subtitle" style="font-size:7.5px;letter-spacing:.16em;color:var(--stone);font-weight:400;text-transform:uppercase;">Contractant général —<br class="nav-break"> Provence-Alpes-Côte d'Azur</span>
   </a>
   <ul class="nav-links">
     <li><a href="#modele">Notre modèle</a></li>
@@ -451,7 +455,10 @@
     <li><a href="/apporteur-affaires.html">Apporteur d'affaires</a></li>
     <li><a href="/suivi-chantier.html" class="nav-cta" style="border-color:var(--stone);color:var(--stone)!important;">Espace client</a></li>
   </ul>
-  <a href="/suivi-chantier.html" class="nav-client-mobile">Espace client</a>
+  <div class="nav-mobile-actions">
+    <a href="/apporteur-affaires.html" class="nav-client-mobile">Apporteur</a>
+    <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
+  </div>
 </nav>
 
 <header class="hero">

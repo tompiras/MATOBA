@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MΛTOBΛ — Apporteur d'affaires</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:   #0a0a0a;
+      --white: #ffffff;
+      --fog:   #f7f6f4;
+      --bone:  #eeece8;
+      --rule:  #d8d5cf;
+      --stone: #6b6762;
+      --x:     clamp(24px, 6vw, 96px);
+      --gap:   clamp(56px, 8vw, 100px);
+      --ease:  cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family: 'Inter', sans-serif; font-weight: 400; background: var(--white); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .brand { font-family: 'Inter', sans-serif; font-weight: 200; font-style: normal; font-synthesis: none; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+
+    [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+    [data-reveal].on { opacity: 1; transform: none; }
+    [data-reveal="1"] { transition-delay: .07s; }
+    [data-reveal="2"] { transition-delay: .15s; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px var(--x);
+      border-bottom: 1px solid var(--rule);
+      background: rgba(255,255,255,.96); backdrop-filter: blur(16px);
+    }
+    .nav-name { font-size: 13px; font-weight: 200; letter-spacing: .72em; padding-right: .72em; color: var(--ink); text-align: center; }
+    .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: nowrap; align-items: center; }
+    .nav-links a { font-size: 11px; letter-spacing: .04em; color: var(--stone); transition: color .2s; white-space: nowrap; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
+    .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
+
+    /* ── HERO ── */
+    .hero { padding: 120px var(--x) var(--gap); border-bottom: 1px solid var(--rule); }
+    .hero-tag { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); margin-bottom: 24px; animation: up 1s var(--ease) .2s both; }
+    h1 { font-size: clamp(32px, 4.2vw, 58px); font-weight: 300; line-height: 1.08; letter-spacing: -.025em; margin-bottom: 20px; max-width: 760px; animation: up 1s var(--ease) .35s both; }
+    .hero-sub { font-size: 14px; line-height: 1.9; color: var(--stone); max-width: 480px; margin-bottom: 32px; animation: up 1s var(--ease) .45s both; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; animation: up 1s var(--ease) .55s both; }
+    @keyframes up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    .btn { display: inline-flex; align-items: center; height: 44px; padding: 0 24px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--white); border: 1px solid var(--ink); transition: background .2s, transform .15s; }
+    .btn:hover { background: #2a2a2a; transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--ink); }
+    .btn-ghost:hover { background: var(--ink); color: var(--white); }
+
+    /* ── SECTIONS ── */
+    section { padding: var(--gap) var(--x); }
+    .bg-fog { background: var(--fog); }
+
+    .eyebrow { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); margin-bottom: 28px; }
+    h2 { font-size: clamp(22px, 2.8vw, 36px); font-weight: 300; line-height: 1.12; letter-spacing: -.02em; }
+    .lead { margin-top: 16px; font-size: 14.5px; line-height: 1.9; color: var(--stone); max-width: 540px; }
+
+    .head-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: end; margin-bottom: clamp(40px, 5vw, 64px); }
+
+    /* ── ÉTAPES ── */
+    .etapes { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+    .etape { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: clamp(20px, 2.5vw, 30px); }
+    .etape-num { font-size: 9px; letter-spacing: .1em; color: var(--stone); margin-bottom: 16px; }
+    .etape-title { font-size: 14px; font-weight: 400; margin-bottom: 8px; line-height: 1.3; }
+    .etape-body { font-size: 13px; line-height: 1.8; color: var(--stone); }
+
+    /* ── COMMISSION ── */
+    .commission-box { border: 1px solid var(--rule); padding: clamp(28px, 4vw, 44px); display: flex; flex-direction: column; gap: 12px; }
+    .commission-box .big { font-size: clamp(28px, 4vw, 42px); font-weight: 300; letter-spacing: -.01em; }
+    .commission-box p { font-size: 13.5px; line-height: 1.9; color: var(--stone); max-width: 480px; }
+
+    /* ── FORM ── */
+    .form-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 96px); align-items: start; }
+    .form { display: flex; flex-direction: column; gap: 12px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .fg { display: flex; flex-direction: column; gap: 5px; }
+    .flabel { font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--stone); }
+    .finput, .fselect, .ftextarea { width: 100%; border: 1px solid var(--rule); background: var(--white); color: var(--ink); padding: 11px 13px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300; outline: none; border-radius: 0; appearance: none; transition: border-color .2s; }
+    .finput::placeholder, .ftextarea::placeholder { color: var(--rule); }
+    .finput:focus, .fselect:focus, .ftextarea:focus { border-color: var(--ink); }
+    .fselect { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999490' stroke-width='1' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; background-color: var(--white); }
+    .ftextarea { min-height: 96px; resize: vertical; line-height: 1.7; }
+    .fsubmit { align-self: flex-start; height: 44px; padding: 0 26px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .15s; }
+    .fsubmit:hover { background: #2a2a2a; transform: translateY(-1px); }
+    .fsuccess { display: none; padding: 20px 16px; border: 1px solid var(--rule); background: var(--fog); }
+    .fsuccess p { font-size: 13px; line-height: 1.8; color: var(--stone); }
+    .c-list { margin-top: 36px; }
+    .c-row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--rule); }
+    .c-row:first-child { border-top: 1px solid var(--rule); }
+    .c-lbl { font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); min-width: 56px; padding-top: 2px; }
+    .c-val { font-size: 13.5px; line-height: 1.6; color: var(--ink); }
+    .c-val a { border-bottom: 1px solid var(--rule); }
+
+    /* ── FOOTER ── */
+    footer { padding: 24px var(--x); border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+    .ft-name { font-size: 13px; font-weight: 500; color: #666; }
+    .ft-baseline { font-size: 10px; font-weight: 400; letter-spacing: .18em; padding-left: .18em; color: var(--stone); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 980px) {
+      .head-row, .form-wrap { grid-template-columns: 1fr; }
+      .etapes { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      :root { --x: 22px; --gap: 48px; }
+      .nav-links { display: none; }
+      .nav-client-mobile { display: block; }
+      .nav-name { font-size: 12px; letter-spacing: .42em; }
+      .hero { padding: 88px var(--x) 48px; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .finput, .fselect, .ftextarea { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-name" style="display:flex;flex-direction:column;gap:7px;">
+    <span class="brand">MΛTOBΛ</span>
+    <span style="font-size:7.5px;letter-spacing:.16em;color:var(--stone);font-weight:400;text-transform:uppercase;">Contractant général — Provence-Alpes-Côte d'Azur</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Accueil</a></li>
+    <li><a href="#candidature" class="nav-cta">Devenir apporteur</a></li>
+    <li><a href="/suivi-chantier.html" class="nav-cta" style="border-color:var(--stone);color:var(--stone)!important;">Espace connexion</a></li>
+  </ul>
+  <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-tag">Programme apporteur d'affaires</div>
+  <h1>Vous connaissez un projet.<br/>Nous nous occupons du reste.</h1>
+  <p class="hero-sub">Mettez-nous en relation avec un projet de construction ou de rénovation. Nous le portons de A à Z, vous percevez une commission sur chaque affaire signée.</p>
+  <div class="hero-cta">
+    <a href="#candidature" class="btn">Devenir apporteur</a>
+    <a href="/suivi-chantier.html" class="btn btn-ghost">Accéder à mon espace</a>
+  </div>
+</header>
+
+<section>
+  <div class="head-row">
+    <div>
+      <div class="eyebrow" data-reveal>Comment ça marche</div>
+      <h2 data-reveal="1">Trois étapes,<br/>une commission.</h2>
+    </div>
+    <p class="lead" data-reveal="2">Votre rôle s'arrête à la mise en relation. Nous gérons la suite — vous suivez l'avancement et votre commission depuis votre espace dédié.</p>
+  </div>
+  <div class="etapes" data-reveal>
+    <div class="etape">
+      <div class="etape-num">01</div>
+      <div class="etape-title">Mise en relation</div>
+      <div class="etape-body">Transmettez-nous le contact et le projet via le formulaire ci-dessous ou votre espace apporteur.</div>
+    </div>
+    <div class="etape">
+      <div class="etape-num">02</div>
+      <div class="etape-title">Étude &amp; signature</div>
+      <div class="etape-body">Nous échangeons avec le prospect, établissons un chiffrage et signons le contrat si le projet se concrétise.</div>
+    </div>
+    <div class="etape">
+      <div class="etape-num">03</div>
+      <div class="etape-title">Commission</div>
+      <div class="etape-body">Votre commission est calculée sur le montant signé et versée à l'encaissement du premier acompte.</div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-fog">
+  <div class="head-row" style="margin-bottom:0;">
+    <div>
+      <div class="eyebrow" data-reveal>Commission</div>
+      <h2 data-reveal="1">Une rémunération<br/>simple et transparente.</h2>
+    </div>
+    <div data-reveal="2">
+      <div class="commission-box">
+        <div class="big">1 % à 2 %</div>
+        <p>du montant HT du contrat signé, selon sa taille. Versement à l'encaissement du premier acompte client. Le détail du barème vous est communiqué lors de la création de votre accès.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="candidature">
+  <div class="form-wrap">
+    <div data-reveal="1">
+      <div class="eyebrow">Candidature</div>
+      <h2>Devenir apporteur<br/>d'affaires.</h2>
+      <p class="lead">Renseignez vos coordonnées et votre activité. Nous créons votre accès dédié après un premier échange.</p>
+      <div class="c-list">
+        <div class="c-row"><div class="c-lbl">Email</div><div class="c-val"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>
+        <div class="c-row"><div class="c-lbl">Zone</div><div class="c-val">Provence-Alpes-Côte d'Azur</div></div>
+      </div>
+    </div>
+    <div data-reveal="2">
+      <form class="form" id="apporteurForm">
+        <div class="form-row">
+          <div class="fg"><label class="flabel" for="nom">Nom</label><input id="nom" type="text" class="finput" placeholder="Votre nom" required /></div>
+          <div class="fg"><label class="flabel" for="email">Email</label><input id="email" type="email" class="finput" placeholder="votre@email.fr" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label class="flabel" for="tel">Téléphone</label><input id="tel" type="tel" class="finput" placeholder="06 00 00 00 00" /></div>
+          <div class="fg">
+            <label class="flabel" for="activite">Votre activité</label>
+            <select id="activite" class="fselect" required>
+              <option value="" disabled selected>Sélectionner</option>
+              <option>Architecte / Maître d'œuvre</option>
+              <option>Agent immobilier</option>
+              <option>Courtier (travaux ou immobilier)</option>
+              <option>Artisan / Entreprise du bâtiment</option>
+              <option>Notaire / Expert-comptable</option>
+              <option>Particulier</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label class="flabel" for="msg">Message</label><textarea id="msg" class="ftextarea" placeholder="Présentez-vous en quelques mots, et le type de projets que vous êtes susceptible d'apporter…"></textarea></div>
+        <button type="submit" class="fsubmit">Envoyer ma candidature</button>
+      </form>
+      <div class="fsuccess" id="fsuccess"><p>Votre candidature a bien été reçue.<br/>Nous vous recontactons dans les 48 heures.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;">
+    <div class="ft-name"><span class="brand">MΛTOBΛ</span></div>
+    <div class="ft-baseline">Conception&nbsp;&nbsp;|&nbsp;&nbsp;Ingénierie&nbsp;&nbsp;|&nbsp;&nbsp;Construction</div>
+  </a>
+</footer>
+
+<script>
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+
+  function alignFooter() {
+    const name     = document.querySelector('.ft-name');
+    const baseline = document.querySelector('.ft-baseline');
+    if (!name || !baseline) return;
+    const targetW  = baseline.offsetWidth;
+    const nameW    = name.offsetWidth;
+    const chars    = 6;
+    const extra    = (targetW - nameW) / chars;
+    const ls       = Math.max(extra, 2);
+    name.style.letterSpacing = ls + 'px';
+    name.style.paddingLeft   = ls + 'px';
+  }
+  alignFooter();
+  window.addEventListener('resize', alignFooter);
+
+  document.getElementById('apporteurForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('fsuccess').style.display = 'block';
+  });
+</script>
+</body>
+</html>

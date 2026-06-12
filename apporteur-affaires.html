@@ -43,6 +43,7 @@
     .nav-links a:hover { color: var(--ink); }
     .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
     .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
+    .nav-mobile-actions { display: none; }
 
     /* ── HERO ── */
     .hero { padding: 120px var(--x) var(--gap); border-bottom: 1px solid var(--rule); }
@@ -115,6 +116,7 @@
       :root { --x: 22px; --gap: 48px; }
       .nav-links { display: none; }
       .nav-region { display: none; }
+      .nav-mobile-actions { display: flex; gap: 8px; }
       .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
       .hero { padding: 88px var(--x) 48px; }
@@ -137,7 +139,10 @@
     <li><a href="#candidature" class="nav-cta">Devenir apporteur</a></li>
     <li><a href="/suivi-chantier.html" class="nav-cta" style="border-color:var(--stone);color:var(--stone)!important;">Espace connexion</a></li>
   </ul>
-  <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
+  <div class="nav-mobile-actions">
+    <a href="/" class="nav-client-mobile">Accueil</a>
+    <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
+  </div>
 </nav>
 
 <header class="hero">

@@ -492,12 +492,10 @@
         top: calc(76px + env(safe-area-inset-top));
         left: 0;
         right: 0;
-        height: min(49svh, 440px);
+        height: min(48svh, 430px);
         background-position: center center;
         background-size: cover;
-        transform: scale(1.025);
-        border-bottom-left-radius: 28px;
-        border-bottom-right-radius: 28px;
+        transform: scale(1.015);
       }
 
       .hero::after {
@@ -505,21 +503,17 @@
         top: calc(76px + env(safe-area-inset-top));
         left: 0;
         right: 0;
-        height: min(49svh, 440px);
-        border-bottom-left-radius: 28px;
-        border-bottom-right-radius: 28px;
+        height: min(48svh, 430px);
         background:
-          linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.04) 24%, rgba(255,255,255,.18) 46%, rgba(255,255,255,.58) 69%, rgba(255,255,255,.92) 87%, rgba(255,255,255,1) 100%),
-          linear-gradient(90deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.04) 62%),
-          radial-gradient(120% 68% at 50% 100%, rgba(255,255,255,.78) 0%, rgba(255,255,255,0) 66%);
-        box-shadow: inset 0 -56px 72px rgba(255,255,255,.52);
+          linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.03) 34%, rgba(255,255,255,.18) 54%, rgba(255,255,255,.78) 81%, rgba(255,255,255,.97) 93%, rgba(255,255,255,1) 100%),
+          linear-gradient(90deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,0) 62%);
       }
 
       .hero-body {
         display: flex;
         align-items: flex-end;
         width: 100%;
-        min-height: min(49svh, 440px);
+        min-height: min(48svh, 430px);
         padding: 0 !important;
         overflow: visible;
       }
@@ -530,14 +524,13 @@
         width: 100%;
         max-width: none;
         margin-top: auto;
-        margin-bottom: -20px;
-        padding: 25px;
-        border: 1px solid rgba(216,213,207,.92);
+        margin-bottom: -10px;
+        padding: 26px 24px 24px;
+        border: 1px solid rgba(216,213,207,.82);
         border-radius: 24px;
-        background: rgba(255,255,255,.84);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 22px 58px rgba(10,10,10,.10);
+        overflow: hidden;
+        background: rgba(255,255,255,.95);
+        box-shadow: 0 18px 42px rgba(10,10,10,.08);
       }
 
       .hero-drawing { display: none; }
@@ -566,7 +559,7 @@
 
       .hero-baseline {
         min-height: 58px;
-        margin: 34px calc(-1 * var(--x)) 0;
+        margin: 26px calc(-1 * var(--x)) 0;
         padding: 0;
         background: var(--white);
         border-top: 1px solid var(--rule);
@@ -691,15 +684,20 @@
         background: var(--white);
       }
 
+      .sf-col {
+        padding: 16px 18px 18px;
+      }
+
       .sf-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px 28px;
-        font-size: 13.5px;
-        line-height: 1.45;
+        gap: 10px 22px;
+        font-size: 13px;
+        line-height: 1.32;
       }
 
       .sf-list li {
         min-width: 0;
+        text-wrap: balance;
       }
 
       .proj:hover { background: var(--white); }
@@ -736,7 +734,7 @@
         line-height: 1.2;
       }
 
-      .sf-head { margin-bottom: 28px; }
+      .sf-head { margin-bottom: 26px; }
       .proj-grid { margin-top: 28px; }
 
       .contact-grid { gap: 32px; }
@@ -1082,14 +1080,18 @@
       </div>
     </div>
     <div data-reveal="2">
-      <form class="form" id="contactForm">
+      <form class="form" id="contactForm" action="https://formsubmit.co/contact@matoba.fr" method="POST">
+        <input type="hidden" name="_subject" value="Nouveau message depuis matoba.fr" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_next" value="https://matoba.pages.dev/?contact=success#contact" />
         <div class="form-row">
-          <div class="fg"><label class="flabel" for="nom">Nom</label><input id="nom" type="text" class="finput" placeholder="Votre nom" required /></div>
-          <div class="fg"><label class="flabel" for="email">Email</label><input id="email" type="email" class="finput" placeholder="votre@email.fr" /></div>
+          <div class="fg"><label class="flabel" for="nom">Nom</label><input id="nom" name="nom" type="text" class="finput" placeholder="Votre nom" required /></div>
+          <div class="fg"><label class="flabel" for="email">Email</label><input id="email" name="email" type="email" class="finput" placeholder="votre@email.fr" required /></div>
         </div>
         <div class="fg">
           <label class="flabel" for="type">Type de projet</label>
-          <select id="type" class="fselect" required>
+          <select id="type" name="type_de_projet" class="fselect" required>
             <option value="" disabled selected>Décrivez votre projet</option>
             <optgroup label="Résidentiel">
               <option>Construire ou rénover une maison</option>
@@ -1111,10 +1113,10 @@
             </optgroup>
           </select>
         </div>
-        <div class="fg"><label class="flabel" for="msg">Message</label><textarea id="msg" class="ftextarea" placeholder="Décrivez votre projet…"></textarea></div>
+        <div class="fg"><label class="flabel" for="msg">Message</label><textarea id="msg" name="message" class="ftextarea" placeholder="Décrivez votre projet…" required></textarea></div>
         <button type="submit" class="fsubmit">Envoyer</button>
       </form>
-      <div class="fsuccess" id="fsuccess"><p>Votre message a bien été reçu.<br/>Nous vous recontactons dans les 24 heures.</p></div>
+      <div class="fsuccess" id="fsuccess"><p>Votre message a bien été envoyé.<br/>Nous vous recontactons dans les 24 heures.</p></div>
     </div>
   </div>
 </section>
@@ -1169,11 +1171,15 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    this.style.display = 'none';
-    document.getElementById('fsuccess').style.display = 'block';
-  });
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('contact') === 'success') {
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('fsuccess');
+    if (form && success) {
+      form.style.display = 'none';
+      success.style.display = 'block';
+    }
+  }
 </script>
 </body>
 </html>

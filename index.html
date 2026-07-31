@@ -49,12 +49,36 @@
     .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
     .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
     .nav-mobile-actions { display: none; }
-    .nav-burger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; }
-    .nav-burger span { display: block; width: 20px; height: 1px; background: var(--ink); transition: all .3s; }
-    .nav-dropdown { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 200; background: rgba(255,255,255,.98); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; gap: 28px; }
+    .nav-burger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; z-index: 300; }
+    .nav-burger span { display: block; width: 22px; height: 1px; background: var(--ink); transition: all .4s var(--ease); }
+    .nav-burger:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .nav-dropdown {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: var(--white);
+      flex-direction: column;
+      padding: 100px var(--x) 48px;
+    }
     .nav-dropdown.open { display: flex; }
-    .nav-dropdown a { font-size: 18px; font-weight: 200; letter-spacing: .04em; color: var(--ink); text-decoration: none; }
-    .nav-dropdown-close { position: absolute; top: 24px; right: var(--x); background: none; border: none; cursor: pointer; font-size: 22px; color: var(--stone); font-family: 'Inter', sans-serif; font-weight: 200; }
+    .nav-dropdown-links { display: flex; flex-direction: column; gap: 0; flex: 1; }
+    .nav-dropdown-links a {
+      font-size: 26px; font-weight: 200; letter-spacing: -.01em;
+      color: var(--ink); text-decoration: none;
+      padding: 16px 0; border-bottom: 1px solid var(--rule);
+      transition: color .2s;
+    }
+    .nav-dropdown-links a:first-child { border-top: 1px solid var(--rule); }
+    .nav-dropdown-links a:hover { color: var(--stone); }
+    .nav-dropdown-footer {
+      margin-top: 32px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .nav-dropdown-footer a {
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--stone); text-decoration: none;
+    }
 
     .hero { min-height: 100svh; background: var(--white); display: flex; flex-direction: column; padding: 0 var(--x); padding-top: 88px; border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; inset: 0; background-image: url('/hero.jpg'); background-size: cover; background-position: center right; z-index: 0; }
@@ -188,24 +212,107 @@
       .orga-arrow-label { writing-mode: horizontal-tb; transform: none; }
     }
     @media (max-width: 600px) {
-      :root { --x: 22px; --gap: 52px; }
-      h1 { font-size: clamp(28px, 8.5vw, 36px); line-height: 1.08; letter-spacing: -.02em; margin-bottom: 16px; }
+      :root { --x: 20px; --gap: 56px; }
+      h1 { font-size: clamp(30px, 8.2vw, 34px); line-height: 1.03; letter-spacing: -.028em; margin-bottom: 16px; }
       h2 { font-size: 26px; line-height: 1.12; }
       .lead { font-size: 14px; }
       .eyebrow { margin-bottom: 24px; }
+      nav {
+        z-index: 300;
+        min-height: 72px;
+        padding: 14px var(--x);
+        padding-top: calc(14px + env(safe-area-inset-top));
+        background: rgba(255,255,255,.96);
+      }
       .nav-links { display: none; }
       .nav-region { display: none; }
       .nav-mobile-actions { display: none; }
-      .nav-burger { display: flex; }
-      .nav-name { font-size: 12px; letter-spacing: .42em; }
-      .hero { padding-top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; background: #f0ede8; }
-      .hero::before { background-position: 60% center; background-size: cover; }
-      .hero::after { background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,.92) 68%, rgba(255,255,255,1) 82%); }
-      .hero-body { padding-top: 0; padding-bottom: 16px !important; grid-template-columns: 1fr; }
-      .hero-sub { font-size: 13px; margin-bottom: 20px; max-width: 100%; white-space: normal; color: var(--ink); }
-      h1 { font-size: 32px; margin-bottom: 14px; }
-      .hero-baseline { padding: 14px 0; margin-top: 0; background: rgba(255,255,255,1); }
-      .hero-baseline-text { padding: 0 var(--x); }
+      .nav-burger {
+        display: flex;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-right: -10px;
+      }
+      .nav-burger span { width: 24px; }
+      .nav-name { font-size: 13px; letter-spacing: .44em; }
+      .nav-name > span:last-child { font-size: 8px !important; letter-spacing: .14em !important; }
+      .nav-dropdown {
+        padding-top: calc(96px + env(safe-area-inset-top));
+        padding-bottom: calc(32px + env(safe-area-inset-bottom));
+      }
+
+      /* Mobile hero: composition éditoriale nette, sans carte superposée. */
+      .hero {
+        min-height: auto;
+        padding: calc(72px + env(safe-area-inset-top)) 0 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background: var(--white);
+        overflow: hidden;
+      }
+      .hero::before {
+        inset: calc(72px + env(safe-area-inset-top)) 0 auto;
+        height: clamp(330px, 44svh, 380px);
+        background-position: 60% 0;
+        background-size: auto 160%;
+      }
+      .hero::after {
+        inset: calc(72px + env(safe-area-inset-top)) 0 auto;
+        height: clamp(330px, 44svh, 380px);
+        background: linear-gradient(to bottom, rgba(10,10,10,0) 60%, rgba(10,10,10,.08) 100%);
+      }
+      .hero-body {
+        display: block;
+        width: 100%;
+        padding: 0 var(--x) 28px !important;
+        overflow: visible;
+      }
+      .hero-body > div:first-child {
+        position: relative;
+        margin-top: clamp(330px, 44svh, 380px);
+        padding: 28px 0 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+      }
+      .hero-sub {
+        max-width: 30ch;
+        margin-bottom: 20px;
+        font-size: 13.5px;
+        line-height: 1.65;
+        white-space: normal;
+        color: var(--stone);
+      }
+      .hero .btn {
+        width: auto;
+        min-width: 190px;
+        height: 48px;
+        justify-content: center;
+      }
+      .hero-baseline {
+        min-height: 56px;
+        margin: 0;
+        padding: 0;
+        background: var(--white);
+        border-top: 1px solid var(--rule);
+      }
+      .hero-baseline-text {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr 1px 1fr;
+        min-height: 56px;
+        padding: 0 14px;
+        align-items: center;
+      }
+      .hero-baseline-word {
+        justify-self: center;
+        font-size: 9px;
+        letter-spacing: .1em;
+        padding-left: .1em;
+      }
+      .hero-baseline-sep { height: 18px; align-self: center; }
       section { min-height: auto; padding: 52px var(--x); justify-content: flex-start; }
       .modele-head { margin-bottom: 32px; gap: 24px; }
       .modele-quote { font-size: 14px; padding-left: 14px; }
@@ -234,6 +341,17 @@
       footer { padding: 24px var(--x); }
       #qui-sommes-nous { grid-template-columns: 1fr !important; gap: 24px !important; }
       #qui-sommes-nous p:last-child { font-size: 20px !important; margin-top: 20px !important; }
+    }
+
+    @media (max-width: 370px) {
+      .hero-body > div:first-child { padding-top: 24px; }
+      h1 { font-size: 29px; }
+      .hero-baseline-word { font-size: 8px; letter-spacing: .06em; padding-left: .06em; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
@@ -264,21 +382,23 @@
     <a href="/apporteur-affaires.html" class="nav-client-mobile">Apporteur</a>
     <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
   </div>
-  <button class="nav-burger" id="navBurger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="nav-burger" id="navBurger" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-controls="navDropdown" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- DROPDOWN MOBILE -->
-<div class="nav-dropdown" id="navDropdown">
-  <button class="nav-dropdown-close" onclick="toggleMenu()">✕</button>
-  <a href="#modele" onclick="toggleMenu()">Notre modèle</a>
-  <a href="#qui-sommes-nous" onclick="toggleMenu()">À propos</a>
-  <a href="#savoir-faire" onclick="toggleMenu()">Savoir-faire</a>
-  <a href="#projets" onclick="toggleMenu()">Projets</a>
-  <a href="#contact" onclick="toggleMenu()">Contact</a>
-  <a href="/apporteur-affaires.html" onclick="toggleMenu()">Apporteur d'affaires</a>
-  <a href="/suivi-chantier.html" onclick="toggleMenu()" style="color:var(--stone);border-bottom:1px solid var(--rule);padding-bottom:4px;">Espace client</a>
+<div class="nav-dropdown" id="navDropdown" aria-hidden="true">
+  <div class="nav-dropdown-links">
+    <a href="#modele" onclick="toggleMenu()">Notre modèle</a>
+    <a href="#qui-sommes-nous" onclick="toggleMenu()">À propos</a>
+    <a href="#savoir-faire" onclick="toggleMenu()">Savoir-faire</a>
+    <a href="#projets" onclick="toggleMenu()">Projets</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+  </div>
+  <div class="nav-dropdown-footer">
+    <a href="/apporteur-affaires.html" onclick="toggleMenu()">Programme apporteur d'affaires</a>
+    <a href="/suivi-chantier.html" onclick="toggleMenu()">Espace client — Connexion</a>
+  </div>
 </div>
 
 <header class="hero">
@@ -545,14 +665,25 @@
         gateName.style.paddingLeft   = extra + 'px';
       }
     }
-    setTimeout(() => document.getElementById('gate').classList.add('out'), 3200);
+    setTimeout(() => document.getElementById('gate').classList.add('out'), 1200);
     document.getElementById('gate').addEventListener('click', () => {
       document.getElementById('gate').classList.add('out');
     });
   });
   function toggleMenu() {
-    document.getElementById('navDropdown').classList.toggle('open');
+    const burger = document.getElementById('navBurger');
+    const dropdown = document.getElementById('navDropdown');
+    burger.classList.toggle('open');
+    dropdown.classList.toggle('open');
+    const isOpen = dropdown.classList.contains('open');
+    burger.setAttribute('aria-expanded', String(isOpen));
+    burger.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    dropdown.setAttribute('aria-hidden', String(!isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('navDropdown').classList.contains('open')) toggleMenu();
+  });
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('stuck', window.scrollY > 50);

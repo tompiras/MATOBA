@@ -1201,10 +1201,18 @@
   if (params.get('contact') === 'success') {
     const form = document.getElementById('contactForm');
     const success = document.getElementById('fsuccess');
+
     if (form && success) {
       form.style.display = 'none';
       success.style.display = 'block';
     }
+
+    // Affiche la confirmation une seule fois, puis nettoie l'URL.
+    // Ainsi, une actualisation normale fait réapparaître le formulaire.
+    params.delete('contact');
+    const cleanQuery = params.toString();
+    const cleanUrl = window.location.pathname + (cleanQuery ? '?' + cleanQuery : '');
+    history.replaceState(null, '', cleanUrl);
   }
 </script>
 </body>

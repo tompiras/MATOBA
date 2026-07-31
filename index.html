@@ -23,270 +23,108 @@
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
-    /* ── BRAND ── */
-    .brand {
-      font-family: 'Inter', sans-serif;
-      font-weight: inherit;
-      font-style: normal;
-      font-synthesis: none;
-      letter-spacing: inherit;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
-    }
+    .brand { font-family: 'Inter', sans-serif; font-weight: inherit; font-style: normal; font-synthesis: none; letter-spacing: inherit; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
     .gate-name  .brand { font-weight: 200; }
     .nav-name   .brand { font-weight: 200; }
     .ft-name    .brand { font-weight: 200; }
-    .modele-quote .brand,
-    .garantie-text .brand { font-weight: 300; }
-    /* NE PAS écraser .orga-title .brand — laisse le 600 du fond noir */
+    .modele-quote .brand, .garantie-text .brand { font-weight: 300; }
 
-    /* ── REVEAL ── */
     [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
     [data-reveal].on { opacity: 1; transform: none; }
     [data-reveal="1"] { transition-delay: .07s; }
     [data-reveal="2"] { transition-delay: .15s; }
     [data-reveal="3"] { transition-delay: .23s; }
 
-    /* ── GATE ── */
-    #gate {
-      position: fixed; inset: 0; z-index: 2000;
-      background: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity .7s var(--ease), visibility .7s;
-    }
+    #gate { position: fixed; inset: 0; z-index: 2000; background: var(--white); display: flex; align-items: center; justify-content: center; transition: opacity .7s var(--ease), visibility .7s; }
     #gate.out { opacity: 0; visibility: hidden; pointer-events: none; }
-    .gate-name {
-      font-size: clamp(24px, 5vw, 56px);
-      font-weight: 200;
-      letter-spacing: .9em;
-      padding-left: .9em;
-      color: var(--ink);
-      opacity: 0;
-      animation: up .8s var(--ease) .2s forwards;
-    }
-    @keyframes up {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: none; }
-    }
+    .gate-name { font-size: clamp(24px, 5vw, 56px); font-weight: 200; letter-spacing: .9em; padding-left: .9em; color: var(--ink); opacity: 0; animation: up .8s var(--ease) .2s forwards; }
+    @keyframes up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; inset: 0 0 auto 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px var(--x);
-      border-bottom: 1px solid transparent;
-      transition: background .3s, border-color .3s;
-    }
+    nav { position: fixed; inset: 0 0 auto 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px var(--x); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s; }
     nav.stuck { background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-color: var(--rule); }
     .nav-name { font-size: 13px; font-weight: 200; letter-spacing: .72em; padding-left: .72em; color: var(--ink); }
     .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: nowrap; align-items: center; }
     .nav-links a { font-size: 11px; letter-spacing: .04em; color: var(--stone); transition: color .2s; white-space: nowrap; }
     .nav-links a:hover { color: var(--ink); }
     .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
-    /* Bouton espace client mobile — toujours visible */
-    .nav-client-mobile {
-      display: none;
-      font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px;
-      white-space: nowrap;
-    }
+    .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
     .nav-mobile-actions { display: none; }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100svh;
-      background: var(--white);
-      display: flex; flex-direction: column;
-      padding: 0 var(--x);
-      padding-top: 88px;
-      border-bottom: 1px solid var(--rule);
-    }
-    .hero-body {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(32px, 5vw, 72px);
-      align-items: center;
-      padding-top: clamp(48px, 7vw, 88px);
-      padding-bottom: clamp(48px, 7vw, 88px);
-    }
-    .hero-tag {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
-      color: var(--stone); margin-bottom: 24px;
-      animation: up 1s var(--ease) .2s both;
-    }
-    h1 {
-      font-size: clamp(32px, 4.2vw, 62px);
-      font-weight: 300; line-height: 1.05; letter-spacing: -.025em;
-      margin-bottom: 20px;
-      animation: up 1s var(--ease) .35s both;
-    }
-    .hero-sub {
-      font-size: 13px; line-height: 1.8; color: var(--stone);
-      max-width: 320px; margin-bottom: 32px;
-      animation: up 1s var(--ease) .45s both;
-    }
+    .hero { min-height: 100svh; background: var(--white); display: flex; flex-direction: column; padding: 0 var(--x); padding-top: 88px; border-bottom: 1px solid var(--rule); }
+    .hero-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: clamp(48px, 7vw, 88px); padding-bottom: clamp(48px, 7vw, 88px); }
+    h1 { font-size: clamp(32px, 4.2vw, 62px); font-weight: 300; line-height: 1.05; letter-spacing: -.025em; margin-bottom: 20px; animation: up 1s var(--ease) .35s both; }
+    .hero-sub { font-size: 13px; line-height: 1.8; color: var(--stone); max-width: 320px; margin-bottom: 32px; animation: up 1s var(--ease) .45s both; }
     .hero-cta { animation: up 1s var(--ease) .55s both; }
-    .btn {
-      display: inline-flex; align-items: center;
-      height: 44px; padding: 0 24px;
-      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-      background: var(--ink); color: var(--white); border: 1px solid var(--ink);
-      transition: background .2s, transform .15s;
-    }
+    .btn { display: inline-flex; align-items: center; height: 44px; padding: 0 24px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--white); border: 1px solid var(--ink); transition: background .2s, transform .15s; }
     .btn:hover { background: #2a2a2a; transform: translateY(-1px); }
-
     .hero-drawing { display: flex; align-items: center; justify-content: center; animation: up 1.1s var(--ease) .5s both; }
     .hero-drawing svg { width: 100%; max-width: 580px; height: auto; }
     .dp { stroke-dasharray: 1800; stroke-dashoffset: 1800; animation: draw 3s var(--ease) 1s forwards; }
-    .dp2 { animation-delay: 1.3s; }
-    .dp3 { animation-delay: 1.6s; }
-    .dp4 { animation-delay: 1.9s; }
+    .dp2 { animation-delay: 1.3s; } .dp3 { animation-delay: 1.6s; } .dp4 { animation-delay: 1.9s; }
     .dl { opacity: 0; animation: up .6s var(--ease) 2.8s forwards; }
     @keyframes draw { to { stroke-dashoffset: 0; } }
-
-    /* baseline */
-    .hero-baseline {
-      border-top: 1px solid var(--rule);
-      padding: clamp(16px, 2.2vw, 24px) var(--x);
-      display: flex; align-items: center;
-      animation: up 1s var(--ease) .8s both;
-      flex-shrink: 0;
-    }
-    .hero-baseline-text {
-      width: 100%;
-      font-size: 13px;
-      font-weight: 300;
-      color: var(--stone);
-      display: flex;
-      justify-content: space-between;
-      align-items: stretch;
-    }
+    .hero-baseline { border-top: 1px solid var(--rule); padding: clamp(16px, 2.2vw, 24px) var(--x); display: flex; align-items: center; animation: up 1s var(--ease) .8s both; flex-shrink: 0; }
+    .hero-baseline-text { width: 100%; font-size: 13px; font-weight: 300; color: var(--stone); display: flex; justify-content: space-between; align-items: stretch; }
     .hero-baseline-word { white-space: nowrap; align-self: center; letter-spacing: .28em; padding-left: .28em; }
     .hero-baseline-sep { width: 1px; background: var(--rule); align-self: stretch; flex-shrink: 0; }
     @media (min-width: 980px) { .hero-baseline-text { font-size: 16px; } }
     @media (max-width: 600px) { .hero-baseline-text { font-size: 10px; } .hero-baseline-word { letter-spacing: .14em; padding-left: .14em; } }
 
-    /* ── SECTIONS ── */
-    section {
-      padding: var(--gap) var(--x);
-      min-height: 100svh;
-      display: flex; flex-direction: column; justify-content: center;
-    }
+    section { padding: var(--gap) var(--x); min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
     .bg-fog  { background: var(--fog); }
     .bg-bone { background: var(--bone); }
+    .bg-ink  { background: var(--ink); color: var(--white); }
 
-    .eyebrow {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
-      color: var(--stone); margin-bottom: 36px;
-    }
+    .eyebrow { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); margin-bottom: 36px; }
+    .bg-ink .eyebrow { color: rgba(255,255,255,.5); }
     h2 { font-size: clamp(22px, 2.8vw, 38px); font-weight: 300; line-height: 1.08; letter-spacing: -.02em; }
     .lead { margin-top: 16px; font-size: 14.5px; line-height: 1.9; color: var(--stone); max-width: 460px; }
 
-    /* ── MODÈLE ── */
-    .modele-head {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: clamp(40px, 7vw, 100px); align-items: start;
-      margin-bottom: clamp(48px, 6vw, 72px);
-    }
-    .modele-quote {
-      font-size: clamp(14px, 1.6vw, 18px);
-      font-weight: 200;
-      line-height: 1.6; color: var(--stone);
-      border-left: 2px solid var(--rule);
-      padding-left: 20px; margin-top: 8px;
-    }
+    .modele-head { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: start; margin-bottom: clamp(48px, 6vw, 72px); }
+    .modele-quote { font-size: clamp(14px, 1.6vw, 18px); font-weight: 200; line-height: 1.6; color: var(--stone); border-left: 2px solid var(--rule); padding-left: 20px; margin-top: 8px; }
 
-    /* Organigramme */
-    .orga {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto 1fr;
-      align-items: stretch;
-      border: 1px solid var(--rule);
-    }
-    .orga-cell {
-      padding: clamp(20px, 2.5vw, 32px);
-      display: flex; flex-direction: column; justify-content: center;
-      background: var(--white);
-    }
+    .orga { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; border: 1px solid var(--rule); }
+    .orga-cell { padding: clamp(20px, 2.5vw, 32px); display: flex; flex-direction: column; justify-content: center; background: var(--white); }
     .orga-cell.center { background: var(--ink); }
     .orga-cell.light  { background: var(--fog); }
-    .orga-eyebrow {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--stone); margin-bottom: 10px;
-    }
+    .orga-eyebrow { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); margin-bottom: 10px; }
     .orga-cell.center .orga-eyebrow { color: rgba(255,255,255,.75); }
     .orga-title { font-size: clamp(16px, 1.8vw, 22px); font-weight: 400; color: var(--ink); line-height: 1.2; }
     .orga-cell.center .orga-title { color: #ffffff; font-weight: 600; font-size: clamp(15px, 1.8vw, 20px); letter-spacing: .38em; }
     .orga-sub { margin-top: 12px; font-size: 13px; line-height: 2; color: var(--stone); }
     .orga-cell.center .orga-sub { color: rgba(255,255,255,.7); }
-
-    .orga-arrow {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 0 clamp(8px, 1.5vw, 20px);
-      background: var(--white);
-      border-left: 1px solid var(--rule);
-      border-right: 1px solid var(--rule);
-      gap: 6px;
-    }
+    .orga-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 clamp(8px, 1.5vw, 20px); background: var(--white); border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); gap: 6px; }
     .orga-arrow svg { width: 20px; height: 20px; flex-shrink: 0; }
-    .orga-arrow-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--stone); writing-mode: vertical-rl;
-      text-orientation: mixed; transform: rotate(180deg);
-      font-weight: 500;
-    }
+    .orga-arrow-label { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-weight: 500; }
     .orga-list { display: flex; flex-direction: column; }
-    .orga-item {
-      flex: 1;
-      padding: clamp(12px, 1.5vw, 18px) clamp(16px, 2vw, 24px);
-      border-bottom: 1px solid var(--rule);
-      display: flex; align-items: baseline; gap: 10px;
-    }
+    .orga-item { flex: 1; padding: clamp(12px, 1.5vw, 18px) clamp(16px, 2vw, 24px); border-bottom: 1px solid var(--rule); display: flex; align-items: baseline; gap: 10px; }
     .orga-item:last-child { border-bottom: none; }
     .orga-item-name { font-size: 13px; font-weight: 400; color: var(--ink); white-space: nowrap; }
     .orga-item-sub { font-size: 11px; color: var(--stone); }
-    .orga-note {
-      margin-top: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 8px; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--rule); text-align: center;
-    }
 
-    /* Garantie */
-    .garantie {
-      margin-top: clamp(40px, 5vw, 64px);
-      padding: clamp(22px, 3vw, 36px) clamp(24px, 4vw, 48px);
-      background: var(--ink); color: var(--white);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; gap: 12px; flex-wrap: wrap;
-    }
-    .garantie-tag {
-      font-family: 'Inter', sans-serif;
-      font-size: 8px; letter-spacing: .2em; text-transform: uppercase;
-      color: rgba(255,255,255,.75); flex-shrink: 0;
-    }
+    .garantie { margin-top: clamp(40px, 5vw, 64px); padding: clamp(22px, 3vw, 36px) clamp(24px, 4vw, 48px); background: var(--ink); color: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; flex-wrap: wrap; }
+    .garantie-tag { font-family: 'Inter', sans-serif; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.75); flex-shrink: 0; }
     .garantie-text { font-size: clamp(13px, 1.5vw, 16px); font-weight: 200; line-height: 1.6; color: rgba(255,255,255,.75); }
     .garantie-text strong { font-weight: 400; color: var(--white); }
 
-    /* Étapes */
-    .etapes {
-      margin-top: clamp(48px, 6vw, 72px);
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      border-top: 1px solid var(--rule); border-left: 1px solid var(--rule);
-    }
+    .etapes { margin-top: clamp(48px, 6vw, 72px); display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
     .etape { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: clamp(18px, 2vw, 28px); }
     .etape-num { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .1em; color: var(--stone); margin-bottom: 14px; }
     .etape-title { font-size: 13px; font-weight: 400; margin-bottom: 8px; line-height: 1.3; }
     .etape-body { font-size: 13px; line-height: 1.8; color: var(--stone); }
 
-    /* ── SAVOIR-FAIRE ── */
+    /* ── À PROPOS intégré ── */
+    .apropos-wrap {
+      margin-top: clamp(48px, 6vw, 72px);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 7vw, 100px);
+      border-top: 1px solid var(--rule);
+      padding-top: clamp(40px, 5vw, 64px);
+    }
+    .apropos-label { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); margin-bottom: 28px; }
+    .apropos-text { font-size: 14.5px; line-height: 1.9; color: var(--stone); }
+    .apropos-conclusion { margin-top: 28px; font-size: clamp(18px, 2.2vw, 26px); font-weight: 300; line-height: 1.2; letter-spacing: -.01em; color: var(--ink); }
+
     .sf-head { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: end; margin-bottom: clamp(40px, 5vw, 60px); }
     .sf-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
     .sf-col { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: clamp(18px, 2vw, 26px); }
@@ -296,14 +134,12 @@
     .sf-note-tag { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); flex-shrink: 0; font-weight: 600; }
     .sf-note-text { font-size: 14px; color: var(--ink); line-height: 1.7; }
 
-    /* ── PROJETS ── */
     .proj-grid { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
     .proj { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: clamp(20px, 2.5vw, 32px); transition: background .2s; }
     .proj:hover { background: var(--fog); }
     .proj-tag { font-family: 'Inter', sans-serif; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); margin-bottom: 10px; }
     .proj-name { font-size: 15px; font-weight: 500; line-height: 1.3; }
 
-    /* ── CONTACT ── */
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 96px); align-items: start; }
     .c-list { margin-top: 36px; }
     .c-row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--rule); }
@@ -326,78 +162,38 @@
     .fsuccess { display: none; padding: 20px 16px; border: 1px solid var(--rule); background: var(--fog); }
     .fsuccess p { font-size: 13px; line-height: 1.8; color: var(--stone); }
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 24px var(--x);
-      border-top: 1px solid var(--rule);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 8px; text-align: center;
-    }
-    .ft-name {
-      font-size: 13px;
-      font-weight: 500;
-      color: #666;
-      letter-spacing: .5em;
-      padding-left: .5em;
-      text-align: center;
-    }
-    .ft-baseline {
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: .18em;
-      padding-left: .18em;
-      color: var(--stone);
-      text-align: center;
-    }
+    footer { padding: 24px var(--x); border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+    .ft-name { font-size: 13px; font-weight: 500; color: #666; letter-spacing: .5em; padding-left: .5em; text-align: center; }
+    .ft-baseline { font-size: 10px; font-weight: 400; letter-spacing: .18em; padding-left: .18em; color: var(--stone); text-align: center; }
 
-    /* ── RESPONSIVE TABLETTE ── */
     @media (max-width: 980px) {
       .hero-body { grid-template-columns: 1fr; }
       .hero-drawing { display: none; }
-      .modele-head, .sf-head, .contact-grid { grid-template-columns: 1fr; }
+      .modele-head, .sf-head, .contact-grid, .apropos-wrap { grid-template-columns: 1fr; }
       .etapes { grid-template-columns: 1fr 1fr; }
       .proj-grid { grid-template-columns: 1fr 1fr; }
       .sf-grid { grid-template-columns: 1fr 1fr; }
       .orga { grid-template-columns: 1fr; }
-      .orga-arrow {
-        flex-direction: row; border: none;
-        border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-        padding: 12px var(--x); height: auto; justify-content: flex-start; gap: 12px;
-      }
+      .orga-arrow { flex-direction: row; border: none; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 12px var(--x); height: auto; justify-content: flex-start; gap: 12px; }
       .orga-arrow svg { transform: rotate(90deg); flex-shrink: 0; }
       .orga-arrow-label { writing-mode: horizontal-tb; transform: none; }
     }
-
-    /* ── RESPONSIVE MOBILE iPhone ── */
     @media (max-width: 600px) {
       :root { --x: 22px; --gap: 52px; }
-
-      /* typo */
       h1 { font-size: clamp(28px, 8.5vw, 36px); line-height: 1.08; letter-spacing: -.02em; margin-bottom: 16px; }
       h2 { font-size: 26px; line-height: 1.12; }
       .lead { font-size: 14px; }
       .eyebrow { margin-bottom: 24px; }
-
-      /* nav */
       .nav-links { display: none; }
       .nav-region { display: none; }
       .nav-mobile-actions { display: flex; gap: 8px; }
       .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
-
-      /* hero */
       .hero { padding-top: 68px; }
       .hero-body { padding-top: 36px; padding-bottom: 36px; }
-      .hero-tag { margin-bottom: 16px; }
       .hero-sub { font-size: clamp(9px, 3vw, 13px); margin-bottom: 24px; max-width: 100%; white-space: nowrap; }
       .hero-baseline { padding: 14px var(--x); }
-      .hero-baseline-word { font-size: 10px; letter-spacing: .12em; padding-left: .12em; }
-
-      /* sections */
       section { min-height: auto; padding: 52px var(--x); justify-content: flex-start; }
-
-      /* modèle */
       .modele-head { margin-bottom: 32px; gap: 24px; }
       .modele-quote { font-size: 14px; padding-left: 14px; }
       .orga-cell { padding: 20px var(--x); }
@@ -411,25 +207,17 @@
       .garantie-text { font-size: 13px; }
       .etapes { grid-template-columns: 1fr; margin-top: 32px; }
       .etape { padding: 18px var(--x); }
-
-      /* savoir-faire */
       .sf-head { gap: 20px; margin-bottom: 28px; }
       .sf-grid { grid-template-columns: 1fr 1fr; }
       .sf-col { padding: 16px; }
       .sf-list { font-size: 12px; line-height: 1.9; }
       .sf-note { padding: 16px; gap: 10px; flex-direction: column; align-items: flex-start; }
-
-      /* projets */
       .proj-grid { grid-template-columns: 1fr; margin-top: 28px; }
       .proj { padding: 18px; }
-
-      /* contact */
       .contact-grid { gap: 32px; }
       .c-list { margin-top: 24px; }
       .form-row { grid-template-columns: 1fr; }
-      .finput, .fselect, .ftextarea { font-size: 16px; } /* évite le zoom auto iOS */
-
-      /* footer */
+      .finput, .fselect, .ftextarea { font-size: 16px; }
       footer { padding: 24px var(--x); }
     }
   </style>
@@ -473,19 +261,9 @@
     </div>
     <div class="hero-drawing">
       <svg viewBox="0 0 560 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-        <!-- Grille fond -->
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#eceae5" stroke-width=".5"/>
-          </pattern>
-        </defs>
+        <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#eceae5" stroke-width=".5"/></pattern></defs>
         <rect width="560" height="400" fill="url(#grid)"/>
-
-        <!-- SOL -->
         <line class="dp dp4" x1="0" y1="340" x2="560" y2="340" stroke="#111" stroke-width="1.5"/>
-
-        <!-- FONDATIONS hachurées -->
         <rect class="dp dp4" x="40" y="340" width="480" height="20" stroke="#111" stroke-width=".8" fill="none"/>
         <line class="dp dp4" x1="40" y1="340" x2="60" y2="360" stroke="#111" stroke-width=".5"/>
         <line class="dp dp4" x1="80" y1="340" x2="100" y2="360" stroke="#111" stroke-width=".5"/>
@@ -499,91 +277,54 @@
         <line class="dp dp4" x1="400" y1="340" x2="420" y2="360" stroke="#111" stroke-width=".5"/>
         <line class="dp dp4" x1="440" y1="340" x2="460" y2="360" stroke="#111" stroke-width=".5"/>
         <line class="dp dp4" x1="480" y1="340" x2="500" y2="360" stroke="#111" stroke-width=".5"/>
-
-        <!-- MURS EXTÉRIEURS coupe -->
-        <!-- Mur gauche -->
         <rect class="dp" x="40" y="60" width="20" height="280" stroke="#111" stroke-width="1" fill="rgba(0,0,0,0.06)"/>
-        <!-- Mur droit -->
         <rect class="dp" x="500" y="60" width="20" height="280" stroke="#111" stroke-width="1" fill="rgba(0,0,0,0.06)"/>
-
-        <!-- PLANCHERS -->
-        <!-- Plancher RDC -->
         <rect class="dp dp2" x="40" y="220" width="480" height="12" stroke="#111" stroke-width=".8" fill="rgba(0,0,0,0.04)"/>
-        <!-- Plancher R+1 -->
         <rect class="dp dp2" x="40" y="120" width="480" height="12" stroke="#111" stroke-width=".8" fill="rgba(0,0,0,0.04)"/>
-
-        <!-- TOITURE -->
         <path class="dp dp2" d="M 20 60 L 280 16 L 540 60 L 520 60 L 280 36 L 40 60 Z" stroke="#111" stroke-width="1" fill="rgba(0,0,0,0.05)"/>
-
-        <!-- MURS INTÉRIEURS -->
         <rect class="dp dp2" x="170" y="60" width="10" height="160" stroke="#111" stroke-width=".7" fill="rgba(0,0,0,0.04)"/>
         <rect class="dp dp2" x="380" y="60" width="10" height="160" stroke="#111" stroke-width=".7" fill="rgba(0,0,0,0.04)"/>
         <rect class="dp dp3" x="170" y="232" width="10" height="108" stroke="#111" stroke-width=".7" fill="rgba(0,0,0,0.04)"/>
         <rect class="dp dp3" x="380" y="232" width="10" height="108" stroke="#111" stroke-width=".7" fill="rgba(0,0,0,0.04)"/>
-
-        <!-- FENÊTRES R+1 gauche -->
         <rect class="dp dp3" x="72" y="140" width="80" height="60" stroke="#111" stroke-width=".8" fill="white"/>
         <line class="dp dp3" x1="112" y1="140" x2="112" y2="200" stroke="#111" stroke-width=".5"/>
         <line class="dp dp3" x1="72" y1="170" x2="152" y2="170" stroke="#111" stroke-width=".5"/>
-
-        <!-- FENÊTRES R+1 centre -->
         <rect class="dp dp3" x="196" y="140" width="174" height="60" stroke="#111" stroke-width=".8" fill="white"/>
         <line class="dp dp3" x1="283" y1="140" x2="283" y2="200" stroke="#111" stroke-width=".5"/>
         <line class="dp dp3" x1="196" y1="170" x2="370" y2="170" stroke="#111" stroke-width=".5"/>
-
-        <!-- FENÊTRES R+1 droite -->
         <rect class="dp dp3" x="408" y="140" width="80" height="60" stroke="#111" stroke-width=".8" fill="white"/>
         <line class="dp dp3" x1="448" y1="140" x2="448" y2="200" stroke="#111" stroke-width=".5"/>
         <line class="dp dp3" x1="408" y1="170" x2="488" y2="170" stroke="#111" stroke-width=".5"/>
-
-        <!-- FENÊTRES RDC gauche -->
         <rect class="dp dp3" x="72" y="248" width="80" height="70" stroke="#111" stroke-width=".8" fill="white"/>
         <line class="dp dp4" x1="112" y1="248" x2="112" y2="318" stroke="#111" stroke-width=".5"/>
         <line class="dp dp4" x1="72" y1="283" x2="152" y2="283" stroke="#111" stroke-width=".5"/>
-
-        <!-- PORTE RDC centre -->
         <rect class="dp dp3" x="230" y="260" width="100" height="80" stroke="#111" stroke-width=".9" fill="white"/>
         <path class="dp dp4" d="M230 260 Q280 230 330 260" stroke="#111" stroke-width=".75" fill="none"/>
         <line class="dp dp4" x1="250" y1="302" x2="262" y2="302" stroke="#111" stroke-width="1.2"/>
-
-        <!-- FENÊTRES RDC droite -->
         <rect class="dp dp3" x="408" y="248" width="80" height="70" stroke="#111" stroke-width=".8" fill="white"/>
         <line class="dp dp4" x1="448" y1="248" x2="448" y2="318" stroke="#111" stroke-width=".5"/>
         <line class="dp dp4" x1="408" y1="283" x2="488" y2="283" stroke="#111" stroke-width=".5"/>
-
-        <!-- COTES & LABELS -->
         <g class="dl">
-          <!-- Cote hauteur R+1 -->
           <line x1="16" y1="132" x2="16" y2="220" stroke="#9a9792" stroke-width=".6"/>
           <line x1="10" y1="132" x2="22" y2="132" stroke="#9a9792" stroke-width=".6"/>
           <line x1="10" y1="220" x2="22" y2="220" stroke="#9a9792" stroke-width=".6"/>
           <text x="8" y="180" font-family="Space Mono,monospace" font-size="7" fill="#9a9792" text-anchor="middle" transform="rotate(-90,8,180)" letter-spacing="0.5">2.70 m</text>
-
-          <!-- Cote hauteur RDC -->
           <line x1="16" y1="232" x2="16" y2="340" stroke="#9a9792" stroke-width=".6"/>
           <line x1="10" y1="232" x2="22" y2="232" stroke="#9a9792" stroke-width=".6"/>
           <line x1="10" y1="340" x2="22" y2="340" stroke="#9a9792" stroke-width=".6"/>
           <text x="8" y="292" font-family="Space Mono,monospace" font-size="7" fill="#9a9792" text-anchor="middle" transform="rotate(-90,8,292)" letter-spacing="0.5">3.00 m</text>
-
-          <!-- Cote largeur totale -->
           <line x1="40" y1="376" x2="520" y2="376" stroke="#9a9792" stroke-width=".6"/>
           <line x1="40" y1="370" x2="40" y2="382" stroke="#9a9792" stroke-width=".6"/>
           <line x1="520" y1="370" x2="520" y2="382" stroke="#9a9792" stroke-width=".6"/>
           <text x="280" y="390" font-family="Space Mono,monospace" font-size="7.5" fill="#9a9792" text-anchor="middle" letter-spacing="1">L = 24.00 m</text>
-
-          <!-- Label -->
           <text x="280" y="406" font-family="Space Mono,monospace" font-size="7" fill="#c0bdb8" text-anchor="middle" letter-spacing="1.5">COUPE TRANSVERSALE — ÉCH. 1/100</text>
-
-          <!-- Labels niveaux -->
           <text x="530" y="344" font-family="Space Mono,monospace" font-size="7" fill="#9a9792" letter-spacing="0.5">RDC</text>
           <text x="530" y="224" font-family="Space Mono,monospace" font-size="7" fill="#9a9792" letter-spacing="0.5">R+1</text>
           <text x="530" y="64" font-family="Space Mono,monospace" font-size="7" fill="#9a9792" letter-spacing="0.5">R+2</text>
         </g>
-
       </svg>
     </div>
   </div>
-
   <div class="hero-baseline">
     <span class="hero-baseline-text">
       <span class="hero-baseline-word">Conception</span>
@@ -621,12 +362,7 @@
     <div class="orga-cell center">
       <div class="orga-eyebrow">Interlocuteur unique</div>
       <div class="orga-title"><span class="brand">MΛTOBΛ</span></div>
-      <div class="orga-sub">
-        Conception &amp; permis<br/>
-        Sélection des intervenants<br/>
-        Coordination de chantier<br/>
-        Suivi &amp; livraison
-      </div>
+      <div class="orga-sub">Conception &amp; permis<br/>Sélection des intervenants<br/>Coordination de chantier<br/>Suivi &amp; livraison</div>
     </div>
     <div class="orga-arrow">
       <svg viewBox="0 0 20 20" fill="none"><line x1="2" y1="10" x2="15" y2="10" stroke="#111" stroke-width="1"/><polyline points="11,6 15,10 11,14" stroke="#111" stroke-width="1" fill="none"/></svg>
@@ -643,7 +379,6 @@
     </div>
   </div>
 
-
   <div class="garantie" data-reveal>
     <div class="garantie-tag">En résumé</div>
     <div class="garantie-text">
@@ -658,6 +393,18 @@
     <div class="etape"><div class="etape-num">03</div><div class="etape-title">Sélection des intervenants</div><div class="etape-body">Nous mandatons chaque corps de métier selon le projet. Appels d'offres et contractualisation sans vous impliquer.</div></div>
     <div class="etape"><div class="etape-num">04</div><div class="etape-title">Pilotage de chantier</div><div class="etape-body">Réunions, plannings, coordination des intervenants. Vous recevez un compte rendu régulier.</div></div>
     <div class="etape"><div class="etape-num">05</div><div class="etape-title">Livraison</div><div class="etape-body">Réception formalisée, levée des réserves garantie, remise des documents et garanties décennales.</div></div>
+  </div>
+
+  <!-- ── QUI SOMMES-NOUS ── -->
+  <div style="margin-top:clamp(48px,6vw,72px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--rule);display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,100px);" data-reveal>
+    <div>
+      <div class="eyebrow">Qui sommes-nous</div>
+      <h2>Un gestionnaire,<br/>un architecte,<br/>un homme de réseau.</h2>
+    </div>
+    <div>
+      <p class="lead" style="max-width:100%;">Trois associés qui ont créé MΛTOBΛ parce qu'ils en avaient assez de voir des clients perdus entre dix interlocuteurs, des projets professionnels livrés en retard et des budgets qui dérapent.</p>
+      <p style="margin-top:clamp(24px,3vw,40px);font-size:clamp(18px,2.2vw,26px);font-weight:300;line-height:1.2;letter-spacing:-.01em;color:var(--ink);">On a pris la responsabilité<br/>que personne ne voulait.</p>
+    </div>
   </div>
 </section>
 
@@ -755,13 +502,12 @@
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.addEventListener('load', () => {
     window.scrollTo(0, 0);
-    // Aligner MΛTOBΛ gate sur largeur baseline
     const gateName     = document.getElementById('gateName');
     const gateBaseline = document.getElementById('gateBaseline');
     if (gateName && gateBaseline) {
       const baseW = gateBaseline.offsetWidth;
       const nameW = gateName.offsetWidth;
-      const chars = 6; // M Λ T O B Λ
+      const chars = 6;
       const extra = (baseW - nameW) / chars;
       if (extra > 0) {
         gateName.style.letterSpacing = extra + 'px';
@@ -781,7 +527,6 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
-  // ── FOOTER ──
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     this.style.display = 'none';

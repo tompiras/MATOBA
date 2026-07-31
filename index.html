@@ -49,6 +49,12 @@
     .nav-cta { color: var(--ink) !important; border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
     .nav-client-mobile { display: none; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); border: 1px solid var(--rule); padding: 5px 10px; white-space: nowrap; }
     .nav-mobile-actions { display: none; }
+    .nav-burger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; }
+    .nav-burger span { display: block; width: 20px; height: 1px; background: var(--ink); transition: all .3s; }
+    .nav-dropdown { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 200; background: rgba(255,255,255,.98); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; gap: 28px; }
+    .nav-dropdown.open { display: flex; }
+    .nav-dropdown a { font-size: 18px; font-weight: 200; letter-spacing: .04em; color: var(--ink); text-decoration: none; }
+    .nav-dropdown-close { position: absolute; top: 24px; right: var(--x); background: none; border: none; cursor: pointer; font-size: 22px; color: var(--stone); font-family: 'Inter', sans-serif; font-weight: 200; }
 
     .hero { min-height: 100svh; background: var(--white); display: flex; flex-direction: column; padding: 0 var(--x); padding-top: 88px; border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; inset: 0; background-image: url('/hero.jpg'); background-size: cover; background-position: center right; z-index: 0; }
@@ -189,8 +195,8 @@
       .eyebrow { margin-bottom: 24px; }
       .nav-links { display: none; }
       .nav-region { display: none; }
-      .nav-mobile-actions { display: flex; gap: 8px; }
-      .nav-client-mobile { display: block; }
+      .nav-mobile-actions { display: none; }
+      .nav-burger { display: flex; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
       .hero { padding-top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; }
       .hero::before { background-position: center center; background-size: 150%; }
@@ -257,7 +263,22 @@
     <a href="/apporteur-affaires.html" class="nav-client-mobile">Apporteur</a>
     <a href="/suivi-chantier.html" class="nav-client-mobile">Connexion</a>
   </div>
+  <button class="nav-burger" id="navBurger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- DROPDOWN MOBILE -->
+<div class="nav-dropdown" id="navDropdown">
+  <button class="nav-dropdown-close" onclick="toggleMenu()">✕</button>
+  <a href="#modele" onclick="toggleMenu()">Notre modèle</a>
+  <a href="#qui-sommes-nous" onclick="toggleMenu()">À propos</a>
+  <a href="#savoir-faire" onclick="toggleMenu()">Savoir-faire</a>
+  <a href="#projets" onclick="toggleMenu()">Projets</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="/apporteur-affaires.html" onclick="toggleMenu()">Apporteur d'affaires</a>
+  <a href="/suivi-chantier.html" onclick="toggleMenu()" style="color:var(--stone);border-bottom:1px solid var(--rule);padding-bottom:4px;">Espace client</a>
+</div>
 
 <header class="hero">
   <div class="hero-body">
@@ -528,6 +549,9 @@
       document.getElementById('gate').classList.add('out');
     });
   });
+  function toggleMenu() {
+    document.getElementById('navDropdown').classList.toggle('open');
+  }
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('stuck', window.scrollY > 50);

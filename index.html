@@ -52,7 +52,7 @@
 
     .hero { min-height: 100svh; background: var(--white); display: flex; flex-direction: column; padding: 0 var(--x); padding-top: 88px; border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; inset: 0; background-image: url('/hero.jpg'); background-size: cover; background-position: center right; z-index: 0; }
-    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,.92) 28%, rgba(255,255,255,.55) 52%, rgba(255,255,255,.05) 100%); z-index: 1; }
+    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,.82) 15%, rgba(255,255,255,.45) 45%, rgba(255,255,255,.05) 100%), linear-gradient(to bottom, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 25%); z-index: 1; }
     .hero-body { position: relative; z-index: 2; flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: clamp(48px, 7vw, 88px); padding-bottom: clamp(48px, 7vw, 88px); overflow: hidden; }
     .hero-baseline { position: relative; z-index: 2; border-top: 1px solid var(--rule); padding: clamp(16px, 2.2vw, 24px) var(--x); display: flex; align-items: center; animation: up 1s var(--ease) .8s both; flex-shrink: 0; margin: 0 calc(-1 * var(--x)); padding-left: var(--x); padding-right: var(--x); margin-top: clamp(32px, 5vw, 64px); background: rgba(255,255,255,.85); }
     h1 { font-size: clamp(32px, 4.2vw, 62px); font-weight: 300; line-height: 1.05; letter-spacing: -.025em; margin-bottom: 20px; animation: up 1s var(--ease) .35s both; }
@@ -192,7 +192,9 @@
       .nav-mobile-actions { display: flex; gap: 8px; }
       .nav-client-mobile { display: block; }
       .nav-name { font-size: 12px; letter-spacing: .42em; }
-      .hero { padding-top: 68px; min-height: auto; }
+      .hero { padding-top: 68px; min-height: 100svh; }
+      .hero::before { background-position: center center; }
+      .hero::after { background: linear-gradient(to bottom, rgba(255,255,255,.2) 0%, rgba(255,255,255,.75) 50%, rgba(255,255,255,1) 72%); }
       .hero-body { padding-top: 36px; padding-bottom: 36px; }
       .hero-sub { font-size: clamp(9px, 3vw, 13px); margin-bottom: 24px; max-width: 100%; white-space: nowrap; }
       .hero-baseline { padding: 14px 0; }

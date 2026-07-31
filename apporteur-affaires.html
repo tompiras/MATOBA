@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MATOBA — Apporteur d’affaires</title>
-  <meta name="description" content="Présentez une opportunité à MATOBA et suivez chaque affaire depuis votre espace apporteur." />
+  <meta name="description" content="Présentez un projet à MATOBA. Nous l’étudions et vous indiquons si nous pouvons donner suite." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
@@ -130,12 +130,11 @@
       position: relative;
       z-index: 2;
       flex: 1;
-      display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(320px,.72fr);
+      display: flex;
       align-items: center;
-      gap: clamp(42px, 7vw, 110px);
       padding: clamp(70px, 9vw, 118px) 0 clamp(52px, 7vw, 88px);
     }
+    .hero-copy { max-width: 760px; }
     .eyebrow { margin-bottom: 26px; font-size: 9px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); }
     h1 { max-width: 760px; font-size: clamp(42px, 5.6vw, 76px); font-weight: 300; line-height: .98; letter-spacing: -.04em; }
     .hero-lead { max-width: 440px; margin-top: 24px; font-size: 14px; line-height: 1.85; color: var(--stone); }
@@ -173,21 +172,7 @@
     .hero-card-row { padding: 13px 0; display: flex; gap: 12px; align-items: center; border-top: 1px solid var(--rule); font-size: 13px; color: var(--stone); }
     .hero-card-num { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: var(--white); font-size: 9px; flex: 0 0 auto; }
 
-    .hero-baseline {
-      position: relative;
-      z-index: 2;
-      margin: 0 calc(-1 * var(--x));
-      padding: 0 var(--x);
-      min-height: 64px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      align-items: center;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      background: rgba(255,255,255,.9);
-    }
-    .hero-baseline span { text-align: center; font-size: 11px; letter-spacing: .18em; color: var(--stone); }
-    .hero-baseline span + span { border-left: 1px solid var(--rule); }
+    .hero-baseline { display: none; }
 
     section { padding: var(--gap) var(--x); }
     .bg-fog { background: var(--fog); }
@@ -304,7 +289,7 @@
 
       .hero { min-height: auto; padding-top: calc(76px + env(safe-area-inset-top)); }
       .hero::before, .hero::after { top: calc(76px + env(safe-area-inset-top)); bottom: auto; height: min(48svh, 430px); }
-      .hero::before { background-position: center center; transform: scale(1.015); }
+      .hero::before { background-position: center center; transform: none; }
       .hero::after {
         background:
           linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.03) 34%, rgba(255,255,255,.18) 54%, rgba(255,255,255,.78) 81%, rgba(255,255,255,.97) 93%, #fff 100%),
@@ -314,20 +299,16 @@
       .hero-copy {
         position: relative;
         margin-top: min(44svh, 390px);
-        padding: 25px 24px;
-        border: 1px solid rgba(216,213,207,.84);
+        padding: 24px 22px;
+        border: 1px solid rgba(216,213,207,.78);
         border-radius: 24px;
-        background: rgba(255,255,255,.95);
-        box-shadow: var(--shadow-card);
+        background: #fff;
+        box-shadow: 0 18px 44px rgba(10,10,10,.075);
       }
-      h1 { font-size: clamp(38px, 11vw, 52px); }
-      .hero-lead { margin-top: 18px; font-size: 13.5px; line-height: 1.72; }
-      .hero-actions { display: grid; grid-template-columns: 1fr; }
+      h1 { font-size: clamp(36px, 10.6vw, 50px); }
+      .hero-lead { margin-top: 16px; font-size: 13.5px; line-height: 1.65; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; margin-top: 24px; }
       .btn { width: 100%; }
-      .hero-card { margin-top: 14px; padding: 22px 20px; border-radius: 22px; }
-      .hero-card-title { font-size: 24px; }
-      .hero-baseline { margin-top: 0; min-height: 58px; }
-      .hero-baseline span { font-size: 9px; letter-spacing: .1em; }
 
       section { padding: var(--gap) var(--x); }
       .section-head { gap: 22px; margin-bottom: 30px; }
@@ -384,25 +365,15 @@
 <header class="hero">
   <div class="hero-inner">
     <div class="hero-copy">
-      <div class="eyebrow">Programme apporteur d’affaires</div>
-      <h1>Vous créez l’opportunité.<br>Nous portons le projet.</h1>
-      <p class="hero-lead">Vous identifiez un besoin de construction, rénovation ou aménagement. MATOBA prend en charge l’étude, la contractualisation et l’exécution du projet.</p>
+      <div class="eyebrow">Apporteur d’affaires</div>
+      <h1>Vous nous présentez un projet.<br>Nous l’étudions.</h1>
+      <p class="hero-lead">Vous nous mettez en relation avec un porteur de projet. Nous vérifions le besoin, la faisabilité et notre capacité à intervenir.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn btn-dark">Présenter une affaire</a>
+        <a href="#contact" class="btn btn-dark">Présenter un projet</a>
         <a href="/suivi-chantier.html" class="btn btn-light">Accéder à mon espace</a>
       </div>
     </div>
-    <aside class="hero-card" aria-label="Fonctionnement du programme">
-      <div class="hero-card-label">Fonctionnement</div>
-      <div class="hero-card-title">Une mise en relation claire, suivie de bout en bout.</div>
-      <div class="hero-card-list">
-        <div class="hero-card-row"><span class="hero-card-num">01</span><span>Vous qualifiez et présentez l’opportunité.</span></div>
-        <div class="hero-card-row"><span class="hero-card-num">02</span><span>Nous étudions et prenons le relais.</span></div>
-        <div class="hero-card-row"><span class="hero-card-num">03</span><span>Vous suivez l’affaire depuis votre espace dédié.</span></div>
-      </div>
-    </aside>
   </div>
-  <div class="hero-baseline"><span>Identifier</span><span>Mettre en relation</span><span>Suivre</span></div>
 </header>
 
 <main>
@@ -410,55 +381,40 @@
     <div class="section-head">
       <div>
         <div class="eyebrow" data-reveal>Le principe</div>
-        <h2 data-reveal="1">Simple pour vous.<br>Structuré pour le client.</h2>
+        <h2 data-reveal="1">Une mise en relation.<br>Une étude au cas par cas.</h2>
       </div>
-      <p class="lead" data-reveal="2">Votre rôle s’arrête à la mise en relation qualifiée. Nous prenons ensuite la responsabilité du projet, de la conception jusqu’à la remise des clés.</p>
+      <p class="lead" data-reveal="2">Vous nous transmettez un contact et les informations utiles. Nous décidons ensuite si le projet entre dans notre périmètre.</p>
     </div>
     <div class="steps" data-reveal>
-      <article class="step"><div class="step-num">01</div><div class="step-title">Présenter</div><p class="step-text">Vous nous transmettez les coordonnées du porteur de projet et les premières informations utiles.</p></article>
-      <article class="step"><div class="step-num">02</div><div class="step-title">Qualifier</div><p class="step-text">Nous vérifions le besoin, le périmètre, le calendrier et la faisabilité avant de poursuivre.</p></article>
-      <article class="step"><div class="step-num">03</div><div class="step-title">Suivre</div><p class="step-text">L’évolution de l’affaire et les informations essentielles restent disponibles dans votre espace apporteur.</p></article>
+      <article class="step"><div class="step-num">01</div><div class="step-title">Présenter</div><p class="step-text">Coordonnées, localisation et nature du projet.</p></article>
+      <article class="step"><div class="step-num">02</div><div class="step-title">Étudier</div><p class="step-text">Nous vérifions le besoin, le calendrier et la faisabilité.</p></article>
+      <article class="step"><div class="step-num">03</div><div class="step-title">Confirmer</div><p class="step-text">Si le dossier est retenu, le cadre de collaboration est défini par écrit.</p></article>
     </div>
   </section>
 
-  <section class="bg-bone">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow" data-reveal>Nos engagements</div>
-        <h2 data-reveal="1">Une relation nette,<br>sans zone grise.</h2>
-      </div>
-      <p class="lead" data-reveal="2">Les conditions de collaboration et de rémunération sont définies avant le démarrage de chaque mission.</p>
-    </div>
-    <div class="commitments" data-reveal>
-      <article class="commitment"><div class="commitment-icon">✓</div><div><div class="commitment-title">Traçabilité</div><p class="commitment-text">Chaque affaire est enregistrée et rattachée à votre profil.</p></div></article>
-      <article class="commitment"><div class="commitment-icon">✓</div><div><div class="commitment-title">Visibilité</div><p class="commitment-text">Vous suivez son statut et les principales étapes depuis un espace dédié.</p></div></article>
-      <article class="commitment"><div class="commitment-icon">✓</div><div><div class="commitment-title">Interlocuteur unique</div><p class="commitment-text">MATOBA centralise l’étude, le chiffrage, la coordination et la réalisation.</p></div></article>
-      <article class="commitment"><div class="commitment-icon">✓</div><div><div class="commitment-title">Cadre défini</div><p class="commitment-text">Les règles de collaboration sont posées clairement avant toute intervention.</p></div></article>
-    </div>
-  </section>
 
   <section id="projets" class="bg-fog">
     <div class="section-head">
       <div>
         <div class="eyebrow" data-reveal>Projets concernés</div>
-        <h2 data-reveal="1">Les opportunités que nous pouvons étudier.</h2>
+        <h2 data-reveal="1">Projets que nous pouvons étudier.</h2>
       </div>
-      <p class="lead" data-reveal="2">MATOBA intervient sur des opérations résidentielles, commerciales et professionnelles en Provence-Alpes-Côte d’Azur.</p>
+      <p class="lead" data-reveal="2">Résidentiel, commerce et locaux professionnels en Provence-Alpes-Côte d’Azur.</p>
     </div>
     <div class="project-types" data-reveal>
-      <article class="project-type"><div class="project-type-label">Résidentiel</div><div class="project-type-title">Habitat</div><ul class="project-type-list"><li>Construction et rénovation</li><li>Extension et surélévation</li><li>Division et restructuration</li></ul></article>
-      <article class="project-type"><div class="project-type-label">Commerce</div><div class="project-type-title">Accueil du public</div><ul class="project-type-list"><li>Restaurants et commerces</li><li>Franchises et points de vente</li><li>Aménagement complet</li></ul></article>
-      <article class="project-type"><div class="project-type-label">Professionnel</div><div class="project-type-title">Tertiaire</div><ul class="project-type-list"><li>Bureaux et locaux d’activité</li><li>Cabinets médicaux et dentaires</li><li>Bâtiments professionnels</li></ul></article>
+      <article class="project-type"><div class="project-type-label">Résidentiel</div><div class="project-type-title">Habitat</div><ul class="project-type-list"><li>Construction ou rénovation</li><li>Extension ou restructuration</li></ul></article>
+      <article class="project-type"><div class="project-type-label">Commerce</div><div class="project-type-title">Accueil du public</div><ul class="project-type-list"><li>Restaurants et commerces</li><li>Aménagement complet</li></ul></article>
+      <article class="project-type"><div class="project-type-label">Professionnel</div><div class="project-type-title">Tertiaire</div><ul class="project-type-list"><li>Bureaux et locaux d’activité</li><li>Cabinets médicaux ou dentaires</li></ul></article>
     </div>
-    <div class="notice"><strong>À retenir :</strong> une présentation ne vaut pas automatiquement acceptation. Chaque opportunité est étudiée selon son périmètre, sa localisation, son calendrier et sa faisabilité.</div>
+    <div class="notice"><strong>Important :</strong> chaque dossier est étudié. MATOBA reste libre de l’accepter ou non. Les conditions d’une éventuelle rémunération sont précisées par écrit avant toute collaboration.</div>
   </section>
 
   <section class="bg-bone" id="contact">
     <div class="contact-grid">
       <div>
         <div class="eyebrow" data-reveal>Présenter une affaire</div>
-        <h2 data-reveal="1">Parlons de votre opportunité.</h2>
-        <p class="lead" data-reveal="2" style="margin-top:20px;">Transmettez-nous les premières informations. Nous vous recontactons pour qualifier le projet et préciser le cadre de collaboration.</p>
+        <h2 data-reveal="1">Présentez-nous le projet.</h2>
+        <p class="lead" data-reveal="2" style="margin-top:20px;">Envoyez-nous les informations essentielles. Nous revenons vers vous après étude.</p>
         <div class="contact-list">
           <div class="contact-row"><div class="contact-label">Email</div><div class="contact-value"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>
           <div class="contact-row"><div class="contact-label">Zone</div><div class="contact-value">Provence-Alpes-Côte d’Azur</div></div>
@@ -479,8 +435,8 @@
             <label class="field"><span class="label">Téléphone</span><input class="input" type="tel" name="telephone" placeholder="06 00 00 00 00" required /></label>
           </div>
           <label class="field"><span class="label">Type de projet</span><select class="select" name="type_de_projet" required><option value="" selected disabled>Sélectionnez une catégorie</option><option>Résidentiel</option><option>Commerce ou restauration</option><option>Professionnel ou tertiaire</option><option>Autre</option></select></label>
-          <label class="field"><span class="label">Informations</span><textarea class="textarea" name="message" placeholder="Localisation, type de projet, interlocuteur, calendrier estimé…" required></textarea></label>
-          <button class="submit" type="submit">Transmettre l’opportunité</button>
+          <label class="field"><span class="label">Informations</span><textarea class="textarea" name="message" placeholder="Localisation, type de projet et coordonnées du contact…" required></textarea></label>
+          <button class="submit" type="submit">Envoyer le projet</button>
         </form>
         <div class="success" id="success">Votre message a bien été envoyé.<br>Nous vous recontactons rapidement.</div>
       </div>

@@ -40,7 +40,7 @@
     .gate-name { font-size: clamp(24px, 5vw, 56px); font-weight: 200; letter-spacing: .9em; padding-left: .9em; color: var(--ink); opacity: 0; animation: up .8s var(--ease) .2s forwards; }
     @keyframes up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-    nav { position: fixed; inset: 0 0 auto 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px var(--x); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s; }
+    nav { position: fixed; inset: 0 0 auto 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px var(--x); border-bottom: 1px solid rgba(216,213,207,.7); background: rgba(255,255,255,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
     nav.stuck { background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-color: var(--rule); }
     .nav-name { font-size: 13px; font-weight: 200; letter-spacing: .72em; padding-left: .72em; color: var(--ink); }
     .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: nowrap; align-items: center; }
@@ -52,7 +52,7 @@
 
     .hero { min-height: 100svh; background: var(--white); display: flex; flex-direction: column; padding: 0 var(--x); padding-top: 88px; border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; inset: 0; background-image: url('/hero.jpg'); background-size: cover; background-position: center right; z-index: 0; }
-    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,1) 40%, rgba(255,255,255,.75) 65%, rgba(255,255,255,.1) 100%); z-index: 1; }
+    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,.92) 28%, rgba(255,255,255,.55) 52%, rgba(255,255,255,.05) 100%); z-index: 1; }
     .hero-body { position: relative; z-index: 2; flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: clamp(48px, 7vw, 88px); padding-bottom: clamp(48px, 7vw, 88px); overflow: hidden; }
     .hero-baseline { position: relative; z-index: 2; border-top: 1px solid var(--rule); padding: clamp(16px, 2.2vw, 24px) var(--x); display: flex; align-items: center; animation: up 1s var(--ease) .8s both; flex-shrink: 0; margin: 0 calc(-1 * var(--x)); padding-left: var(--x); padding-right: var(--x); margin-top: clamp(32px, 5vw, 64px); background: rgba(255,255,255,.85); }
     h1 { font-size: clamp(32px, 4.2vw, 62px); font-weight: 300; line-height: 1.05; letter-spacing: -.025em; margin-bottom: 20px; animation: up 1s var(--ease) .35s both; }

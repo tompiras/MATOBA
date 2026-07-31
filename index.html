@@ -495,7 +495,7 @@
         height: min(48svh, 430px);
         background-position: center center;
         background-size: cover;
-        transform: scale(1.015);
+        transform: none;
       }
 
       .hero::after {
@@ -503,7 +503,7 @@
         top: calc(76px + env(safe-area-inset-top));
         left: 0;
         right: 0;
-        height: min(48svh, 430px);
+        height: calc(min(48svh, 430px) + 2px);
         background:
           linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.03) 34%, rgba(255,255,255,.18) 54%, rgba(255,255,255,.78) 81%, rgba(255,255,255,.97) 93%, rgba(255,255,255,1) 100%),
           linear-gradient(90deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,0) 62%);

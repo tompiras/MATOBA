@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MATOBA — Contractant Général</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Space+Mono&display=swap" rel="stylesheet" />
   <style>
@@ -353,6 +353,432 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
+  
+
+    /* =========================================================
+       FINITIONS RESPONSIVE — MOBILE / TABLETTE
+       ========================================================= */
+    :root {
+      --radius: 18px;
+      --radius-lg: 24px;
+      --shadow-soft: 0 10px 30px rgba(10,10,10,.06);
+      --shadow-card: 0 18px 50px rgba(10,10,10,.09);
+    }
+
+    body { text-wrap: pretty; }
+    a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+    button, input, select, textarea { font: inherit; }
+
+    .hero-copy { max-width: 520px; }
+
+    .btn,
+    .fsubmit {
+      min-height: 48px;
+      border-radius: 999px;
+      padding-inline: 24px;
+    }
+
+    .finput,
+    .fselect,
+    .ftextarea,
+    .fsuccess {
+      border-radius: 14px;
+    }
+
+    .apropos-wrap {
+      margin-top: clamp(48px, 6vw, 72px);
+      padding-top: clamp(40px, 5vw, 64px);
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 7vw, 100px);
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      nav { background: rgba(255,255,255,.98); }
+    }
+
+    @media (max-width: 820px) {
+      :root {
+        --x: 18px;
+        --gap: 56px;
+      }
+
+      nav {
+        z-index: 300;
+        min-height: 76px;
+        padding: 14px var(--x);
+        padding-top: calc(14px + env(safe-area-inset-top));
+        gap: 10px;
+        background: rgba(255,255,255,.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .nav-links { display: none; }
+      .nav-region { display: none; }
+
+      .nav-name {
+        min-width: 0;
+        font-size: 12px;
+        letter-spacing: .34em;
+        padding-left: .34em;
+      }
+
+      .nav-name > span:last-child {
+        font-size: 8px !important;
+        letter-spacing: .12em !important;
+        line-height: 1.4;
+      }
+
+      .nav-mobile-actions {
+        display: flex;
+        gap: 8px;
+        margin-left: auto;
+      }
+
+      .nav-client-mobile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: var(--white);
+        font-size: 10px;
+        letter-spacing: .08em;
+      }
+
+      .nav-burger {
+        display: flex;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-right: -6px;
+        margin-left: 2px;
+      }
+
+      .nav-burger span { width: 24px; }
+
+      .nav-dropdown {
+        padding:
+          calc(88px + env(safe-area-inset-top))
+          var(--x)
+          calc(24px + env(safe-area-inset-bottom));
+      }
+
+      .nav-dropdown-links a {
+        font-size: 24px;
+        padding: 18px 0;
+      }
+
+      .nav-dropdown-footer {
+        margin-top: 24px;
+        gap: 10px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: calc(76px + env(safe-area-inset-top)) var(--x) 0;
+        background: var(--white);
+        border-bottom: none;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        inset: auto;
+        top: calc(76px + env(safe-area-inset-top));
+        left: 0;
+        right: 0;
+        height: min(46svh, 420px);
+        background-position: center;
+        background-size: cover;
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+      }
+
+      .hero::after {
+        inset: auto;
+        top: calc(76px + env(safe-area-inset-top));
+        left: 0;
+        right: 0;
+        height: min(46svh, 420px);
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+        background:
+          linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.08) 38%, rgba(255,255,255,.94) 100%),
+          linear-gradient(to right, rgba(255,255,255,.12), rgba(255,255,255,.02));
+      }
+
+      .hero-body {
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        min-height: min(46svh, 420px);
+        padding: 0 !important;
+        overflow: visible;
+      }
+
+      .hero-body > .hero-copy {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: none;
+        margin-top: auto;
+        margin-bottom: -18px;
+        padding: 24px;
+        border: 1px solid rgba(216,213,207,.95);
+        border-radius: 22px;
+        background: rgba(255,255,255,.82);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: var(--shadow-card);
+      }
+
+      .hero-drawing { display: none; }
+
+      h1 {
+        font-size: clamp(31px, 8vw, 40px);
+        line-height: 1;
+        letter-spacing: -.03em;
+        margin-bottom: 14px;
+      }
+
+      .hero-sub {
+        max-width: 27ch;
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 1.6;
+        white-space: normal;
+        color: #5f5a55;
+      }
+
+      .hero .btn {
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+      }
+
+      .hero-baseline {
+        min-height: 58px;
+        margin: 34px calc(-1 * var(--x)) 0;
+        padding: 0;
+        background: var(--white);
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .hero-baseline-text {
+        min-height: 58px;
+        padding: 0 var(--x);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        align-items: center;
+      }
+
+      .hero-baseline-sep { display: none; }
+
+      .hero-baseline-word {
+        justify-self: center;
+        font-size: 10px;
+        letter-spacing: .12em;
+        padding-left: .12em;
+        text-align: center;
+      }
+
+      section {
+        min-height: auto;
+        padding: 56px var(--x);
+        justify-content: flex-start;
+      }
+
+      h2 {
+        font-size: 28px;
+        line-height: 1.1;
+      }
+
+      .lead {
+        max-width: 100%;
+        font-size: 14px;
+        line-height: 1.75;
+      }
+
+      .eyebrow { margin-bottom: 22px; }
+
+      .modele-head,
+      .sf-head,
+      .contact-grid,
+      .apropos-wrap,
+      #qui-sommes-nous {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+
+      .modele-head { margin-bottom: 32px; }
+
+      .modele-quote {
+        margin-top: 0;
+        padding-left: 14px;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .orga,
+      .sf-grid,
+      .etapes,
+      .proj-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        border: none;
+      }
+
+      .orga-cell,
+      .sf-col,
+      .etape,
+      .proj {
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .orga-cell {
+        padding: 20px;
+        background: var(--white);
+      }
+
+      .orga-cell.light { padding: 0; }
+
+      .orga-cell.center .orga-title {
+        font-size: 15px;
+        letter-spacing: .28em;
+      }
+
+      .orga-arrow {
+        flex-direction: row;
+        justify-content: center;
+        height: auto;
+        padding: 4px 0;
+        gap: 10px;
+        border: none;
+        background: transparent;
+      }
+
+      .orga-arrow svg {
+        transform: rotate(90deg);
+        flex-shrink: 0;
+      }
+
+      .orga-arrow-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 8px;
+      }
+
+      .orga-item { padding: 14px 18px; }
+
+      .sf-col,
+      .etape,
+      .proj {
+        padding: 18px;
+        background: var(--white);
+      }
+
+      .sf-list {
+        font-size: 13px;
+        line-height: 1.8;
+      }
+
+      .proj:hover { background: var(--white); }
+
+      .proj-name {
+        font-size: 15px;
+        line-height: 1.4;
+      }
+
+      .garantie,
+      .sf-note {
+        padding: 18px;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .garantie {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .garantie-text,
+      .sf-note-text,
+      .etape-body,
+      .apropos-text,
+      .c-val {
+        font-size: 14px;
+        line-height: 1.75;
+      }
+
+      .apropos-conclusion {
+        margin-top: 22px;
+        font-size: 22px;
+        line-height: 1.2;
+      }
+
+      .sf-head { margin-bottom: 28px; }
+      .proj-grid { margin-top: 28px; }
+
+      .contact-grid { gap: 32px; }
+      .c-list { margin-top: 24px; }
+      .form { gap: 14px; }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .finput,
+      .fselect,
+      .ftextarea {
+        min-height: 52px;
+        padding: 14px 16px;
+        font-size: 16px;
+      }
+
+      .ftextarea { min-height: 124px; }
+      .fsubmit { width: 100%; }
+
+      footer {
+        padding: 24px var(--x);
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      }
+
+      .ft-name {
+        letter-spacing: .38em;
+        padding-left: .38em;
+      }
+
+      .ft-baseline {
+        font-size: 9px;
+        line-height: 1.6;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .nav-mobile-actions { display: none; }
+
+      .hero-body > .hero-copy { padding: 20px; }
+
+      h1 { font-size: 30px; }
+
+      .hero-baseline-word {
+        font-size: 9px;
+        letter-spacing: .08em;
+        padding-left: .08em;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -403,7 +829,7 @@
 
 <header class="hero">
   <div class="hero-body">
-    <div>
+    <div class="hero-copy">
       <h1>Un projet.<br/>Un pilote.<br/>Une responsabilité.</h1>
       <p class="hero-sub">Un seul interlocuteur, de la conception à la réception.</p>
       <div class="hero-cta">
@@ -547,14 +973,14 @@
   </div>
 
   <!-- ── QUI SOMMES-NOUS ── -->
-  <div id="qui-sommes-nous" style="margin-top:clamp(48px,6vw,72px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--rule);display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,100px);" data-reveal>
+  <div id="qui-sommes-nous" class="apropos-wrap" data-reveal>
     <div>
       <div class="eyebrow">Qui sommes-nous</div>
       <h2>Un gestionnaire,<br/>un architecte,<br/>un homme de réseau.</h2>
     </div>
     <div>
-      <p class="lead" style="max-width:100%;">Trois associés qui ont créé MΛTOBΛ parce qu'ils en avaient assez de voir des clients perdus entre dix interlocuteurs, des projets professionnels livrés en retard et des budgets qui dérapent.</p>
-      <p style="margin-top:clamp(24px,3vw,40px);font-size:clamp(18px,2.2vw,26px);font-weight:300;line-height:1.2;letter-spacing:-.01em;color:var(--ink);">On a pris la responsabilité<br/>que personne ne voulait.</p>
+      <p class="lead apropos-text">Trois associés qui ont créé MΛTOBΛ parce qu'ils en avaient assez de voir des clients perdus entre dix interlocuteurs, des projets professionnels livrés en retard et des budgets qui dérapent.</p>
+      <p class="apropos-conclusion">On a pris la responsabilité<br/>que personne ne voulait.</p>
     </div>
   </div>
 </section>

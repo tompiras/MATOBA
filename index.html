@@ -4,6 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MATOBA — Contractant Général</title>
+  <script>
+    (function () {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+      // A full page opening must always start at the top.
+      // Internal anchor links continue to work normally after loading.
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+
+      window.resetMatobaScroll = function () {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        if (document.body) document.body.scrollTop = 0;
+      };
+
+      window.resetMatobaScroll();
+      window.addEventListener('pageshow', function () {
+        window.resetMatobaScroll();
+        requestAnimationFrame(window.resetMatobaScroll);
+        setTimeout(window.resetMatobaScroll, 80);
+        setTimeout(window.resetMatobaScroll, 300);
+      });
+    })();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Space+Mono&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -18,8 +43,8 @@
       --ease:  cubic-bezier(0.16, 1, 0.3, 1);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body { font-family: 'Inter', sans-serif; font-weight: 400; background: var(--white); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-anchor: none; }
+    body { font-family: 'Inter', sans-serif; font-weight: 400; background: var(--white); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-anchor: none; }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
@@ -543,11 +568,11 @@
       }
 
       .hero-sub {
-        max-width: 27ch;
+        max-width: none;
         margin-bottom: 20px;
-        font-size: 14px;
-        line-height: 1.6;
-        white-space: normal;
+        font-size: clamp(11px, 3.2vw, 13px);
+        line-height: 1.45;
+        white-space: nowrap;
         color: #5f5a55;
       }
 
@@ -1084,7 +1109,7 @@
         <input type="hidden" name="_subject" value="Nouveau message depuis matoba.fr" />
         <input type="hidden" name="_captcha" value="false" />
         <input type="hidden" name="_template" value="table" />
-        <input type="hidden" name="_next" value="https://matoba.pages.dev/?contact=success#contact" />
+        <input type="hidden" name="_next" value="https://matoba.pages.dev/?contact=success" />
         <div class="form-row">
           <div class="fg"><label class="flabel" for="nom">Nom</label><input id="nom" name="nom" type="text" class="finput" placeholder="Votre nom" required /></div>
           <div class="fg"><label class="flabel" for="email">Email</label><input id="email" name="email" type="email" class="finput" placeholder="votre@email.fr" required /></div>
@@ -1129,9 +1154,10 @@
 </footer>
 
 <script>
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.addEventListener('load', () => {
-    window.scrollTo(0, 0);
+    if (window.resetMatobaScroll) window.resetMatobaScroll();
+    requestAnimationFrame(() => window.resetMatobaScroll && window.resetMatobaScroll());
+    setTimeout(() => window.resetMatobaScroll && window.resetMatobaScroll(), 150);
     const gateName     = document.getElementById('gateName');
     const gateBaseline = document.getElementById('gateBaseline');
     if (gateName && gateBaseline) {

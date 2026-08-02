@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>MATOBA — Apporteur d’affaires</title>
-  <meta name="description" content="Présentez un projet à MATOBA. Nous l’étudions et vous indiquons si nous pouvons donner suite." />
+  <title>MATOBA — Présenter un projet</title>
+  <meta name="description" content="Présentez un projet à MATOBA. Nous vous indiquons si nous pouvons intervenir." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
@@ -183,7 +183,7 @@
 
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .step {
-      min-height: 260px;
+      min-height: 210px;
       padding: clamp(24px, 3vw, 34px);
       border: 1px solid var(--rule);
       border-radius: var(--radius-lg);
@@ -193,7 +193,7 @@
       flex-direction: column;
     }
     .step-num { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--fog); font-size: 9px; color: var(--stone); }
-    .step-title { margin-top: auto; font-size: 20px; font-weight: 400; letter-spacing: -.02em; }
+    .step-title { margin-top: 44px; font-size: 20px; font-weight: 400; letter-spacing: -.02em; }
     .step-text { margin-top: 12px; font-size: 13px; line-height: 1.75; color: var(--stone); }
 
     .commitments { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
@@ -212,9 +212,9 @@
     .commitment-text { margin-top: 6px; font-size: 13px; line-height: 1.7; color: var(--stone); }
 
     .project-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .project-type { padding: 26px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-soft); }
+    .project-type { padding: 24px 26px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-soft); }
     .project-type-label { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); }
-    .project-type-title { margin-top: 14px; font-size: 18px; font-weight: 400; }
+    .project-type-title { margin-top: 10px; font-size: 18px; font-weight: 400; }
     .project-type-list { margin-top: 18px; list-style: none; display: grid; gap: 10px; color: var(--stone); font-size: 13px; line-height: 1.5; }
 
     .notice {
@@ -315,9 +315,9 @@
       h2 { font-size: 31px; }
       .steps, .project-types, .commitments { grid-template-columns: 1fr; }
       .step { min-height: 0; padding: 22px 20px; }
-      .step-title { margin-top: 42px; }
+      .step-title { margin-top: 28px; }
       .commitment { padding: 20px; grid-template-columns: 32px 1fr; }
-      .project-type { padding: 22px 20px; }
+      .project-type { padding: 20px; }
       .contact-grid { gap: 34px; }
       .form-row { grid-template-columns: 1fr; }
       .submit { width: 100%; }
@@ -354,8 +354,8 @@
 
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <a href="/" onclick="toggleMenu()">Accueil</a>
-  <a href="#principe" onclick="toggleMenu()">Le principe</a>
-  <a href="#projets" onclick="toggleMenu()">Projets concernés</a>
+  <a href="#principe" onclick="toggleMenu()">Comment ça fonctionne</a>
+  <a href="#projets" onclick="toggleMenu()">Projets étudiés</a>
   <a href="#contact" onclick="toggleMenu()">Nous contacter</a>
   <div class="mobile-menu-footer">
     <a href="/suivi-chantier.html">Espace apporteur — Connexion</a>
@@ -365,12 +365,12 @@
 <header class="hero">
   <div class="hero-inner">
     <div class="hero-copy">
-      <div class="eyebrow">Apporteur d’affaires</div>
-      <h1>Vous nous présentez un projet.<br>Nous l’étudions.</h1>
-      <p class="hero-lead">Vous nous mettez en relation avec un porteur de projet. Nous vérifions le besoin, la faisabilité et notre capacité à intervenir.</p>
+      <div class="eyebrow">Présenter un projet</div>
+      <h1>Vous connaissez<br>un projet ?</h1>
+      <p class="hero-lead">Présentez-le-nous. Nous vous indiquons si MATOBA peut intervenir.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn btn-dark">Présenter un projet</a>
-        <a href="/suivi-chantier.html" class="btn btn-light">Accéder à mon espace</a>
+        <a href="#contact" class="btn btn-dark">Nous contacter</a>
+        <a href="/suivi-chantier.html" class="btn btn-light">Mon espace</a>
       </div>
     </div>
   </div>
@@ -380,15 +380,15 @@
   <section id="principe">
     <div class="section-head">
       <div>
-        <div class="eyebrow" data-reveal>Le principe</div>
-        <h2 data-reveal="1">Une mise en relation.<br>Une étude au cas par cas.</h2>
+        <div class="eyebrow" data-reveal>Comment ça fonctionne</div>
+        <h2 data-reveal="1">Trois étapes simples.</h2>
       </div>
-      <p class="lead" data-reveal="2">Vous nous transmettez un contact et les informations utiles. Nous décidons ensuite si le projet entre dans notre périmètre.</p>
+      
     </div>
     <div class="steps" data-reveal>
-      <article class="step"><div class="step-num">01</div><div class="step-title">Présenter</div><p class="step-text">Coordonnées, localisation et nature du projet.</p></article>
-      <article class="step"><div class="step-num">02</div><div class="step-title">Étudier</div><p class="step-text">Nous vérifions le besoin, le calendrier et la faisabilité.</p></article>
-      <article class="step"><div class="step-num">03</div><div class="step-title">Confirmer</div><p class="step-text">Si le dossier est retenu, le cadre de collaboration est défini par écrit.</p></article>
+      <article class="step"><div class="step-num">01</div><div class="step-title">Vous nous contactez</div><p class="step-text">Les informations essentielles du projet.</p></article>
+      <article class="step"><div class="step-num">02</div><div class="step-title">Nous étudions</div><p class="step-text">Nous vérifions si le projet correspond à notre activité.</p></article>
+      <article class="step"><div class="step-num">03</div><div class="step-title">Nous revenons vers vous</div><p class="step-text">Si le projet est retenu, nous définissons la suite.</p></article>
     </div>
   </section>
 
@@ -396,25 +396,25 @@
   <section id="projets" class="bg-fog">
     <div class="section-head">
       <div>
-        <div class="eyebrow" data-reveal>Projets concernés</div>
-        <h2 data-reveal="1">Projets que nous pouvons étudier.</h2>
+        <div class="eyebrow" data-reveal>Projets étudiés</div>
+        <h2 data-reveal="1">Nous intervenons notamment.</h2>
       </div>
-      <p class="lead" data-reveal="2">Résidentiel, commerce et locaux professionnels en Provence-Alpes-Côte d’Azur.</p>
+      
     </div>
     <div class="project-types" data-reveal>
-      <article class="project-type"><div class="project-type-label">Résidentiel</div><div class="project-type-title">Habitat</div><ul class="project-type-list"><li>Construction ou rénovation</li><li>Extension ou restructuration</li></ul></article>
-      <article class="project-type"><div class="project-type-label">Commerce</div><div class="project-type-title">Accueil du public</div><ul class="project-type-list"><li>Restaurants et commerces</li><li>Aménagement complet</li></ul></article>
-      <article class="project-type"><div class="project-type-label">Professionnel</div><div class="project-type-title">Tertiaire</div><ul class="project-type-list"><li>Bureaux et locaux d’activité</li><li>Cabinets médicaux ou dentaires</li></ul></article>
+      <article class="project-type"><div class="project-type-label">Résidentiel</div><div class="project-type-title">Habitations</div></article>
+      <article class="project-type"><div class="project-type-label">Commerce</div><div class="project-type-title">Commerces</div></article>
+      <article class="project-type"><div class="project-type-label">Professionnel</div><div class="project-type-title">Locaux professionnels</div></article>
     </div>
-    <div class="notice"><strong>Important :</strong> chaque dossier est étudié. MATOBA reste libre de l’accepter ou non. Les conditions d’une éventuelle rémunération sont précisées par écrit avant toute collaboration.</div>
+    <div class="notice">Chaque projet est étudié individuellement. Une collaboration n’est engagée qu’après validation des deux parties.</div>
   </section>
 
   <section class="bg-bone" id="contact">
     <div class="contact-grid">
       <div>
-        <div class="eyebrow" data-reveal>Présenter une affaire</div>
-        <h2 data-reveal="1">Présentez-nous le projet.</h2>
-        <p class="lead" data-reveal="2" style="margin-top:20px;">Envoyez-nous les informations essentielles. Nous revenons vers vous après étude.</p>
+        <div class="eyebrow" data-reveal>Présenter un projet</div>
+        <h2 data-reveal="1">Parlez-nous du projet.</h2>
+        <p class="lead" data-reveal="2" style="margin-top:20px;">Quelques informations suffisent pour démarrer l’étude.</p>
         <div class="contact-list">
           <div class="contact-row"><div class="contact-label">Email</div><div class="contact-value"><a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div></div>
           <div class="contact-row"><div class="contact-label">Zone</div><div class="contact-value">Provence-Alpes-Côte d’Azur</div></div>
@@ -422,14 +422,11 @@
       </div>
       <div data-reveal="2">
         <form class="form" id="apporteurForm" action="https://formsubmit.co/contact@matoba.fr" method="POST">
-          <input type="hidden" name="_subject" value="Nouvelle opportunité — apporteur d’affaires" />
+          <input type="hidden" name="_subject" value="Nouveau projet présenté à MATOBA" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_next" value="https://matoba.pages.dev/apporteur-affaires.html?contact=success#contact" />
-          <div class="form-row">
-            <label class="field"><span class="label">Nom</span><input class="input" type="text" name="nom" placeholder="Votre nom" required /></label>
-            <label class="field"><span class="label">Société</span><input class="input" type="text" name="societe" placeholder="Votre société" /></label>
-          </div>
+          <label class="field"><span class="label">Nom</span><input class="input" type="text" name="nom" placeholder="Votre nom" required /></label>
           <div class="form-row">
             <label class="field"><span class="label">Email</span><input class="input" type="email" name="email" placeholder="votre@email.fr" required /></label>
             <label class="field"><span class="label">Téléphone</span><input class="input" type="tel" name="telephone" placeholder="06 00 00 00 00" required /></label>
@@ -438,7 +435,7 @@
           <label class="field"><span class="label">Informations</span><textarea class="textarea" name="message" placeholder="Localisation, type de projet et coordonnées du contact…" required></textarea></label>
           <button class="submit" type="submit">Envoyer le projet</button>
         </form>
-        <div class="success" id="success">Votre message a bien été envoyé.<br>Nous vous recontactons rapidement.</div>
+        <div class="success" id="success">Votre projet a bien été envoyé.<br>Nous revenons vers vous rapidement.</div>
       </div>
     </div>
   </section>

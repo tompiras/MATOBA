@@ -1312,6 +1312,24 @@
     document.getElementById('loginLoading').style.display = 'block';
 
     try {
+      // Avec le flux PKCE, Google renvoie un paramètre ?code=... qu'il faut
+      // échanger explicitement contre une session avant d'appeler getSession().
+      const params = new URLSearchParams(window.location.search);
+      const oauthCode = params.get('code');
+      const oauthError = params.get('error_description') || params.get('error');
+
+      if (oauthError) {
+        throw new Error('Connexion Google refusée : ' + oauthError);
+      }
+
+      if (oauthCode) {
+        const { error: exchangeError } = await supabaseClient.auth.exchangeCodeForSession(oauthCode);
+        if (exchangeError) {
+          throw new Error('Impossible de finaliser la connexion Google : ' + exchangeError.message);
+        }
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+
       const { data, error } = await supabaseClient.auth.getSession();
       if (error) throw new Error('Erreur de session Supabase : ' + error.message);
 
@@ -1349,13 +1367,8 @@
     document.getElementById('loginId').value=''; document.getElementById('loginPwd').value=''; document.getElementById('loginError').style.display='none';
   }
 
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-      setTimeout(bootstrapAuth, 50);
-    }
-    if (event === 'SIGNED_OUT') {
-      showAuthScreen();
-    }
+  supabaseClient.auth.onAuthStateChange((event) => {
+    if (event === 'SIGNED_OUT') showAuthScreen();
   });
 
   window.addEventListener('pageshow', () => setTimeout(bootstrapAuth, 100));

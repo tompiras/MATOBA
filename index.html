@@ -146,7 +146,7 @@
     .orga-cell.center { background: var(--ink); }
     .orga-cell.light  { background: var(--fog); }
     .orga-eyebrow { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--stone); margin-bottom: 10px; }
-    .orga-cell.center .orga-eyebrow { color: rgba(255,255,255,.75); }
+    .orga-cell.center .orga-eyebrow { color: var(--stone); }
     .orga-title { font-size: clamp(16px, 1.8vw, 22px); font-weight: 400; color: var(--ink); line-height: 1.2; }
     .orga-cell.center .orga-title { color: #ffffff; font-weight: 600; font-size: clamp(15px, 1.8vw, 20px); letter-spacing: .38em; }
     .orga-sub { margin-top: 12px; font-size: 13px; line-height: 2; color: var(--stone); }
@@ -749,13 +749,13 @@
         gap: 14px;
         text-align: left;
         border-radius: 20px;
-        box-shadow: 0 18px 42px rgba(10,10,10,.12);
+        box-shadow: var(--shadow-soft);
       }
 
       .garantie-tag {
         font-size: 8px;
         letter-spacing: .18em;
-        color: rgba(255,255,255,.58);
+        color: var(--stone);
       }
 
       .garantie-text {
@@ -763,7 +763,7 @@
         max-width: 34ch;
         font-size: 13.5px !important;
         line-height: 1.58 !important;
-        color: rgba(255,255,255,.72);
+        color: var(--ink);
       }
 
       .garantie-text br { display: none; }
@@ -854,29 +854,29 @@
       justify-content: center;
       gap: 12px;
       text-align: center;
-      border: 0;
-      border-radius: 0;
-      background: var(--ink);
-      color: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 18px;
+      background: var(--white);
+      color: var(--ink);
     }
 
     .sf-note-tag {
       font-family: 'Inter', sans-serif;
       font-size: 8px;
-      font-weight: 400;
+      font-weight: 500;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.75);
+      color: var(--stone);
     }
 
     .sf-note-text {
-      max-width: none;
+      max-width: 760px;
       margin: 0;
       font-size: clamp(13px, 1.5vw, 16px);
-      font-weight: 200;
+      font-weight: 300;
       line-height: 1.6;
       text-align: center;
-      color: rgba(255,255,255,.75);
+      color: var(--ink);
     }
 
     @media (max-width: 820px) {
@@ -889,13 +889,13 @@
         gap: 14px;
         text-align: left;
         border-radius: 20px;
-        box-shadow: 0 18px 42px rgba(10,10,10,.12);
+        box-shadow: var(--shadow-soft);
       }
 
       .sf-note-tag {
         font-size: 8px;
         letter-spacing: .18em;
-        color: rgba(255,255,255,.58);
+        color: var(--stone);
       }
 
       .sf-note-text {
@@ -905,7 +905,7 @@
         font-size: 13.5px;
         line-height: 1.58;
         text-align: left;
-        color: rgba(255,255,255,.72);
+        color: var(--ink);
       }
     }
 </style>

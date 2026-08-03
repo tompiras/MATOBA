@@ -879,7 +879,22 @@
       .summary-grid { grid-template-columns: 1fr; }
     }
 
+
+    /* Supabase authentication */
+    .oauth-btn {
+      width: 100%; min-height: 52px; border: 1px solid var(--rule); border-radius: 999px;
+      background: var(--white); color: var(--ink); font-size: 11px; letter-spacing: .08em;
+      text-transform: uppercase; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .oauth-btn:hover { border-color: var(--ink); }
+    .oauth-icon { width: 18px; height: 18px; display: block; }
+    .login-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--stone); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+    .login-divider::before, .login-divider::after { content: ''; height: 1px; background: var(--rule); flex: 1; }
+    .login-actions { display: flex; justify-content: flex-end; margin-top: -4px; }
+    .login-link { border: 0; background: none; color: var(--stone); font-size: 11px; cursor: pointer; padding: 4px 0; }
+    .login-link:hover { color: var(--ink); }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -893,25 +908,28 @@
     <h1 class="login-title">Votre projet,<br>suivi avec clarté.</h1>
     <p class="login-intro">Accédez aux étapes, documents, échanges et informations de votre chantier depuis un espace unique.</p>
 
-    <div class="login-type-toggle">
-      <button class="type-btn active" id="typeClient" onclick="setLoginType('client')">Client</button>
-      <button class="type-btn" id="typeApporteur" onclick="setLoginType('apporteur')">Apporteur d'affaires</button>
-    </div>
+    <button class="oauth-btn" id="googleBtn" onclick="doGoogleLogin()">
+      <svg class="oauth-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.52h3.24c1.9-1.75 2.98-4.33 2.98-7.37Z"/><path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.4l-3.24-2.52c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.06v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.41 13.92A6 6 0 0 1 6.1 12c0-.67.11-1.32.31-1.92v-2.6H3.06A10 10 0 0 0 2 12c0 1.61.39 3.14 1.06 4.52l3.35-2.6Z"/><path fill="#EA4335" d="M12 5.96c1.47 0 2.79.5 3.83 1.5l2.87-2.87A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.94 5.48l3.35 2.6C7.2 7.72 9.4 5.96 12 5.96Z"/></svg>
+      Continuer avec Google
+    </button>
+
+    <div class="login-divider">ou</div>
 
     <div class="login-form">
       <div class="login-group">
-        <label class="login-label" for="loginId">Identifiant</label>
-        <input id="loginId" type="text" class="login-input" placeholder="Votre identifiant" autocomplete="username" />
+        <label class="login-label" for="loginId">Adresse email</label>
+        <input id="loginId" type="email" class="login-input" placeholder="vous@exemple.fr" autocomplete="email" />
       </div>
       <div class="login-group">
         <label class="login-label" for="loginPwd">Mot de passe</label>
         <input id="loginPwd" type="password" class="login-input" placeholder="••••••••" autocomplete="current-password" />
       </div>
-      <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
+      <div class="login-actions"><button class="login-link" type="button" onclick="forgotPassword()">Mot de passe oublié ?</button></div>
+      <div class="login-error" id="loginError"></div>
       <div class="login-loading" id="loginLoading">Connexion en cours…</div>
-      <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon espace</button>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Se connecter</button>
     </div>
-    <div class="login-help">Un problème d’accès ? <a href="mailto:contact@matoba.fr">contact@matoba.fr</a></div>
+    <div class="login-help">Accès réservé aux clients et partenaires autorisés par MΛTOBΛ.</div>
   </div>
 </div>
 
@@ -1144,33 +1162,26 @@
 </div>
 
 <script>
-  const API_URL     = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
-  const ADMIN_LOGIN = 'admin';
-  const ADMIN_PWD   = 'MATO889293';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
+  const SUPABASE_URL = 'https://xfvbbcoozcgvelcyucch.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_6QzdaJQvVSLFM62FV_Vljg_lqDy3-FP';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-  let currentUser     = null;   // 'admin' | 'client' | 'apporteur'
-  let loginType       = 'client';
+  let currentUser = null;
+  let currentProfile = null;
   let currentChantier = null;
-  let allChantiers    = [];
-  let allEtapes       = [];
-  let currentApporteur = null;       // apporteur connecté (vue apporteur)
-  let currentApporteurAdmin = null;  // apporteur sélectionné côté admin
-  let allApporteurs   = [];
-  let allAffaires     = [];
-  let allDocuments    = [];
-  let adminTab        = 'chantiers';
+  let allChantiers = [];
+  let allEtapes = [];
+  let currentApporteur = null;
+  let currentApporteurAdmin = null;
+  let allApporteurs = [];
+  let allAffaires = [];
+  let allDocuments = [];
+  let adminTab = 'chantiers';
 
-  // ── LOGIN TYPE TOGGLE ──
-  function setLoginType(type) {
-    loginType = type;
-    document.getElementById('typeClient').classList.toggle('active', type === 'client');
-    document.getElementById('typeApporteur').classList.toggle('active', type === 'apporteur');
-    document.getElementById('loginError').style.display = 'none';
-  }
-
-  // ── SESSION persistante ──
   function saveSession() {
-    sessionStorage.setItem('matoba_user', currentUser);
+    sessionStorage.setItem('matoba_user', currentUser || '');
+    sessionStorage.setItem('matoba_profile', JSON.stringify(currentProfile));
     sessionStorage.setItem('matoba_chantier', JSON.stringify(currentChantier));
     sessionStorage.setItem('matoba_chantiers', JSON.stringify(allChantiers));
     sessionStorage.setItem('matoba_etapes', JSON.stringify(allEtapes));
@@ -1178,140 +1189,113 @@
     sessionStorage.setItem('matoba_apporteurs', JSON.stringify(allApporteurs));
     sessionStorage.setItem('matoba_affaires', JSON.stringify(allAffaires));
   }
+
   function clearSession() {
-    ['matoba_user','matoba_chantier','matoba_chantiers','matoba_etapes','matoba_apporteur','matoba_apporteurs','matoba_affaires']
+    ['matoba_user','matoba_profile','matoba_chantier','matoba_chantiers','matoba_etapes','matoba_apporteur','matoba_apporteurs','matoba_affaires']
       .forEach(k => sessionStorage.removeItem(k));
   }
-  async function restoreSession() {
-    const user = sessionStorage.getItem('matoba_user');
-    if (!user) return;
-    currentUser = user;
-    const chantier   = sessionStorage.getItem('matoba_chantier');
-    const chantiers  = sessionStorage.getItem('matoba_chantiers');
-    const etapes     = sessionStorage.getItem('matoba_etapes');
-    const apporteur  = sessionStorage.getItem('matoba_apporteur');
-    const apporteurs = sessionStorage.getItem('matoba_apporteurs');
-    const affaires   = sessionStorage.getItem('matoba_affaires');
-    if (chantier)   currentChantier  = JSON.parse(chantier);
-    if (chantiers)  allChantiers     = JSON.parse(chantiers);
-    if (etapes)     allEtapes        = JSON.parse(etapes);
-    if (apporteur)  currentApporteur = JSON.parse(apporteur);
-    if (apporteurs) allApporteurs    = JSON.parse(apporteurs);
-    if (affaires)   allAffaires      = JSON.parse(affaires);
-    showAppFromCache();
-  }
-  restoreSession();
 
-  // ── API via proxy Cloudflare Worker (GET) ──
   const PROXY = 'https://matoba-proxy.tom-piras.workers.dev/';
-
   async function api(action, data = {}) {
-    const params = new URLSearchParams({ action: action, data: JSON.stringify(data) });
+    const params = new URLSearchParams({ action, data: JSON.stringify(data) });
     const targetUrl = API_URL + '?' + params.toString();
-    const proxyUrl  = PROXY + '?url=' + encodeURIComponent(targetUrl);
-    const res  = await fetch(proxyUrl);
-    const text = await res.text();
-    try { return JSON.parse(text); }
-    catch(e) { console.error('Parse error:', text); return { error: text }; }
+    const res = await fetch(PROXY + '?url=' + encodeURIComponent(targetUrl));
+    const raw = await res.text();
+    try { return JSON.parse(raw); } catch { return { error: raw }; }
   }
 
-  // ── UI HELPERS ──
   function showLoading(msg) {
     document.getElementById('etapesList').innerHTML = `<div class="empty"><div class="empty-text">${msg}</div></div>`;
     document.getElementById('chantierHeader').style.display = 'none';
-    document.getElementById('progressWrap').style.display   = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
   }
-  function setBtn(id, disabled, text) {
-    const b = document.getElementById(id);
-    if (!b) return;
-    b.disabled    = disabled;
-    b.textContent = text;
-  }
-  function escapeHtml(str) {
-    const d = document.createElement('div');
-    d.textContent = str == null ? '' : String(str);
-    return d.innerHTML;
+  function setBtn(id, disabled, text) { const b=document.getElementById(id); if(b){ b.disabled=disabled; b.textContent=text; } }
+  function escapeHtml(str) { const d=document.createElement('div'); d.textContent=str==null?'':String(str); return d.innerHTML; }
+  function authError(message) { const box=document.getElementById('loginError'); box.textContent=message; box.style.display='block'; }
+
+  async function doGoogleLogin() {
+    authError(''); document.getElementById('loginError').style.display='none';
+    const redirectTo = window.location.origin + '/suivi-chantier.html';
+    const { error } = await supabaseClient.auth.signInWithOAuth({ provider:'google', options:{ redirectTo } });
+    if (error) authError(error.message);
   }
 
-  // ── LOGIN ──
   async function doLogin() {
-    const id  = document.getElementById('loginId').value.trim();
-    const pwd = document.getElementById('loginPwd').value.trim();
-    if (!id || !pwd) return;
+    const email=document.getElementById('loginId').value.trim();
+    const password=document.getElementById('loginPwd').value;
+    if(!email || !password){ authError('Saisissez votre email et votre mot de passe.'); return; }
+    document.getElementById('loginError').style.display='none';
+    document.getElementById('loginLoading').style.display='block';
+    setBtn('loginBtn',true,'Connexion…');
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if(error){ authError('Email ou mot de passe incorrect.'); setBtn('loginBtn',false,'Se connecter'); document.getElementById('loginLoading').style.display='none'; return; }
+    await bootstrapAuth();
+  }
 
-    document.getElementById('loginError').style.display   = 'none';
-    document.getElementById('loginLoading').style.display = 'block';
-    setBtn('loginBtn', true, 'Connexion…');
+  async function forgotPassword() {
+    const email=document.getElementById('loginId').value.trim();
+    if(!email){ authError('Saisissez d’abord votre adresse email.'); return; }
+    const redirectTo=window.location.origin + '/reset-password.html';
+    const { error }=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});
+    if(error){ authError(error.message); return; }
+    const box=document.getElementById('loginError'); box.style.display='block'; box.style.color='var(--green)'; box.style.background='var(--green-light)'; box.style.borderColor='transparent'; box.textContent='Un lien de réinitialisation vient de vous être envoyé.';
+  }
 
+  async function getProfile(userId) {
+    const { data, error } = await supabaseClient.from('profiles').select('id,email,full_name,role,legacy_login').eq('id',userId).single();
+    if(error) throw new Error('Votre profil MΛTOBΛ n’est pas encore configuré.');
+    return data;
+  }
+
+  async function loadLegacyDataForProfile(profile) {
+    currentProfile=profile; currentUser=profile.role;
+    if(profile.role==='admin'){
+      allChantiers=await api('getChantiers'); if(!Array.isArray(allChantiers)) allChantiers=[];
+      allApporteurs=await api('getApporteurs'); if(!Array.isArray(allApporteurs)) allApporteurs=[];
+      currentChantier=allChantiers[0]||null; currentApporteurAdmin=allApporteurs[0]||null;
+    } else if(profile.role==='client'){
+      const rows=await api('getChantiers');
+      if(!Array.isArray(rows)) throw new Error('Impossible de charger les chantiers.');
+      currentChantier=rows.find(c=>String(c.LOGIN||'').trim()===String(profile.legacy_login||'').trim())||null;
+      if(!currentChantier) throw new Error('Aucun chantier n’est encore associé à votre compte.');
+      allChantiers=[currentChantier];
+    } else if(profile.role==='apporteur'){
+      const rows=await api('getApporteurs');
+      if(!Array.isArray(rows)) throw new Error('Impossible de charger les apporteurs.');
+      currentApporteur=rows.find(a=>String(a.LOGIN||'').trim()===String(profile.legacy_login||'').trim())||null;
+      if(!currentApporteur) throw new Error('Aucun espace apporteur n’est associé à votre compte.');
+      allApporteurs=rows;
+    } else { throw new Error('Votre rôle utilisateur n’est pas configuré.'); }
+    saveSession(); showApp();
+  }
+
+  async function bootstrapAuth() {
+    document.getElementById('loginLoading').style.display='block';
     try {
-      // Admin
-      if (id === ADMIN_LOGIN && pwd === ADMIN_PWD) {
-        currentUser = 'admin';
-        allChantiers  = await api('getChantiers');
-        if (!Array.isArray(allChantiers)) allChantiers = [];
-        allApporteurs = await api('getApporteurs');
-        if (!Array.isArray(allApporteurs)) allApporteurs = [];
-        currentChantier      = allChantiers[0] || null;
-        currentApporteurAdmin = allApporteurs[0] || null;
-        saveSession();
-        showApp();
-        return;
-      }
-
-      if (loginType === 'apporteur') {
-        const apporteurs = await api('getApporteurs');
-        if (!Array.isArray(apporteurs)) throw new Error('Réponse invalide');
-        const found = apporteurs.find(a => String(a.LOGIN).trim() === id && String(a.PWD).trim() === pwd);
-        if (found) {
-          currentUser      = 'apporteur';
-          currentApporteur = found;
-          allApporteurs    = apporteurs;
-          saveSession();
-          showApp();
-          return;
-        }
-      } else {
-        const chantiers = await api('getChantiers');
-        if (!Array.isArray(chantiers)) throw new Error('Réponse invalide');
-        const found = chantiers.find(c => String(c.LOGIN).trim() === id && String(c.PWD).trim() === pwd);
-        if (found) {
-          currentUser     = 'client';
-          currentChantier = found;
-          allChantiers    = chantiers;
-          saveSession();
-          showApp();
-          return;
-        }
-      }
-
-      document.getElementById('loginError').style.display = 'block';
-    } catch(e) {
-      document.getElementById('loginError').textContent    = 'Erreur de connexion. Réessayez.';
-      document.getElementById('loginError').style.display  = 'block';
-    } finally {
-      document.getElementById('loginLoading').style.display = 'none';
-      setBtn('loginBtn', false, 'Accéder à mon espace');
-    }
+      const { data:{ session } }=await supabaseClient.auth.getSession();
+      if(!session){ document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none'; return; }
+      const profile=await getProfile(session.user.id);
+      await loadLegacyDataForProfile(profile);
+    } catch(e){
+      await supabaseClient.auth.signOut(); clearSession(); authError(e.message);
+      document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none';
+    } finally { document.getElementById('loginLoading').style.display='none'; setBtn('loginBtn',false,'Se connecter'); }
   }
 
-  document.getElementById('loginPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-  document.getElementById('loginId').addEventListener('keydown',  e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('loginPwd').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-  function doLogout() {
-    clearSession();
-    currentUser = null; currentChantier = null; allChantiers = []; allEtapes = [];
-    currentApporteur = null; currentApporteurAdmin = null; allApporteurs = []; allAffaires = [];
-    allDocuments = [];
-    stopChatPolling();
-    chatMessages = []; chatConvType = null; chatConvId = null;
-    document.getElementById('chatPanel').classList.remove('open');
-    document.getElementById('chatBadge').style.display = 'none';
-    document.getElementById('app').style.display         = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('loginId').value  = '';
-    document.getElementById('loginPwd').value = '';
-    document.getElementById('loginError').style.display = 'none';
+  async function doLogout() {
+    await supabaseClient.auth.signOut(); clearSession();
+    currentUser=null; currentProfile=null; currentChantier=null; allChantiers=[]; allEtapes=[]; currentApporteur=null; currentApporteurAdmin=null; allApporteurs=[]; allAffaires=[]; allDocuments=[];
+    stopChatPolling(); chatMessages=[]; chatConvType=null; chatConvId=null;
+    document.getElementById('chatPanel').classList.remove('open'); document.getElementById('chatBadge').style.display='none';
+    document.getElementById('app').style.display='none'; document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('loginId').value=''; document.getElementById('loginPwd').value=''; document.getElementById('loginError').style.display='none';
   }
+
+  supabaseClient.auth.onAuthStateChange((event,session)=>{ if(session && (event==='SIGNED_IN' || event==='TOKEN_REFRESHED')) bootstrapAuth(); });
+  bootstrapAuth();
 
   // ── SHOW APP depuis cache (instantané) ──
   function showAppFromCache() {

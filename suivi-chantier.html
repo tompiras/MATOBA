@@ -1165,7 +1165,16 @@
   const API_URL = 'https://script.google.com/macros/s/AKfycbywhgnWTNRG2S6YZw-AZDdHZYD32Vmh4zawtzrCBNPB0IaXiFO1-bhAfFxxyLA-2Fjj/exec';
   const SUPABASE_URL = 'https://xfvbbcoozcgvelcyucch.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_6QzdaJQvVSLFM62FV_Vljg_lqDy3-FP';
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce'
+    }
+  });
+
+  const AUTH_CALLBACK_URL = 'https://matoba.fr/suivi-chantier.html';
 
   let currentUser = null;
   let currentProfile = null;
@@ -1178,6 +1187,7 @@
   let allAffaires = [];
   let allDocuments = [];
   let adminTab = 'chantiers';
+  let authBootstrapRunning = false;
 
   function saveSession() {
     sessionStorage.setItem('matoba_user', currentUser || '');
@@ -1214,10 +1224,21 @@
   function authError(message) { const box=document.getElementById('loginError'); box.textContent=message; box.style.display='block'; }
 
   async function doGoogleLogin() {
-    authError(''); document.getElementById('loginError').style.display='none';
-    const redirectTo = window.location.origin + '/suivi-chantier.html';
-    const { error } = await supabaseClient.auth.signInWithOAuth({ provider:'google', options:{ redirectTo } });
-    if (error) authError(error.message);
+    authError('');
+    document.getElementById('loginError').style.display='none';
+    document.getElementById('loginLoading').style.display='block';
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: AUTH_CALLBACK_URL,
+        skipBrowserRedirect: false,
+        queryParams: { prompt: 'select_account' }
+      }
+    });
+    if (error) {
+      document.getElementById('loginLoading').style.display='none';
+      authError(error.message);
+    }
   }
 
   async function doLogin() {
@@ -1235,7 +1256,7 @@
   async function forgotPassword() {
     const email=document.getElementById('loginId').value.trim();
     if(!email){ authError('Saisissez d’abord votre adresse email.'); return; }
-    const redirectTo=window.location.origin + '/reset-password.html';
+    const redirectTo='https://matoba.fr/reset-password.html';
     const { error }=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});
     if(error){ authError(error.message); return; }
     const box=document.getElementById('loginError'); box.style.display='block'; box.style.color='var(--green)'; box.style.background='var(--green-light)'; box.style.borderColor='transparent'; box.textContent='Un lien de réinitialisation vient de vous être envoyé.';
@@ -1269,9 +1290,29 @@
     saveSession(); showApp();
   }
 
+  async function finishOAuthCallback() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const errorDescription = params.get('error_description');
+
+    if (errorDescription) {
+      history.replaceState({}, document.title, window.location.pathname);
+      throw new Error(decodeURIComponent(errorDescription.replace(/\+/g, ' ')));
+    }
+
+    if (code) {
+      const { error } = await supabaseClient.auth.exchangeCodeForSession(code);
+      history.replaceState({}, document.title, window.location.pathname);
+      if (error && !/code verifier/i.test(error.message || '')) throw error;
+    }
+  }
+
   async function bootstrapAuth() {
+    if (authBootstrapRunning) return;
+    authBootstrapRunning = true;
     document.getElementById('loginLoading').style.display='block';
     try {
+      await finishOAuthCallback();
       const { data:{ session } }=await supabaseClient.auth.getSession();
       if(!session){ document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none'; return; }
       const profile=await getProfile(session.user.id);
@@ -1279,7 +1320,11 @@
     } catch(e){
       await supabaseClient.auth.signOut(); clearSession(); authError(e.message);
       document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none';
-    } finally { document.getElementById('loginLoading').style.display='none'; setBtn('loginBtn',false,'Se connecter'); }
+    } finally {
+      authBootstrapRunning = false;
+      document.getElementById('loginLoading').style.display='none';
+      setBtn('loginBtn',false,'Se connecter');
+    }
   }
 
   document.getElementById('loginPwd').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});

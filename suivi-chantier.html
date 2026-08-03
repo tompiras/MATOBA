@@ -313,39 +313,47 @@
     }
 
     .topbar {
-      min-height: 76px;
-      padding-top: calc(15px + env(safe-area-inset-top));
-      padding-bottom: 15px;
-      background: rgba(255,255,255,.92);
+      min-height: 88px;
+      padding: calc(18px + env(safe-area-inset-top)) clamp(28px, 4.8vw, 76px) 18px;
+      background: rgba(255,255,255,.94);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(216,213,207,.82);
     }
 
     .topbar-brand {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      align-items: flex-start;
+      gap: 7px;
       min-width: 0;
     }
 
     .topbar-name {
       display: block;
-      font-size: 13px;
-      letter-spacing: .48em;
-      padding-left: .48em;
+      font-size: 15px;
+      font-weight: 200;
+      letter-spacing: .52em;
+      padding-left: .52em;
       line-height: 1;
     }
 
     .topbar-sub {
       display: block;
-      font-size: 7.5px;
+      font-size: 8px;
       line-height: 1;
-      letter-spacing: .16em;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--stone);
     }
 
-    .topbar-right { gap: 14px; }
+    .topbar-right { gap: 22px; }
+    .topbar-label {
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: var(--stone);
+      white-space: nowrap;
+    }
     .btn-logout,
     .type-btn,
     .login-btn,
@@ -355,9 +363,10 @@
     }
 
     .btn-logout {
-      min-height: 36px;
-      padding: 0 15px;
+      min-height: 40px;
+      padding: 0 18px;
       background: var(--white);
+      letter-spacing: .08em;
     }
 
     #loginScreen {
@@ -514,7 +523,7 @@
 
     .page {
       max-width: 1080px;
-      padding-top: clamp(28px, 5vw, 54px);
+      padding-top: clamp(24px, 3vw, 38px);
     }
 
     .chantier-header,
@@ -651,8 +660,8 @@
     .doc-photo-meta { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 
     #adminPanel {
-      margin-top: 58px;
-      padding-top: 44px;
+      margin-top: 24px;
+      padding-top: 30px;
     }
 
     .admin-tabs {
@@ -701,8 +710,7 @@
 
       .topbar {
         min-height: 72px;
-        padding-left: var(--x);
-        padding-right: var(--x);
+        padding: calc(14px + env(safe-area-inset-top)) var(--x) 14px;
       }
 
       .topbar-name {
@@ -877,7 +885,7 @@
 
 <div id="loginScreen">
   <div class="login-box">
-    <a href="/" class="login-brand-link" aria-label="Retour à l’accueil MATOBA">
+    <a href="/" class="login-brand-link" aria-label="Retour à l’accueil MΛTOBΛ">
       <div class="login-brand">MΛTOBΛ</div>
       <div class="login-sub">Conception · Ingénierie · Construction</div>
     </a>
@@ -909,9 +917,9 @@
 
 <div id="app">
   <div class="topbar">
-    <a href="/" class="topbar-brand" aria-label="Retour à l’accueil MATOBA">
+    <a href="/" class="topbar-brand" aria-label="Retour à l’accueil MΛTOBΛ">
       <span class="topbar-name">MΛTOBΛ</span>
-      <span class="topbar-sub">Espace projet</span>
+      <span class="topbar-sub">Espace client</span>
     </a>
     <div class="topbar-right">
       <span class="topbar-label" id="topbarLabel"></span>
@@ -1399,7 +1407,7 @@
     document.getElementById('adminPanel').style.display     = isAdmin ? 'block' : 'none';
 
     if (isAdmin) {
-      document.getElementById('topbarLabel').textContent = 'Administration';
+      document.getElementById('topbarLabel').textContent = 'Tableau de bord';
     } else if (isClient) {
       document.getElementById('topbarLabel').textContent = currentChantier?.NAME || '';
     } else if (isApporteur) {

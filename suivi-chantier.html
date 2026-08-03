@@ -1263,8 +1263,18 @@
   }
 
   async function getProfile(userId) {
-    const { data, error } = await supabaseClient.from('profiles').select('id,email,full_name,role,legacy_login').eq('id',userId).single();
-    if(error) throw new Error('Votre profil MΛTOBΛ n’est pas encore configuré.');
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('id,email,full_name,role,legacy_login')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (error) {
+      throw new Error('Connexion Google réussie, mais Supabase refuse l’accès au profil : ' + error.message);
+    }
+    if (!data) {
+      throw new Error('Connexion Google réussie, mais aucun profil MΛTOBΛ n’est associé à ce compte.');
+    }
     return data;
   }
 
@@ -1290,40 +1300,40 @@
     saveSession(); showApp();
   }
 
-  async function finishOAuthCallback() {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const errorDescription = params.get('error_description');
-
-    if (errorDescription) {
-      history.replaceState({}, document.title, window.location.pathname);
-      throw new Error(decodeURIComponent(errorDescription.replace(/\+/g, ' ')));
-    }
-
-    if (code) {
-      const { error } = await supabaseClient.auth.exchangeCodeForSession(code);
-      history.replaceState({}, document.title, window.location.pathname);
-      if (error && !/code verifier/i.test(error.message || '')) throw error;
-    }
+  function showAuthScreen(message = '') {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+    if (message) authError(message);
   }
 
   async function bootstrapAuth() {
     if (authBootstrapRunning) return;
     authBootstrapRunning = true;
-    document.getElementById('loginLoading').style.display='block';
+    document.getElementById('loginLoading').style.display = 'block';
+
     try {
-      await finishOAuthCallback();
-      const { data:{ session } }=await supabaseClient.auth.getSession();
-      if(!session){ document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none'; return; }
-      const profile=await getProfile(session.user.id);
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) throw new Error('Erreur de session Supabase : ' + error.message);
+
+      const session = data?.session;
+      if (!session) {
+        showAuthScreen();
+        return;
+      }
+
+      const profile = await getProfile(session.user.id);
       await loadLegacyDataForProfile(profile);
-    } catch(e){
-      await supabaseClient.auth.signOut(); clearSession(); authError(e.message);
-      document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none';
+
+      if (window.location.search || window.location.hash) {
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+    } catch (e) {
+      clearSession();
+      showAuthScreen(e?.message || 'La connexion n’a pas pu être finalisée.');
     } finally {
       authBootstrapRunning = false;
-      document.getElementById('loginLoading').style.display='none';
-      setBtn('loginBtn',false,'Se connecter');
+      document.getElementById('loginLoading').style.display = 'none';
+      setBtn('loginBtn', false, 'Se connecter');
     }
   }
 
@@ -1339,7 +1349,16 @@
     document.getElementById('loginId').value=''; document.getElementById('loginPwd').value=''; document.getElementById('loginError').style.display='none';
   }
 
-  supabaseClient.auth.onAuthStateChange((event,session)=>{ if(session && (event==='SIGNED_IN' || event==='TOKEN_REFRESHED')) bootstrapAuth(); });
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      setTimeout(bootstrapAuth, 50);
+    }
+    if (event === 'SIGNED_OUT') {
+      showAuthScreen();
+    }
+  });
+
+  window.addEventListener('pageshow', () => setTimeout(bootstrapAuth, 100));
   bootstrapAuth();
 
   // ── SHOW APP depuis cache (instantané) ──

@@ -1170,7 +1170,7 @@
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
-      flowType: 'pkce'
+      flowType: 'implicit'
     }
   });
 
@@ -1306,34 +1306,29 @@
     if (message) authError(message);
   }
 
-  async function bootstrapAuth() {
+  async function bootstrapAuth(sessionOverride = null) {
     if (authBootstrapRunning) return;
     authBootstrapRunning = true;
     document.getElementById('loginLoading').style.display = 'block';
 
     try {
-      // Avec le flux PKCE, Google renvoie un paramètre ?code=... qu'il faut
-      // échanger explicitement contre une session avant d'appeler getSession().
       const params = new URLSearchParams(window.location.search);
-      const oauthCode = params.get('code');
-      const oauthError = params.get('error_description') || params.get('error');
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      const oauthError = params.get('error_description') || params.get('error') || hashParams.get('error_description') || hashParams.get('error');
 
       if (oauthError) {
-        throw new Error('Connexion Google refusée : ' + oauthError);
+        throw new Error('Connexion Google refusée : ' + decodeURIComponent(oauthError));
       }
 
-      if (oauthCode) {
-        const { error: exchangeError } = await supabaseClient.auth.exchangeCodeForSession(oauthCode);
-        if (exchangeError) {
-          throw new Error('Impossible de finaliser la connexion Google : ' + exchangeError.message);
-        }
-        history.replaceState({}, document.title, window.location.pathname);
+      let session = sessionOverride;
+      if (!session) {
+        // Laisse à Supabase le temps de lire les jetons OAuth présents dans l'URL.
+        await new Promise(resolve => setTimeout(resolve, 350));
+        const { data, error } = await supabaseClient.auth.getSession();
+        if (error) throw new Error('Erreur de session Supabase : ' + error.message);
+        session = data?.session || null;
       }
 
-      const { data, error } = await supabaseClient.auth.getSession();
-      if (error) throw new Error('Erreur de session Supabase : ' + error.message);
-
-      const session = data?.session;
       if (!session) {
         showAuthScreen();
         return;
@@ -1367,12 +1362,16 @@
     document.getElementById('loginId').value=''; document.getElementById('loginPwd').value=''; document.getElementById('loginError').style.display='none';
   }
 
-  supabaseClient.auth.onAuthStateChange((event) => {
-    if (event === 'SIGNED_OUT') showAuthScreen();
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED') && session) {
+      setTimeout(() => bootstrapAuth(session), 0);
+    } else if (event === 'SIGNED_OUT') {
+      showAuthScreen();
+    }
   });
 
-  window.addEventListener('pageshow', () => setTimeout(bootstrapAuth, 100));
-  bootstrapAuth();
+  window.addEventListener('pageshow', () => setTimeout(() => bootstrapAuth(), 150));
+  setTimeout(() => bootstrapAuth(), 150);
 
   // ── SHOW APP depuis cache (instantané) ──
   function showAppFromCache() {

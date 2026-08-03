@@ -427,7 +427,7 @@
 
 
     .sf-note-line {
-      display: block;
+      display: inline;
       white-space: nowrap;
     }
 
@@ -921,10 +921,11 @@
       }
 
       .sf-note-line {
-        width: 100%;
-        font-size: clamp(7.8px, 2.08vw, 13.5px);
-        letter-spacing: -.025em;
-        white-space: nowrap;
+        display: inline;
+        width: auto;
+        font-size: inherit;
+        letter-spacing: normal;
+        white-space: normal;
       }
     }
 </style>

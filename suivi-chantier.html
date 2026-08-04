@@ -1510,6 +1510,283 @@
       }
     }
 
+  
+    /* =========================================================
+       FINITION PRO — ACCÈS CLIENT PLEIN ÉCRAN
+       ========================================================= */
+    #loginScreen,
+    .login-shell,
+    .login-side,
+    .login-side-inner,
+    .login-visual {
+      height: 100svh;
+      min-height: 620px;
+    }
+
+    .login-shell {
+      grid-template-columns: minmax(540px, 51%) minmax(0, 49%);
+      overflow: hidden;
+    }
+
+    .login-side-inner {
+      padding:
+        calc(30px + env(safe-area-inset-top))
+        clamp(42px, 5vw, 82px)
+        calc(25px + env(safe-area-inset-bottom));
+    }
+
+    .login-top {
+      min-height: 52px;
+    }
+
+    .login-logo-original {
+      width: 245px;
+      gap: 8px;
+    }
+
+    .login-logo-wordmark {
+      width: 100%;
+      padding: 0;
+      font-size: 20px;
+      letter-spacing: .48em;
+      text-align: center;
+      transform: translateX(.24em);
+    }
+
+    .login-logo-baseline {
+      width: 100%;
+      padding: 0;
+      font-size: 7.2px;
+      letter-spacing: .175em;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .login-support {
+      position: relative;
+      padding-bottom: 4px;
+      font-size: 12px;
+    }
+
+    .login-support::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: 0;
+      height: 1px;
+      background: currentColor;
+      transition: right .25s ease;
+    }
+
+    .login-support:hover::after { right: 0; }
+
+    .login-content {
+      width: min(100%, 450px);
+      margin: auto;
+      padding: 22px 0 28px;
+    }
+
+    .login-kicker {
+      margin-bottom: 15px;
+      font-size: 8px;
+      letter-spacing: .22em;
+    }
+
+    .login-title {
+      margin-bottom: 17px;
+      font-size: clamp(35px, 3.2vw, 48px);
+      font-weight: 300;
+      line-height: 1.04;
+      letter-spacing: -.042em;
+    }
+
+    .login-intro {
+      margin-bottom: 34px;
+      max-width: 38ch;
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+
+    .login-form { gap: 16px; }
+    .login-group { gap: 8px; }
+
+    .login-input {
+      min-height: 50px;
+      border-radius: 7px;
+      box-shadow: none;
+    }
+
+    .login-btn,
+    .oauth-btn {
+      min-height: 50px;
+      border-radius: 7px;
+    }
+
+    .login-btn {
+      box-shadow: none;
+    }
+
+    .login-divider {
+      margin: 21px 0;
+    }
+
+    .login-help {
+      margin-top: 20px;
+    }
+
+    .login-footer {
+      min-height: 24px;
+      font-size: 9.5px;
+      letter-spacing: .02em;
+    }
+
+    .login-visual {
+      background-position: center 48%;
+    }
+
+    .login-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 1px 0 0 rgba(0,0,0,.045);
+      pointer-events: none;
+    }
+
+    .login-quote {
+      left: clamp(34px, 4vw, 64px);
+      right: clamp(34px, 4vw, 64px);
+      bottom: clamp(34px, 5vh, 58px);
+    }
+
+    .login-quote p {
+      max-width: 18ch;
+      margin-bottom: 14px;
+      font-size: clamp(25px, 2.5vw, 38px);
+      line-height: 1.1;
+      letter-spacing: -.035em;
+    }
+
+    .login-quote span {
+      font-size: 10.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    @media (max-height: 760px) and (min-width: 981px) {
+      .login-side-inner {
+        padding-top: 22px;
+        padding-bottom: 18px;
+      }
+
+      .login-content {
+        padding-top: 10px;
+        padding-bottom: 14px;
+      }
+
+      .login-title {
+        font-size: 37px;
+        margin-bottom: 12px;
+      }
+
+      .login-intro {
+        margin-bottom: 24px;
+      }
+
+      .login-input,
+      .login-btn,
+      .oauth-btn {
+        min-height: 46px;
+      }
+
+      .login-divider {
+        margin: 16px 0;
+      }
+    }
+
+    @media (max-width: 980px) {
+      #loginScreen,
+      .login-shell,
+      .login-side,
+      .login-side-inner {
+        height: auto;
+        min-height: 100svh;
+      }
+
+      .login-shell {
+        grid-template-columns: 1fr;
+        overflow: visible;
+      }
+
+      .login-side-inner {
+        padding-inline: clamp(22px, 8vw, 72px);
+      }
+
+      .login-logo-original {
+        width: 225px;
+      }
+
+      .login-content {
+        padding: 58px 0 42px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .login-side-inner {
+        padding:
+          calc(18px + env(safe-area-inset-top))
+          18px
+          calc(18px + env(safe-area-inset-bottom));
+      }
+
+      .login-top {
+        min-height: 44px;
+      }
+
+      .login-logo-original {
+        width: 205px;
+      }
+
+      .login-logo-wordmark {
+        font-size: 17px;
+      }
+
+      .login-logo-baseline {
+        font-size: 6.2px;
+        letter-spacing: .16em;
+      }
+
+      .login-content {
+        padding: clamp(42px, 8vh, 66px) 0 34px;
+      }
+
+      .login-title {
+        font-size: clamp(34px, 10vw, 41px);
+        line-height: 1.02;
+      }
+
+      .login-intro {
+        margin-bottom: 30px;
+        font-size: 13px;
+      }
+
+      .login-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .login-logo-original {
+        width: 190px;
+      }
+
+      .login-title {
+        font-size: 34px;
+      }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1528,9 +1805,9 @@
         </div>
 
         <div class="login-content">
-          <div class="login-kicker">Espace sécurisé</div>
-          <h1 class="login-title">Connexion</h1>
-          <p class="login-intro">Accédez à votre espace MΛTOBΛ pour suivre vos chantiers en temps réel.</p>
+          <div class="login-kicker">Espace client sécurisé</div>
+          <h1 class="login-title">Bienvenue dans<br>votre espace.</h1>
+          <p class="login-intro">Retrouvez l’avancement de votre chantier, vos documents et vos échanges dans un espace unique.</p>
 
           <div class="login-form">
             <div class="login-group">

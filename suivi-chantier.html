@@ -2008,6 +2008,78 @@
       }
     }
 
+  
+    /* Correctif déconnexion + logo parfaitement centré */
+    #loginScreen {
+      width: 100%;
+    }
+
+    .login-top {
+      position: relative;
+      justify-content: center;
+    }
+
+    .login-logo-original {
+      width: 286px;
+      margin: 0 auto;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    .login-logo-wordmark {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+      transform: none;
+      font-size: 19px;
+      letter-spacing: 0;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .login-logo-wordmark > span {
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .login-logo-baseline {
+      width: 100%;
+      padding: 0;
+      text-align: center;
+      white-space: nowrap;
+      font-size: 7px;
+      letter-spacing: .165em;
+    }
+
+    .login-support {
+      position: absolute;
+      right: 0;
+      top: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .login-logo-original {
+        width: 242px;
+      }
+
+      .login-logo-wordmark {
+        font-size: 17px;
+      }
+
+      .login-logo-baseline {
+        font-size: 6.2px;
+        letter-spacing: .15em;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .login-logo-original {
+        width: 220px;
+      }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -2019,7 +2091,9 @@
       <div class="login-side-inner">
         <div class="login-top">
           <a href="/" class="login-logo-original" aria-label="Retour à l’accueil MΛTOBΛ">
-            <span class="login-logo-wordmark">MΛTOBΛ</span>
+            <span class="login-logo-wordmark" aria-label="MΛTOBΛ">
+              <span>M</span><span>Λ</span><span>T</span><span>O</span><span>B</span><span>Λ</span>
+            </span>
             <span class="login-logo-baseline">Conception · Ingénierie · Construction</span>
           </a>
           <a href="mailto:contact@matoba.fr" class="login-support">Besoin d’aide ?</a>
@@ -2458,7 +2532,7 @@
   }
 
   function showAuthScreen(message = '') {
-    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginScreen').style.display = 'block';
     document.getElementById('app').style.display = 'none';
     if (message) authError(message);
   }
@@ -2515,7 +2589,7 @@
     currentUser=null; currentProfile=null; currentChantier=null; allChantiers=[]; allEtapes=[]; currentApporteur=null; currentApporteurAdmin=null; allApporteurs=[]; allAffaires=[]; allDocuments=[];
     stopChatPolling(); chatMessages=[]; chatConvType=null; chatConvId=null;
     document.getElementById('chatPanel').classList.remove('open'); document.getElementById('chatBadge').style.display='none';
-    document.getElementById('app').style.display='none'; document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('app').style.display='none'; document.getElementById('loginScreen').style.display='block';
     document.getElementById('loginId').value=''; document.getElementById('loginPwd').value=''; document.getElementById('loginError').style.display='none';
   }
 

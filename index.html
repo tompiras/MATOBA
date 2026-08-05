@@ -2227,6 +2227,21 @@ button, input, select, textarea {
     .footer-links a::after {
       background: var(--ink);
     }
+   .form-reassurance {
+      margin-top: 12px;
+      font-size: 10px;
+      line-height: 1.6;
+      color: var(--stone);
+      letter-spacing: .03em;
+    }
+
+    @media (min-width: 760px) {
+      #contact .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+    }
   </style>
  </head>
  <body>
@@ -2907,12 +2922,10 @@ button, input, select, textarea {
       Contact
      </div>
      <h2>
-      Parlez-nous
-      <br/>
-      de votre projet.
+      Présentez votre projet.
      </h2>
      <p class="lead" style="margin-top:16px;">
-      Nous revenons vers vous rapidement.
+      Chaque projet débute par un échange. Présentez-nous votre besoin, nous reviendrons vers vous dans les meilleurs délais.
      </p>
      <div class="c-list">
       <div class="c-row">
@@ -2944,79 +2957,148 @@ button, input, select, textarea {
       <div class="form-row">
        <div class="fg">
         <label class="flabel" for="nom">
-         Votre nom
+         Nom et prénom
         </label>
-        <input class="finput" id="nom" name="nom" placeholder="Votre nom" required="" type="text"/>
+        <input class="finput" id="nom" name="nom" placeholder="Votre nom et prénom" required="" type="text"/>
        </div>
        <div class="fg">
         <label class="flabel" for="email">
          Adresse e-mail
         </label>
-        <input class="finput" id="email" name="email" placeholder="votre@email.fr" required="" type="email"/>
+        <input class="finput" id="email" name="email" placeholder="vous@entreprise.fr" required="" type="email"/>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="fg">
+        <label class="flabel" for="telephone">
+         Téléphone
+        </label>
+        <input autocomplete="tel" class="finput" id="telephone" name="telephone" placeholder="Votre numéro de téléphone" required="" type="tel"/>
+       </div>
+       <div class="fg">
+        <label class="flabel" for="localisation">
+         Localisation du projet
+        </label>
+        <input autocomplete="address-level2" class="finput" id="localisation" name="localisation_du_projet" placeholder="Ville ou code postal" required="" type="text"/>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="fg">
+        <label class="flabel" for="type">
+         Nature de votre projet
+        </label>
+        <select class="fselect" id="type" name="type_de_projet" required="">
+         <option disabled="" selected="" value="">
+          Sélectionnez la nature de votre projet
+         </option>
+         <optgroup label="Résidentiel">
+          <option>
+           Construction neuve
+          </option>
+          <option>
+           Rénovation complète
+          </option>
+          <option>
+           Extension ou restructuration
+          </option>
+         </optgroup>
+         <optgroup label="Professionnel">
+          <option>
+           Aménagement de locaux professionnels
+          </option>
+          <option>
+           Cabinet médical ou dentaire
+          </option>
+          <option>
+           Commerce, hôtellerie & restauration
+          </option>
+         </optgroup>
+         <optgroup label="Investissement">
+          <option>
+           Investissement immobilier
+          </option>
+          <option>
+           Immeuble ou division
+          </option>
+          <option>
+           Marchand de biens
+          </option>
+         </optgroup>
+         <optgroup label="Autre">
+          <option>
+           Autre projet
+          </option>
+         </optgroup>
+        </select>
+       </div>
+       <div class="fg">
+        <label class="flabel" for="budget">
+         Enveloppe d’investissement
+        </label>
+        <select class="fselect" id="budget" name="enveloppe_investissement" required="">
+         <option disabled="" selected="" value="">
+          Sélectionnez une enveloppe
+         </option>
+         <option>
+          Moins de 100 k€
+         </option>
+         <option>
+          100 à 250 k€
+         </option>
+         <option>
+          250 à 500 k€
+         </option>
+         <option>
+          500 k€ à 1 M€
+         </option>
+         <option>
+          Plus de 1 M€
+         </option>
+         <option>
+          En cours de définition
+         </option>
+        </select>
        </div>
       </div>
       <div class="fg">
-       <label class="flabel" for="telephone">
-        Numéro de téléphone
+       <label class="flabel" for="accompagnement">
+        Notre accompagnement
        </label>
-       <input autocomplete="tel" class="finput" id="telephone" name="telephone" placeholder="Votre numéro de téléphone" required="" type="tel"/>
-      </div>
-      <div class="fg">
-       <label class="flabel" for="type">
-        Nature du projet
-       </label>
-       <select class="fselect" id="type" name="type_de_projet" required="">
+       <select class="fselect" id="accompagnement" name="accompagnement_souhaite" required="">
         <option disabled="" selected="" value="">
-         Décrivez votre projet
+         Sélectionnez l’accompagnement souhaité
         </option>
-        <optgroup label="Résidentiel">
-         <option>
-          Construire ou rénover une maison
-         </option>
-         <option>
-          Rénover ou réaménager un appartement
-         </option>
-         <option>
-          Agrandir, surélever ou diviser un bien
-         </option>
-        </optgroup>
-        <optgroup label="Commerce & restauration">
-         <option>
-          Créer ou rénover un restaurant
-         </option>
-         <option>
-          Aménager un commerce ou point de vente
-         </option>
-         <option>
-          Ouvrir ou rénover une franchise
-         </option>
-        </optgroup>
-        <optgroup label="Professionnel & tertiaire">
-         <option>
-          Aménager des bureaux ou un espace de travail
-         </option>
-         <option>
-          Créer ou rénover un cabinet médical ou dentaire
-         </option>
-         <option>
-          Construire ou rénover un bâtiment professionnel
-         </option>
-        </optgroup>
-        <optgroup label="Autre">
-         <option>
-          Autre
-         </option>
-        </optgroup>
+        <option>
+         Conception & réalisation clé en main
+        </option>
+        <option>
+         Contractant général
+        </option>
+        <option>
+         Études de faisabilité
+        </option>
+        <option>
+         Chiffrage du projet
+        </option>
+        <option>
+         Pilotage des travaux
+        </option>
+        <option>
+         Réalisation des travaux
+        </option>
+        <option>
+         Je souhaite être conseillé
+        </option>
        </select>
       </div>
       <div class="fg">
        <label class="flabel" for="msg">
-        Votre projet
+        Décrivez votre projet
        </label>
-       <textarea class="ftextarea" id="msg" name="message" placeholder="Décrivez votre projet, vos objectifs et toute information utile…" required=""></textarea>
+       <textarea class="ftextarea" id="msg" name="message" placeholder="Présentez votre projet, vos objectifs, les contraintes éventuelles et toute information utile à sa bonne compréhension." required=""></textarea>
       </div>
       <p class="form-privacy">
-       Chaque demande est étudiée avec attention afin de préparer un premier échange adapté à votre projet.
+       Chaque demande fait l’objet d’une première analyse afin de préparer un échange adapté à votre projet.
        <br/>
        Consultez notre
        <a href="/politique-confidentialite.html">
@@ -3025,8 +3107,11 @@ button, input, select, textarea {
        .
       </p>
       <button class="fsubmit" type="submit">
-       Présenter mon projet
+       Échanger sur mon projet
       </button>
+      <p class="form-reassurance">
+       Premier échange sans engagement.
+      </p>
      </form>
      <div class="fsuccess" id="fsuccess">
       <p>

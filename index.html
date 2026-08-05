@@ -2176,6 +2176,29 @@ button, input, select, textarea {
   }
 
 }
+  
+    /* Pied de page : même typographie que l'en-tête */
+    footer,
+    .footer-brand,
+    .footer-legal,
+    .footer-company,
+    .footer-links,
+    .footer-links a,
+    .ft-name,
+    .ft-baseline {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ft-name {
+      font-weight: 200;
+    }
+
+    .ft-baseline,
+    .footer-company,
+    .footer-links a {
+      font-weight: 300;
+    }
+
   </style>
  </head>
  <body>
@@ -2960,9 +2983,12 @@ button, input, select, textarea {
        <textarea class="ftextarea" id="msg" name="message" placeholder="Décrivez votre projet…" required=""></textarea>
       </div>
       <p class="form-privacy">
-  Les informations transmises sont utilisées par MATOBA uniquement pour répondre à votre demande.<br>
-  Consultez notre <a href="/politique-confidentialite.html">politique de confidentialité</a>.
-      </p>
+       Les informations transmises sont utilisées par MATOBA uniquement pour répondre à votre demande.
+          Consultez notre
+       <a href="/politique-confidentialite.html">
+        politique de confidentialité
+       </a>
+       .
       </p>
       <button class="fsubmit" type="submit">
        Envoyer

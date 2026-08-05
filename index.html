@@ -2242,67 +2242,10 @@ button, input, select, textarea {
         gap: 14px;
       }
     }
-   /* Footer centré — desktop et mobile */
-footer {
-  text-align: center !important;
-  justify-items: center !important;
-}
-
-footer .footer-brand,
-footer .footer-legal,
-footer .footer-company,
-footer .footer-links {
-  width: 100% !important;
-  align-items: center !important;
-  justify-content: center !important;
-  justify-items: center !important;
-  text-align: center !important;
-}
-
-footer .footer-brand {
-  margin: 0 auto !important;
-}
-
-footer .ft-name,
-footer .ft-baseline {
-  text-align: center !important;
-}
-
-footer .footer-links {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-}
-
-@media (max-width: 760px) {
-  footer {
-    align-items: center !important;
-    justify-items: center !important;
-    text-align: center !important;
-  }
-
-  footer .footer-brand,
-  footer .footer-legal,
-  footer .footer-company,
-  footer .footer-links {
-    align-items: center !important;
-    justify-content: center !important;
-    justify-items: center !important;
-    text-align: center !important;
-  }
-
-  footer .footer-links {
-    justify-content: center !important;
-  }
-
-  footer .ft-name,
-  footer .ft-baseline {
-    text-align: center !important;
-  }
-}
   </style>
-  <style id="mobile-footer-final-fix">
-   @media (max-width: 760px) {
+ 
+<style id="mobile-footer-final-fix">
+@media (max-width: 760px) {
   footer {
     position: static !important;
     inset: auto !important;
@@ -2313,9 +2256,9 @@ footer .footer-links {
     display: grid !important;
     grid-template-columns: 1fr !important;
     gap: 20px !important;
-    align-items: start !important;
-    justify-items: start !important;
-    text-align: left !important;
+    align-items: center !important;
+    justify-items: center !important;
+    text-align: center !important;
     background: var(--white) !important;
     color: var(--ink) !important;
     border-top: 1px solid var(--rule) !important;
@@ -2326,24 +2269,25 @@ footer .footer-links {
   }
 
   footer .footer-brand {
-    width: auto !important;
-    margin: 0 !important;
+    width: 100% !important;
+    margin: 0 auto !important;
     display: inline-flex !important;
     flex-direction: column !important;
-    align-items: flex-start !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 7px !important;
-    text-align: left !important;
+    text-align: center !important;
   }
 
   footer .ft-name {
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 0 0 .42em !important;
     font-size: 18px !important;
     line-height: 1 !important;
     font-weight: 200 !important;
     letter-spacing: .42em !important;
     color: var(--ink) !important;
-    text-align: left !important;
+    text-align: center !important;
   }
 
   footer .ft-baseline {
@@ -2353,7 +2297,7 @@ footer .footer-links {
     line-height: 1.45 !important;
     letter-spacing: .12em !important;
     color: var(--stone) !important;
-    text-align: left !important;
+    text-align: center !important;
     white-space: nowrap !important;
   }
 
@@ -2362,18 +2306,19 @@ footer .footer-links {
     margin: 0 !important;
     display: grid !important;
     gap: 14px !important;
-    align-items: start !important;
-    justify-items: start !important;
-    text-align: left !important;
+    align-items: center !important;
+    justify-items: center !important;
+    text-align: center !important;
   }
 
   footer .footer-company {
+    width: 100% !important;
     margin: 0 !important;
     font-size: 9px !important;
     line-height: 1.55 !important;
     letter-spacing: .03em !important;
     color: var(--stone) !important;
-    text-align: left !important;
+    text-align: center !important;
   }
 
   footer .footer-links {
@@ -2385,9 +2330,9 @@ footer .footer-links {
     flex-direction: row !important;
     flex-wrap: wrap !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: center !important;
     gap: 10px 18px !important;
-    text-align: left !important;
+    text-align: center !important;
   }
 
   footer .footer-links a {
@@ -2398,6 +2343,7 @@ footer .footer-links {
     letter-spacing: .07em !important;
     color: var(--ink) !important;
     white-space: nowrap !important;
+    text-align: center !important;
   }
 }
 
@@ -2415,8 +2361,9 @@ footer .footer-links {
     font-size: 8.5px !important;
   }
 }
-  </style>
- </head>
+</style>
+
+</head>
  <body>
   <div id="gate">
    <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">

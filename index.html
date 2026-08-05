@@ -2242,10 +2242,67 @@ button, input, select, textarea {
         gap: 14px;
       }
     }
-  </style>
- 
-<style id="mobile-footer-final-fix">
+   /* Footer centré — desktop et mobile */
+footer {
+  text-align: center !important;
+  justify-items: center !important;
+}
+
+footer .footer-brand,
+footer .footer-legal,
+footer .footer-company,
+footer .footer-links {
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+  justify-items: center !important;
+  text-align: center !important;
+}
+
+footer .footer-brand {
+  margin: 0 auto !important;
+}
+
+footer .ft-name,
+footer .ft-baseline {
+  text-align: center !important;
+}
+
+footer .footer-links {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+
 @media (max-width: 760px) {
+  footer {
+    align-items: center !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  footer .footer-brand,
+  footer .footer-legal,
+  footer .footer-company,
+  footer .footer-links {
+    align-items: center !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  footer .footer-links {
+    justify-content: center !important;
+  }
+
+  footer .ft-name,
+  footer .ft-baseline {
+    text-align: center !important;
+  }
+}
+  </style>
+  <style id="mobile-footer-final-fix">
+   @media (max-width: 760px) {
   footer {
     position: static !important;
     inset: auto !important;
@@ -2358,9 +2415,8 @@ button, input, select, textarea {
     font-size: 8.5px !important;
   }
 }
-</style>
-
-</head>
+  </style>
+ </head>
  <body>
   <div id="gate">
    <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">

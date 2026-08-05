@@ -2360,6 +2360,104 @@ button, input, select, textarea {
 }
 </style>
 
+
+<style id="mobile-header-final-fix">
+/* En-tête mobile : priorité à la lisibilité, sans tasser la signature MATOBA. */
+@media (max-width: 640px) {
+  nav {
+    min-height: 78px !important;
+    padding: 11px 16px !important;
+    padding-top: calc(11px + env(safe-area-inset-top)) !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  .nav-name {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    gap: 3px !important;
+  }
+
+  .nav-name .brand {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    letter-spacing: .34em !important;
+    padding-left: .34em !important;
+    white-space: nowrap !important;
+  }
+
+  .nav-name > span:nth-child(2) {
+    font-size: 7.5px !important;
+    line-height: 1.2 !important;
+    letter-spacing: .11em !important;
+    white-space: nowrap !important;
+  }
+
+  .nav-name > span:nth-child(3) {
+    font-size: 6.4px !important;
+    line-height: 1.2 !important;
+    letter-spacing: .065em !important;
+    white-space: nowrap !important;
+  }
+
+  .nav-mobile-actions {
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+    gap: 6px !important;
+  }
+
+  /* L'appel à projet reste accessible dans le menu mobile. */
+  .nav-mobile-actions .nav-client-mobile:first-child {
+    display: none !important;
+  }
+
+  .nav-client-mobile {
+    min-height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 8px !important;
+    letter-spacing: .035em !important;
+  }
+
+  .nav-burger {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 -4px 0 0 !important;
+  }
+
+  .nav-burger span {
+    width: 22px !important;
+  }
+
+  .hero {
+    padding-top: calc(78px + env(safe-area-inset-top)) !important;
+  }
+
+  .hero::before,
+  .hero::after {
+    top: calc(78px + env(safe-area-inset-top)) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  nav {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .nav-mobile-actions {
+    display: none !important;
+  }
+
+  .nav-name > span:nth-child(3) {
+    font-size: 6.1px !important;
+    letter-spacing: .045em !important;
+  }
+}
+</style>
+
 </head>
  <body>
   <div id="gate">

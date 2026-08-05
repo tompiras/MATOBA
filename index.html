@@ -2242,120 +2242,125 @@ button, input, select, textarea {
         gap: 14px;
       }
     }
-   /* =========================================================
-       FOOTER V2 — CORRECTION STRUCTURELLE MOBILE
-       ========================================================= */
-    @media (max-width: 760px) {
-      body footer {
-        min-height: auto !important;
-        margin: 0 !important;
-        padding: 28px 22px calc(26px + env(safe-area-inset-bottom)) !important;
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 22px !important;
-        align-items: start !important;
-        justify-items: start !important;
-        text-align: left !important;
-        background: #fff !important;
-        border-top: 1px solid var(--rule) !important;
-      }
-
-      body footer .footer-brand-v2 {
-        width: auto !important;
-        margin: 0 !important;
-        display: inline-flex !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 7px !important;
-        text-align: left !important;
-      }
-
-      body footer .footer-brand-v2 .ft-name {
-        margin: 0 !important;
-        padding: 0 !important;
-        font-size: 18px !important;
-        line-height: 1 !important;
-        font-weight: 200 !important;
-        letter-spacing: .44em !important;
-        color: var(--ink) !important;
-        text-align: left !important;
-      }
-
-      body footer .footer-brand-v2 .ft-baseline {
-        margin: 0 !important;
-        padding: 0 !important;
-        font-size: 6.5px !important;
-        line-height: 1.4 !important;
-        font-weight: 300 !important;
-        letter-spacing: .12em !important;
-        color: var(--stone) !important;
-        text-align: left !important;
-        white-space: nowrap !important;
-      }
-
-      body footer .footer-legal-v2 {
-        width: 100% !important;
-        margin: 0 !important;
-        display: grid !important;
-        gap: 14px !important;
-        align-items: start !important;
-        justify-items: start !important;
-        text-align: left !important;
-      }
-
-      body footer .footer-company {
-        margin: 0 !important;
-        font-size: 9px !important;
-        line-height: 1.5 !important;
-        letter-spacing: .03em !important;
-        color: var(--stone) !important;
-        text-align: left !important;
-      }
-
-      body footer .footer-links-v2 {
-        width: 100% !important;
-        margin: 0 !important;
-        padding-top: 14px !important;
-        border-top: 1px solid var(--rule) !important;
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: wrap !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-        gap: 10px 18px !important;
-        text-align: left !important;
-      }
-
-      body footer .footer-links-v2 a {
-        margin: 0 !important;
-        padding: 0 !important;
-        font-size: 9px !important;
-        line-height: 1.4 !important;
-        letter-spacing: .08em !important;
-        text-transform: uppercase !important;
-        color: var(--ink) !important;
-        white-space: nowrap !important;
-      }
-    }
-
-    @media (max-width: 380px) {
-      body footer {
-        padding-left: 18px !important;
-        padding-right: 18px !important;
-      }
-
-      body footer .footer-links-v2 {
-        display: grid !important;
-        grid-template-columns: max-content max-content !important;
-        gap: 10px 18px !important;
-      }
-
-      body footer .footer-links-v2 a:last-child {
-        grid-column: 1 !important;
-      }
-    }
   </style>
- </head>
+ 
+<style id="mobile-footer-final-fix">
+@media (max-width: 760px) {
+  footer {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 28px 22px calc(26px + env(safe-area-inset-bottom)) !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    align-items: start !important;
+    justify-items: start !important;
+    text-align: left !important;
+    background: var(--white) !important;
+    color: var(--ink) !important;
+    border-top: 1px solid var(--rule) !important;
+  }
+
+  footer::before {
+    display: none !important;
+  }
+
+  footer .footer-brand {
+    width: auto !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 7px !important;
+    text-align: left !important;
+  }
+
+  footer .ft-name {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    font-weight: 200 !important;
+    letter-spacing: .42em !important;
+    color: var(--ink) !important;
+    text-align: left !important;
+  }
+
+  footer .ft-baseline {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 6.5px !important;
+    line-height: 1.45 !important;
+    letter-spacing: .12em !important;
+    color: var(--stone) !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+  }
+
+  footer .footer-legal {
+    width: 100% !important;
+    margin: 0 !important;
+    display: grid !important;
+    gap: 14px !important;
+    align-items: start !important;
+    justify-items: start !important;
+    text-align: left !important;
+  }
+
+  footer .footer-company {
+    margin: 0 !important;
+    font-size: 9px !important;
+    line-height: 1.55 !important;
+    letter-spacing: .03em !important;
+    color: var(--stone) !important;
+    text-align: left !important;
+  }
+
+  footer .footer-links {
+    width: 100% !important;
+    margin: 0 !important;
+    padding-top: 13px !important;
+    border-top: 1px solid var(--rule) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px 18px !important;
+    text-align: left !important;
+  }
+
+  footer .footer-links a {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 9px !important;
+    line-height: 1.4 !important;
+    letter-spacing: .07em !important;
+    color: var(--ink) !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 390px) {
+  footer {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  footer .footer-links {
+    gap: 10px 14px !important;
+  }
+
+  footer .footer-links a {
+    font-size: 8.5px !important;
+  }
+}
+</style>
+
+</head>
  <body>
   <div id="gate">
    <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">
@@ -3227,29 +3232,31 @@ button, input, select, textarea {
    </div>
   </section>
   <footer>
-   <a aria-label="Accueil MATOBA" class="footer-brand footer-brand-v2" href="/">
+   <a aria-label="Accueil MATOBA" class="footer-brand" href="/">
     <div class="ft-name">
-     MΛTOBΛ
+     <span class="brand">
+      MΛTOBΛ
+     </span>
     </div>
     <div class="ft-baseline">
-     Conception · Ingénierie · Construction
+     Conception  |  Ingénierie  |  Construction
     </div>
    </a>
-   <div class="footer-legal footer-legal-v2">
+   <div class="footer-legal">
     <p class="footer-company">
-     © 2026 MATOBA — SAS au capital de 6 000 €
+     © 2026 MATOBA — SAS au capital de 6 000 €
     </p>
-    <nav aria-label="Informations légales" class="footer-links footer-links-v2">
+    <div aria-label="Informations légales" class="footer-links" role="navigation">
      <a href="/mentions-legales.html">
       Mentions légales
      </a>
      <a href="/politique-confidentialite.html">
-      Confidentialité
+      Politique de confidentialité
      </a>
      <a href="mailto:contact@matoba.fr">
       Contact
      </a>
-    </nav>
+    </div>
    </div>
   </footer>
   <script>

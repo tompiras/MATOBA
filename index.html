@@ -2227,13 +2227,6 @@ button, input, select, textarea {
     .footer-links a::after {
       background: var(--ink);
     }
-   .form-intro {
-      max-width: 54ch;
-      margin: 0 0 28px;
-      color: var(--stone);
-      font-size: 13px;
-      line-height: 1.75;
-    }
   </style>
  </head>
  <body>
@@ -2918,9 +2911,6 @@ button, input, select, textarea {
       <br/>
       de votre projet.
      </h2>
-     <p class="form-intro">
-      Quelques informations nous permettront de préparer un premier échange adapté à votre projet.
-     </p>
      <p class="lead" style="margin-top:16px;">
       Nous revenons vers vous rapidement.
      </p>
@@ -2964,6 +2954,12 @@ button, input, select, textarea {
         </label>
         <input class="finput" id="email" name="email" placeholder="votre@email.fr" required="" type="email"/>
        </div>
+      </div>
+      <div class="fg">
+       <label class="flabel" for="telephone">
+        Numéro de téléphone
+       </label>
+       <input autocomplete="tel" class="finput" id="telephone" name="telephone" placeholder="Votre numéro de téléphone" required="" type="tel"/>
       </div>
       <div class="fg">
        <label class="flabel" for="type">

@@ -119,6 +119,52 @@ footer .fl a {
     white-space: nowrap;
   }
 }
+   /* Footer centré — desktop et mobile */
+footer,
+footer .fi,
+footer .brand,
+footer .fm,
+footer .fl {
+  text-align: center !important;
+  justify-items: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+footer .brand {
+  margin: 0 auto !important;
+}
+
+footer .bn,
+footer .bs {
+  text-align: center !important;
+}
+
+footer .fl {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+
+@media (max-width: 760px) {
+  footer .fi {
+    justify-items: center !important;
+  }
+
+  footer .brand,
+  footer .fm,
+  footer .fl {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  footer .bn,
+  footer .bs {
+    text-align: center !important;
+  }
+}
   </style>
  </head>
  <body>

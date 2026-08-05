@@ -2922,10 +2922,12 @@ button, input, select, textarea {
       Contact
      </div>
      <h2>
-      Présentez votre projet.
+      Parlez-nous
+      <br/>
+      de votre projet.
      </h2>
      <p class="lead" style="margin-top:16px;">
-      Chaque projet débute par un échange. Présentez-nous votre besoin, nous reviendrons vers vous dans les meilleurs délais.
+      Construction, rénovation ou aménagement. Quelques informations nous permettront d’étudier votre projet.
      </p>
      <div class="c-list">
       <div class="c-row">
@@ -2985,43 +2987,38 @@ button, input, select, textarea {
       <div class="form-row">
        <div class="fg">
         <label class="flabel" for="type">
-         Nature de votre projet
+         Votre projet concerne
         </label>
         <select class="fselect" id="type" name="type_de_projet" required="">
          <option disabled="" selected="" value="">
-          Sélectionnez la nature de votre projet
+          Sélectionnez le type de projet
          </option>
          <optgroup label="Résidentiel">
           <option>
-           Construction neuve
+           Résidence principale ou secondaire
           </option>
           <option>
-           Rénovation complète
+           Rénovation complète d’un bien
           </option>
           <option>
            Extension ou restructuration
           </option>
+          <option>
+           Investissement immobilier
+          </option>
          </optgroup>
          <optgroup label="Professionnel">
-          <option>
-           Aménagement de locaux professionnels
-          </option>
           <option>
            Cabinet médical ou dentaire
           </option>
           <option>
-           Commerce, hôtellerie & restauration
-          </option>
-         </optgroup>
-         <optgroup label="Investissement">
-          <option>
-           Investissement immobilier
+           Commerce ou point de vente
           </option>
           <option>
-           Immeuble ou division
+           Restaurant, hôtellerie ou lieu d’accueil
           </option>
           <option>
-           Marchand de biens
+           Bureaux ou locaux professionnels
           </option>
          </optgroup>
          <optgroup label="Autre">
@@ -3039,55 +3036,49 @@ button, input, select, textarea {
          <option disabled="" selected="" value="">
           Sélectionnez une enveloppe
          </option>
-         <option>
-          Moins de 100 k€
+         <option value="jusqua_100k">
+          Jusqu’à 100 k€
          </option>
-         <option>
+         <option value="100_250k">
           100 à 250 k€
          </option>
-         <option>
+         <option value="250_500k">
           250 à 500 k€
          </option>
-         <option>
+         <option value="500k_1m">
           500 k€ à 1 M€
          </option>
-         <option>
+         <option value="plus_1m">
           Plus de 1 M€
          </option>
-         <option>
-          En cours de définition
+         <option value="a_definir">
+          À définir ensemble
          </option>
         </select>
        </div>
       </div>
       <div class="fg">
        <label class="flabel" for="accompagnement">
-        Notre accompagnement
+        Votre projet aujourd’hui
        </label>
-       <select class="fselect" id="accompagnement" name="accompagnement_souhaite" required="">
+       <select class="fselect" id="accompagnement" name="maturite_du_projet" required="">
         <option disabled="" selected="" value="">
-         Sélectionnez l’accompagnement souhaité
+         Sélectionnez la situation de votre projet
         </option>
-        <option>
-         Conception & réalisation clé en main
+        <option value="reflexion">
+         Le projet est en phase de réflexion
         </option>
-        <option>
-         Contractant général
+        <option value="bien_identifie">
+         Le bien ou le terrain est identifié
         </option>
-        <option>
-         Études de faisabilité
+        <option value="etudes_en_cours">
+         Les études ou les plans sont en cours
         </option>
-        <option>
-         Chiffrage du projet
+        <option value="projet_defini">
+         Le projet est défini et doit être concrétisé
         </option>
-        <option>
-         Pilotage des travaux
-        </option>
-        <option>
-         Réalisation des travaux
-        </option>
-        <option>
-         Je souhaite être conseillé
+        <option value="travaux_a_lancer">
+         Les travaux doivent être engagés prochainement
         </option>
        </select>
       </div>

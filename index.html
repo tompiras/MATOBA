@@ -2199,6 +2199,35 @@ button, input, select, textarea {
       font-weight: 300;
     }
 
+  
+    /* Pied de page : même fond et même style que le haut de page */
+    footer {
+      background: var(--white);
+      color: var(--ink);
+      border-top: 1px solid var(--rule);
+    }
+
+    footer::before {
+      display: none;
+    }
+
+    .ft-name {
+      color: var(--ink);
+    }
+
+    .ft-baseline,
+    .footer-company {
+      color: var(--stone);
+    }
+
+    .footer-links a {
+      color: var(--ink);
+    }
+
+    .footer-links a::after {
+      background: var(--ink);
+    }
+
   </style>
  </head>
  <body>
